@@ -8,7 +8,7 @@ Salida: assets/dark/*.png
 from __future__ import annotations
 import os, sys, json, math
 
-BACK = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "repositorios",
+BACK = os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
                                     "Tower-Defense-Estocastico-back"))
 sys.path.insert(0, BACK)
 
