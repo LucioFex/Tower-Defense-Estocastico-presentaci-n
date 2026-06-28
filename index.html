@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tower Defense Estocástico · Simulación de Sistemas · UCEMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+:root{
+  --bg:#0A0E1A; --bg2:#0E1525; --panel:#141C30; --panel2:#1B2540;
+  --ink:#EAF1FB; --mut:#93A1BD; --faint:#5E6C88;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --cold:#3FA7FF; --cold2:#7CC4FF; --hot:#FF5A36; --gold:#FFC34D;
+  --green:#38D39F; --purple:#A78BFA;
+  --disp:"Space Grotesk",system-ui,sans-serif;
+  --sans:"Manrope",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --pixel:"Press Start 2P",monospace;
+}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html,body{margin:0;padding:0;background:#000;}
+deck-stage:not(:defined){visibility:hidden;}
+section{position:relative;overflow:hidden;font-family:var(--sans);color:var(--ink);
+  background:var(--bg);}
+
+/* ===== shared backgrounds ===== */
+.bg-battle{background:
+  radial-gradient(1200px 760px at 80% 18%, rgba(63,167,255,.10), transparent 60%),
+  radial-gradient(900px 620px at 12% 88%, rgba(255,90,54,.10), transparent 64%),
+  linear-gradient(180deg,#0B1322,#080C16);}
+.bg-deep{background:
+  radial-gradient(1100px 700px at 70% 30%, rgba(167,139,250,.16), transparent 62%),
+  linear-gradient(180deg,#0A0F1E,#070A12);}
+.grid-ov::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 80% at 50% 40%,#000 55%,transparent 100%);}
+.scan::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 2px,transparent 2px 4px);}
+
+/* ===== frame / hud ===== */
+.frame{position:absolute;inset:0;padding:84px 110px 76px;display:flex;flex-direction:column;z-index:5;}
+.hud{display:flex;justify-content:space-between;align-items:center;font-family:var(--pixel);
+  font-size:13px;letter-spacing:.06em;color:var(--faint);}
+.hud .tag{display:inline-flex;align-items:center;gap:12px;color:var(--cold);}
+.hud .tag .pip{width:12px;height:12px;background:var(--hot);box-shadow:0 0 14px var(--hot);}
+.hud .meta{color:var(--mut);}
+.foot{position:absolute;left:110px;right:110px;bottom:46px;display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:17px;color:var(--faint);letter-spacing:.02em;z-index:5;}
+.foot b{color:var(--mut);font-weight:600;}
+
+/* ===== type ===== */
+.eyebrow{font-family:var(--pixel);font-size:14px;color:var(--gold);letter-spacing:.04em;}
+h1{font-family:var(--disp);font-weight:700;font-size:104px;line-height:.98;margin:0;letter-spacing:-.02em;}
+h2{font-family:var(--disp);font-weight:700;font-size:62px;line-height:1.02;margin:0;letter-spacing:-.015em;}
+h3{font-family:var(--disp);font-weight:600;font-size:30px;margin:0;}
+p{font-size:24px;line-height:1.45;color:var(--ink);margin:0;}
+.lead{font-size:27px;color:var(--mut);line-height:1.5;}
+.mono{font-family:var(--mono);}
+em{font-style:normal;color:var(--cold);}
+.hot{color:var(--hot);} .gold{color:var(--gold);} .green{color:var(--green);} .cold{color:var(--cold);} .pur{color:var(--purple);}
+.muted{color:var(--mut);}
+
+/* ===== building blocks ===== */
+.head-block h2 em{color:var(--cold);}
+.section-head{margin-bottom:30px;}
+.section-head .eyebrow{display:block;margin-bottom:16px;}
+
+.cols{display:flex;gap:42px;flex:1;min-height:0;}
+.col{flex:1;display:flex;flex-direction:column;gap:20px;min-width:0;}
+
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line2);
+  border-radius:18px;padding:26px 28px;position:relative;overflow:hidden;}
+.card .ck{font-family:var(--pixel);font-size:12px;letter-spacing:.04em;color:var(--mut);margin-bottom:14px;display:block;}
+.card.accent::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--cold);}
+.card.accent.hot::before{background:var(--hot);} .card.accent.gold::before{background:var(--gold);}
+.card.accent.green::before{background:var(--green);} .card.accent.pur::before{background:var(--purple);}
+
+ul.feat{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;}
+ul.feat li{position:relative;padding-left:34px;font-size:23px;line-height:1.4;color:var(--ink);}
+ul.feat li::before{content:"";position:absolute;left:4px;top:11px;width:11px;height:11px;border-radius:2px;
+  background:var(--cold);box-shadow:0 0 12px rgba(63,167,255,.6);transform:rotate(45deg);}
+ul.feat li.h::before{background:var(--hot);box-shadow:0 0 12px rgba(255,90,54,.6);}
+ul.feat li b{color:#fff;font-weight:700;}
+
+.stat{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line2);
+  border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px;position:relative;}
+.stat .big{font-family:var(--disp);font-weight:700;font-size:58px;line-height:1;color:var(--gold);}
+.stat .lbl{font-size:18px;color:var(--mut);line-height:1.3;}
+.stat.cold .big{color:var(--cold);} .stat.hot .big{color:var(--hot);} .stat.green .big{color:var(--green);}
+.stat-row{display:flex;gap:22px;}
+
+.chip{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:18px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:999px;padding:9px 18px;color:var(--ink);}
+.chip .d{width:11px;height:11px;border-radius:50%;}
+
+.shot{background:#0c1322;border:1px solid var(--line2);border-radius:16px;padding:14px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.03);}
+.shot img{width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;}
+.cap{font-size:17px;color:var(--mut);margin-top:10px;text-align:center;font-style:italic;}
+
+table.t{width:100%;border-collapse:collapse;font-size:22px;}
+table.t th,table.t td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+table.t th{font-family:var(--pixel);font-size:12px;color:var(--gold);letter-spacing:.03em;text-transform:uppercase;}
+table.t td.n{font-family:var(--mono);}
+table.t tr td:last-child{color:var(--cold2);font-family:var(--mono);}
+table.t tr.hot td:last-child{color:var(--hot);}
+
+/* ===== TD game art (CSS) ===== */
+.tower{position:relative;width:84px;height:84px;border-radius:16px;flex:none;
+  background:radial-gradient(circle at 50% 35%,#2a3a5e,#172138);border:2px solid var(--cold);
+  box-shadow:0 0 34px rgba(63,167,255,.45), inset 0 0 18px rgba(63,167,255,.25);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:26px;color:#cfe6ff;}
+.tower::after{content:"";position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  width:12px;height:26px;border-radius:4px;background:var(--cold);box-shadow:0 0 14px var(--cold);}
+.tower.hot{border-color:var(--hot);color:#ffd9cf;
+  background:radial-gradient(circle at 50% 35%,#5e2a2a,#381717);
+  box-shadow:0 0 40px rgba(255,90,54,.55), inset 0 0 18px rgba(255,90,54,.3);}
+.tower.hot::after{background:var(--hot);box-shadow:0 0 16px var(--hot);}
+.tower.cool{border-color:#5b6680;color:#9aa6bd;background:radial-gradient(circle at 50% 35%,#2a3146,#181d2b);box-shadow:none;}
+.tower.cool::after{background:#5b6680;box-shadow:none;}
+.creep{width:30px;height:30px;border-radius:8px 8px 10px 10px;background:linear-gradient(180deg,#ffd86b,#e0a100);
+  box-shadow:0 0 16px rgba(255,200,80,.5);position:relative;flex:none;}
+.creep.leak{background:linear-gradient(180deg,#ff8a6e,#e0381f);box-shadow:0 0 16px rgba(255,90,54,.6);}
+.core{width:96px;height:96px;flex:none;background:linear-gradient(180deg,#34e0a8,#179e74);
+  transform:rotate(45deg);border-radius:14px;box-shadow:0 0 40px rgba(56,211,159,.45);}
+
+/* ===== hero ===== */
+.hero-scene{position:absolute;inset:0;z-index:1;}
+.hero-scrim{position:absolute;inset:0;z-index:2;
+  background:linear-gradient(105deg,rgba(8,12,22,.94) 0%,rgba(8,12,22,.82) 38%,rgba(8,12,22,.25) 72%,transparent 100%);}
+.hero-wrap{position:relative;z-index:6;height:100%;display:flex;flex-direction:column;justify-content:center;}
+.title-badges{display:flex;gap:14px;margin:30px 0 0;flex-wrap:wrap;}
+.members{display:flex;gap:40px;margin-top:auto;padding-top:30px;}
+.member{display:flex;align-items:center;gap:14px;}
+.member .av{width:54px;height:54px;border-radius:50%;background:var(--panel2);border:2px solid var(--cold);
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:20px;color:var(--cold2);}
+.member .nm{font-size:20px;font-weight:600;}
+.member .nm small{display:block;font-size:14px;color:var(--faint);font-family:var(--mono);}
+.member:nth-child(2) .av{border-color:var(--green);color:#9af0d0;}
+.member:nth-child(3) .av{border-color:var(--gold);color:#ffe6a8;}
+.member:nth-child(4) .av{border-color:var(--hot);color:#ffc3b3;}
+
+.demo-badge{display:inline-flex;align-items:center;gap:12px;font-family:var(--pixel);font-size:13px;
+  color:#0a0e1a;background:var(--gold);border-radius:8px;padding:11px 16px;box-shadow:0 0 24px rgba(255,195,77,.5);}
+
+/* wave divider chips on map */
+.waves{display:flex;flex-direction:column;gap:16px;margin-top:8px;}
+.wave{display:flex;align-items:center;gap:24px;background:linear-gradient(90deg,var(--panel),rgba(20,28,48,.4));
+  border:1px solid var(--line2);border-radius:14px;padding:18px 26px;}
+.wave .wn{font-family:var(--pixel);font-size:18px;color:var(--cold);min-width:120px;}
+.wave .wt{font-family:var(--disp);font-weight:600;font-size:27px;}
+.wave .wd{margin-left:auto;font-size:19px;color:var(--mut);}
+
+.legend{display:flex;gap:28px;flex-wrap:wrap;margin-top:6px;}
+.legend .li{display:flex;align-items:center;gap:10px;font-size:19px;color:var(--mut);}
+
+.flow{display:flex;align-items:center;gap:18px;}
+.flow .ar{font-family:var(--mono);color:var(--faint);font-size:30px;}
+.repo{font-family:var(--mono);font-size:20px;color:var(--cold2);}
+
+@media print{ .foot{position:absolute;} }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- ============ 01 · HERO ============ -->
+<section class="bg-battle grid-ov scan" data-label="Portada">
+  <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="spawnG" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ff5a36" stop-opacity=".9"/><stop offset="100%" stop-color="#ff5a36" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="pathG" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#1a2740"/><stop offset="100%" stop-color="#22324f"/>
+      </linearGradient>
+      <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <!-- path -->
+    <path d="M -40 760 C 360 760, 380 420, 760 420 S 1180 700, 1500 560 S 1900 360, 2000 360"
+      fill="none" stroke="url(#pathG)" stroke-width="74" stroke-linecap="round"/>
+    <path d="M -40 760 C 360 760, 380 420, 760 420 S 1180 700, 1500 560 S 1900 360, 2000 360"
+      fill="none" stroke="#3fa7ff" stroke-width="2" stroke-dasharray="2 16" stroke-linecap="round" opacity=".5"/>
+    <!-- spawn -->
+    <circle cx="60" cy="760" r="120" fill="url(#spawnG)"/>
+    <circle cx="60" cy="760" r="30" fill="#ff5a36" filter="url(#glow)"/>
+    <!-- range rings -->
+    <circle cx="760" cy="420" r="190" fill="none" stroke="#3fa7ff" stroke-width="1.5" opacity=".22"/>
+    <circle cx="1180" cy="586" r="180" fill="none" stroke="#ff5a36" stroke-width="1.5" opacity=".22"/>
+    <circle cx="1500" cy="560" r="170" fill="none" stroke="#7e8aa6" stroke-width="1.5" opacity=".16"/>
+    <!-- towers -->
+    <g filter="url(#glow)">
+      <rect x="726" y="386" width="68" height="68" rx="14" fill="#1d2b48" stroke="#3fa7ff" stroke-width="3"/>
+      <rect x="1146" y="552" width="68" height="68" rx="14" fill="#3a1f1f" stroke="#ff5a36" stroke-width="3"/>
+      <rect x="1466" y="526" width="68" height="68" rx="14" fill="#222a3c" stroke="#5b6680" stroke-width="3"/>
+    </g>
+    <!-- creeps -->
+    <g>
+      <rect x="250" y="690" width="34" height="34" rx="9" fill="#e0a100"/>
+      <rect x="430" y="556" width="34" height="34" rx="9" fill="#e0a100"/>
+      <rect x="980" y="520" width="34" height="34" rx="9" fill="#e0a100"/>
+      <rect x="1330" y="560" width="34" height="34" rx="9" fill="#e0381f"/>
+    </g>
+    <!-- base core -->
+    <g filter="url(#glow)"><rect x="1812" y="312" width="96" height="96" rx="14" transform="rotate(45 1860 360)" fill="#179e74" stroke="#38d39f" stroke-width="3"/></g>
+  </svg>
+  <div class="hero-scrim"></div>
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> TOWER&nbsp;DEFENSE&nbsp;ESTOCÁSTICO</span><span class="meta">SIMULACIÓN DE SISTEMAS · UCEMA</span></div>
+    <div class="hero-wrap">
+      <span class="eyebrow">TP · TEORÍA DE COLAS &nbsp;//&nbsp; M/M/c</span>
+      <h1 style="margin-top:22px;">Tower&nbsp;Defense<br><em>Estocástico</em></h1>
+      <p class="lead" style="max-width:1020px;margin-top:26px;">
+        Un juego usado como <b style="color:#fff">banco de pruebas de un sistema de colas</b>:
+        modelado <span class="cold">M/M/c</span>, simulado con <span style="color:#fff">SimPy</span>
+        y reproducido en <span style="color:#fff">Godot 2D</span>. El objeto de estudio es el
+        <span class="gold">modelo</span>, no el juego.</p>
+      <div class="title-badges">
+        <span class="chip"><span class="d" style="background:var(--cold)"></span>λ / μ / c · ρ &lt; 1</span>
+        <span class="chip"><span class="d" style="background:var(--hot)"></span>temperatura = variable continua</span>
+        <span class="chip"><span class="d" style="background:var(--gold)"></span>fuga = bloqueo de capacidad</span>
+        <span class="demo-badge">◖ DEMO EN VIVO</span>
+      </div>
+      <div class="members">
+        <div class="member"><div class="av">LE</div><div class="nm">Luciano Esteban<small>placeholder foto</small></div></div>
+        <div class="member"><div class="av">TA</div><div class="nm">Thaiel Anaya<small>placeholder foto</small></div></div>
+        <div class="member"><div class="av">MB</div><div class="nm">Martín Blasson<small>«Tincho»</small></div></div>
+        <div class="member"><div class="av">LS</div><div class="nm">Luca Sucri<small>placeholder foto</small></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 02 · MAPA / RECORRIDO ============ -->
+<section class="bg-deep grid-ov" data-label="Recorrido">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> RECORRIDO</span><span class="meta">EL MAPA DE LA CHARLA</span></div>
+    <div class="section-head" style="margin-top:30px;">
+      <span class="eyebrow">EL MAPA</span>
+      <h2 style="margin-top:14px;">Cómo defendemos<br>la <em>base</em>.</h2>
+    </div>
+    <div class="waves">
+      <div class="wave"><span class="wn">WAVE 01</span><span class="wt">El problema y el modelo de colas</span><span class="wd">caso de estudio · Kendall-Lee · M/M/c</span></div>
+      <div class="wave"><span class="wn">WAVE 02</span><span class="wt">Aleatoriedad y motor de simulación</span><span class="wd">variables · PRNG · SimPy · temperatura</span></div>
+      <div class="wave"><span class="wn">WAVE 03</span><span class="wt">Validación y resultados</span><span class="wd">analítico vs. simulado · óptimo de torres</span></div>
+      <div class="wave"><span class="wn">WAVE 04</span><span class="wt">Experimentos, arquitectura y demo</span><span class="wd">IC · oleadas · prioridad · Godot</span></div>
+    </div>
+    <p class="lead" style="margin-top:28px;">Presentación descontracturada — intervenimos cuando haga falta. Al final, <span class="gold">demo en vivo</span> sobre el propio Tower Defense.</p>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 03 · EL PROBLEMA ============ -->
+<section class="bg-battle grid-ov" data-label="Problema">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 01</span><span class="meta">EL PROBLEMA</span></div>
+    <div class="cols" style="margin-top:34px;">
+      <div class="col" style="flex:1.05;">
+        <div class="section-head"><span class="eyebrow">CASO DE ESTUDIO</span>
+          <h2 style="margin-top:14px;">Defender la base<br>de <em>oleadas</em>.</h2></div>
+        <ul class="feat">
+          <li>Enemigos avanzan por un camino hacia una <b>base</b>.</li>
+          <li>Una zona con <b>c torres</b> los ataca; si están ocupadas, <b>esperan en cola</b>.</li>
+          <li class="h">Si la zona está llena, el enemigo <b>se fuga</b> y daña la base.</li>
+          <li>El entregable es la <b>validación del modelo</b>, no el juego.</li>
+        </ul>
+      </div>
+      <div class="col" style="flex:1;justify-content:center;">
+        <div class="card" style="padding:40px 34px;">
+          <span class="ck">VISTA DEL SISTEMA</span>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <div style="text-align:center;"><div class="creep" style="width:42px;height:42px;margin:0 auto 12px;"></div><div class="muted" style="font-size:17px;">spawn</div></div>
+            <div class="ar mono" style="color:var(--faint);font-size:30px;">→</div>
+            <div style="display:flex;flex-direction:column;gap:14px;align-items:center;">
+              <div style="display:flex;gap:10px;"><span class="creep"></span><span class="creep"></span><span class="creep"></span></div>
+              <div class="muted mono" style="font-size:16px;">cola (FIFO)</div>
+            </div>
+            <div style="display:flex;gap:18px;">
+              <div class="tower">0</div><div class="tower hot">1</div><div class="tower cool">2</div>
+            </div>
+            <div class="ar mono" style="color:var(--faint);font-size:30px;">→</div>
+            <div style="text-align:center;"><div class="core" style="width:70px;height:70px;margin:0 auto 18px;"></div><div class="muted" style="font-size:17px;">base</div></div>
+          </div>
+          <div class="legend" style="margin-top:28px;justify-content:center;">
+            <span class="li"><span class="creep" style="width:18px;height:18px;"></span> enemigo</span>
+            <span class="li"><span style="width:18px;height:18px;border-radius:5px;border:2px solid var(--cold);display:inline-block;"></span> torre fría</span>
+            <span class="li"><span style="width:18px;height:18px;border-radius:5px;border:2px solid var(--hot);display:inline-block;"></span> caliente</span>
+            <span class="li"><span style="width:18px;height:18px;border-radius:5px;border:2px solid #5b6680;display:inline-block;"></span> cooldown</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 04 · MAPEO A COLAS ============ -->
+<section class="bg-battle grid-ov" data-label="Modelo de colas">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 01</span><span class="meta">TRADUCCIÓN A TEORÍA DE COLAS</span></div>
+    <div class="cols" style="margin-top:34px;">
+      <div class="col">
+        <div class="section-head"><span class="eyebrow">EL JUEGO ES, EN REALIDAD…</span>
+          <h2 style="margin-top:14px;">…un sistema<br>de <em>colas</em>.</h2></div>
+        <div class="card" style="padding:8px 28px;">
+          <table class="t">
+            <tr><th>Tower Defense</th><th>Teoría de Colas</th></tr>
+            <tr><td>Enemigo</td><td>Cliente / transacción</td></tr>
+            <tr><td>Torre</td><td>Servidor (canal)</td></tr>
+            <tr><td>Disparar hasta matar</td><td>Tiempo de servicio</td></tr>
+            <tr><td>Enemigos esperando</td><td>Cola (FIFO)</td></tr>
+            <tr class="hot"><td>Fuga a la base</td><td>Bloqueo (cola llena)</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="col" style="justify-content:center;gap:26px;">
+        <div class="card accent" style="padding:34px;">
+          <span class="ck">NOTACIÓN KENDALL-LEE</span>
+          <div class="mono" style="font-size:48px;font-weight:700;color:#fff;letter-spacing:.02em;">( M / M / c )<br>( FIFO / K / ∞ )</div>
+        </div>
+        <ul class="feat">
+          <li><b>M</b> · llegadas y servicio exponenciales (markoviano)</li>
+          <li><b>c</b> · torres (servidores) &nbsp;·&nbsp; <b>K</b> · capacidad → habilita la fuga</li>
+        </ul>
+        <div class="stat-row">
+          <div class="stat cold"><span class="big">ρ = λ/(c·μ)</span><span class="lbl">factor de utilización</span></div>
+          <div class="stat hot"><span class="big">ρ &lt; 1</span><span class="lbl">condición de estabilidad</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 05 · VARIABLES ============ -->
+<section class="bg-deep grid-ov" data-label="Variables">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">VARIABLES DEL MODELO</span></div>
+    <div class="section-head" style="margin-top:30px;"><span class="eyebrow">DE QUÉ ESTÁ HECHO EL MODELO</span>
+      <h2 style="margin-top:14px;">Aleatorias, <em>continua</em> y de control.</h2></div>
+    <div class="cols">
+      <div class="col"><div class="card accent" style="flex:1;"><span class="ck">ALEATORIAS</span>
+        <ul class="feat"><li>Tiempo entre arribos ~ <b class="mono">Exp(λ)</b></li><li>Tiempo de servicio ~ <b class="mono">Exp(μ)</b></li><li>(ext.) tipo de enemigo — discreta</li></ul></div></div>
+      <div class="col"><div class="card accent hot" style="flex:1;"><span class="ck">CONTINUA — TEMPERATURA</span>
+        <ul class="feat"><li class="h">Cada torre se <b>calienta</b> al disparar (rampa)</li><li class="h">y se <b>enfría</b> al descansar (ley de Newton)</li><li class="h">Es el <b>elemento del juego</b> y la variable continua del TP</li></ul></div></div>
+      <div class="col"><div class="card accent gold" style="flex:1;"><span class="ck">CONTROL · SALIDA</span>
+        <ul class="feat"><li><b>λ, μ, c, K</b> · semilla</li><li>Umbrales térmicos</li><li>Salida: <b>Lq, Wq, ρ</b>, tasa de fuga</li></ul></div></div>
+    </div>
+    <div class="card" style="margin-top:24px;padding:22px 30px;display:flex;align-items:center;gap:24px;">
+      <span class="eyebrow" style="color:var(--cold);">CHEQUEO</span>
+      <p style="font-size:24px;">Ley de Little como control de consistencia: <span class="mono cold" style="font-weight:700;">L = λ·W</span> &nbsp;y&nbsp; <span class="mono cold" style="font-weight:700;">Lq = λ·Wq</span></p>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 06 · ALEATORIEDAD ============ -->
+<section class="bg-battle grid-ov" data-label="Aleatoriedad">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">NÚMEROS PSEUDOALEATORIOS</span></div>
+    <div class="cols" style="margin-top:34px;">
+      <div class="col">
+        <div class="section-head"><span class="eyebrow">UNIDAD II</span><h2 style="margin-top:14px;">Aleatoriedad<br><em>reproducible</em>.</h2></div>
+        <ul class="feat">
+          <li>Generador <b>congruencial</b>: <span class="mono">X₍ᵢ₊₁₎=(a·Xᵢ+C) mod m</span></li>
+          <li>Uniforme · independiente · <b>reproducible</b> (semilla) · período amplio</li>
+          <li>La simulación usa <b>Mersenne Twister</b> + transformada inversa</li>
+          <li><b>Streams independientes</b>: arribos / servicio / tipo → números aleatorios comunes</li>
+        </ul>
+      </div>
+      <div class="col" style="justify-content:center;">
+        <div class="card accent" style="padding:42px 38px;">
+          <span class="ck">EXPONENCIAL POR TRANSFORMADA INVERSA</span>
+          <div class="mono" style="font-size:30px;color:var(--mut);">F(x) = 1 − e^(−λx) = R</div>
+          <div class="mono" style="font-size:64px;font-weight:700;color:var(--cold);margin:18px 0;">x = −(1/λ)·ln(R)</div>
+          <div class="mono" style="font-size:22px;color:var(--mut);">misma semilla ⇒ mismo output.json</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 07 · MOTOR SIMPY ============ -->
+<section class="bg-battle grid-ov" data-label="Motor SimPy">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">MOTOR DE SIMULACIÓN · SIMPY</span></div>
+    <div class="cols" style="margin-top:30px;">
+      <div class="col" style="flex:1.05;">
+        <div class="section-head"><span class="eyebrow">POR QUÉ HAY QUE SIMULAR</span><h2 style="margin-top:14px;">El calor rompe<br>la <em>fórmula</em>.</h2></div>
+        <ul class="feat">
+          <li>Cola FIFO con <b class="mono">simpy.Store</b>; cada torre es un proceso que la consume</li>
+          <li>Capacidad <b>K finita</b>: el que llega con el sistema lleno se fuga (bloqueo)</li>
+          <li>Temperatura integrada en <b>forma cerrada</b> por tramos → corre en HW modesto</li>
+          <li class="h">Torre sobrecalentada entra en <b>cooldown y no atiende</b> → cae la capacidad efectiva</li>
+        </ul>
+        <div class="card accent hot" style="margin-top:8px;">
+          <p style="font-size:23px;">La temperatura <b class="hot">rompe el supuesto markoviano</b> (c servidores siempre disponibles). Las fórmulas son una <b>cota</b>; la <span class="cold">simulación</span> captura el comportamiento real.</p>
+        </div>
+      </div>
+      <div class="col" style="justify-content:center;">
+        <div class="shot"><img src="assets/dark/temperatura.png" alt="Temperatura de las torres"></div>
+        <div class="cap">Temperatura de las torres — calienta al disparar, enfría al descansar</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 08 · VALIDACIÓN ============ -->
+<section class="bg-deep grid-ov" data-label="Validación">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 03</span><span class="meta">VALIDACIÓN DEL MODELO</span></div>
+    <div class="section-head" style="margin-top:28px;"><span class="eyebrow">¿EL MODELO ES CORRECTO?</span>
+      <h2 style="margin-top:14px;">Analítico <em>vs.</em> simulado.</h2></div>
+    <div class="cols">
+      <div class="col">
+        <div class="card" style="padding:10px 28px;"><table class="t">
+          <tr><th>Métrica</th><th>Analítico</th><th>Simulado</th></tr>
+          <tr><td>Wq [s]</td><td class="n">0.74</td><td class="n">3.41</td></tr>
+          <tr><td>Lq</td><td class="n">0.30</td><td class="n">1.19</td></tr>
+          <tr><td>L</td><td class="n">1.89</td><td class="n">2.63</td></tr>
+          <tr class="hot"><td>Fuga (Pb)</td><td class="n">0.16 %</td><td class="n">4.0 %</td></tr>
+        </table></div>
+        <div class="card accent green"><p style="font-size:24px;"><b class="green">Ley de Little verificada</b> · error ≈ <b class="mono">1.2 %</b> → el modelo es consistente.</p></div>
+        <p class="lead" style="font-size:21px;">Sin temperatura, <span class="cold">sim ≈ analítico</span> (engine validado). Con temperatura, la <span class="hot">brecha mide su efecto</span>.</p>
+      </div>
+      <div class="col" style="justify-content:center;">
+        <div class="shot"><img src="assets/dark/series_colas.png" alt="Cola y sistema en el tiempo"></div>
+        <div class="cap">Evolución temporal de la cola y del sistema</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 09 · RENDIMIENTO MARGINAL ============ -->
+<section class="bg-battle grid-ov" data-label="Rendimiento marginal">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 03</span><span class="meta">RENDIMIENTO MARGINAL DECRECIENTE</span></div>
+    <div class="cols" style="margin-top:28px;">
+      <div class="col" style="flex:1.25;justify-content:center;">
+        <div class="shot"><img src="assets/dark/rendimiento_marginal.png" alt="Lq vs c y ΔLq por torre"></div>
+        <div class="cap">Lq vs. c y mejora marginal ΔLq por cada torre agregada</div>
+      </div>
+      <div class="col" style="justify-content:center;">
+        <div class="section-head"><span class="eyebrow">LA CONCLUSIÓN CLAVE</span><h2 style="margin-top:14px;font-size:50px;">Más torres<br>≠ mejor.</h2></div>
+        <div class="stat-row"><div class="stat gold"><span class="big">89 %</span><span class="lbl">de la mejora la aporta la 1ª torre sobre c_min</span></div>
+        <div class="stat cold"><span class="big">c_min = 2</span><span class="lbl">mínimo para estabilidad (ρ&lt;1)</span></div></div>
+        <ul class="feat"><li>ΔLq por torre ≈ <b class="mono">2.53 → 0.25 → 0.05 → 0.01</b></li><li>Pasado el óptimo, las torres quedan <b>ociosas</b> (ρ→0)</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 10 · ÓPTIMO ECONÓMICO ============ -->
+<section class="bg-battle grid-ov" data-label="Óptimo económico">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 03</span><span class="meta">DECISIÓN · ÓPTIMO ECONÓMICO</span></div>
+    <div class="cols" style="margin-top:28px;">
+      <div class="col" style="justify-content:center;">
+        <div class="section-head"><span class="eyebrow">¿CUÁNTAS TORRES?</span><h2 style="margin-top:14px;">El costo dibuja<br>una <em>U</em>.</h2></div>
+        <div class="card accent" style="padding:26px 30px;"><span class="ck">COSTO TOTAL</span>
+          <div class="mono" style="font-size:26px;color:#fff;">CT(c) = c·C_torre + C_fuga·λ·Pb(c)</div></div>
+        <div class="stat hot" style="max-width:340px;"><span class="big">c* = 3</span><span class="lbl">mínimo de costo (torres + fugas)</span></div>
+        <ul class="feat"><li>Sumar una torre conviene mientras el <b>ahorro en fugas</b> supere su costo</li><li>Dimensionar a <b class="gold">c*</b>, no al máximo: sobre-proveer desperdicia capacidad</li></ul>
+      </div>
+      <div class="col" style="flex:1.15;justify-content:center;">
+        <div class="shot"><img src="assets/dark/costo_optimo.png" alt="Costo total = torres + fugas"></div>
+        <div class="cap">Costo de capacidad ↑ + costo de fugas ↓ = óptimo interior</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 11 · EXPERIMENTOS I ============ -->
+<section class="bg-deep grid-ov" data-label="Experimentos I">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EXPERIMENTOS AVANZADOS · I</span></div>
+    <div class="section-head" style="margin-top:26px;"><span class="eyebrow">RIGOR + ESCENARIOS</span>
+      <h2 style="margin-top:12px;">Confianza y <em>oleadas</em>.</h2></div>
+    <div class="cols">
+      <div class="col" style="justify-content:center;"><div class="shot"><img src="assets/dark/ci_fuga.png" alt="Fuga vs c con IC95%"></div>
+        <div class="cap">Réplicas + IC 95% → <b style="color:var(--ink)">c* = 3 robusto</b>, no depende de la semilla</div></div>
+      <div class="col" style="justify-content:center;"><div class="shot"><img src="assets/dark/no_estacionario.png" alt="Oleadas no estacionarias"></div>
+        <div class="cap">Oleadas λ(t): <span class="hot">c=2 → 42% fuga</span> · <span class="cold">c=4 → 10%</span></div></div>
+    </div>
+    <div class="card accent gold" style="margin-top:22px;padding:20px 30px;"><p style="font-size:24px;"><b class="gold">Dimensionar al pico, no al promedio.</b> Con oleadas, la capacidad se elige por el máximo de λ(t) — si no, la base cae en los picos.</p></div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 12 · EXPERIMENTOS II · PRIORIDAD ============ -->
+<section class="bg-deep grid-ov" data-label="Prioridad">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EXPERIMENTOS · PRIORIDAD (REGLA cμ)</span></div>
+    <div class="cols" style="margin-top:28px;">
+      <div class="col" style="flex:1.1;justify-content:center;"><div class="shot"><img src="assets/dark/prioridad.png" alt="Espera por clase FIFO vs prioridad"></div>
+        <div class="cap">Espera por clase: FIFO vs. prioridad al enemigo «fuerte»</div></div>
+      <div class="col" style="justify-content:center;">
+        <div class="section-head"><span class="eyebrow">ATACAR PRIMERO AL FUERTE</span><h2 style="margin-top:14px;font-size:50px;">Reasignar,<br>no <em>eliminar</em>.</h2></div>
+        <div class="stat pur" style="max-width:420px;"><span class="big" style="color:var(--purple)">4.24 → 2.15 s</span><span class="lbl">espera del enemigo fuerte (con prioridad)</span></div>
+        <ul class="feat"><li>El débil espera más; el <b>Wq total casi no cambia</b> (work-conserving)</li><li class="h">La <b>fuga no cambia</b>: es por bloqueo de capacidad, no por espera</li><li>Tipos de enemigo: a igual media, <b>más varianza ⇒ más fuga</b> (Pollaczek-Khinchine)</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 13 · ARQUITECTURA ============ -->
+<section class="bg-battle grid-ov" data-label="Arquitectura">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">ARQUITECTURA DESACOPLADA</span></div>
+    <div class="section-head" style="margin-top:28px;"><span class="eyebrow">CERO ACOPLAMIENTO EN TIEMPO REAL</span>
+      <h2 style="margin-top:12px;">Tres piezas, <em>un contrato</em>.</h2></div>
+    <div class="flow" style="margin:14px 0 26px;">
+      <div class="card accent" style="flex:1;"><span class="ck">RAG · LLM-WIKI</span><p style="font-size:21px;">Fuente de verdad: modelo, ecuaciones y el <b>contrato</b> de datos.</p></div>
+      <div class="ar">→</div>
+      <div class="card accent green" style="flex:1;"><span class="ck">BACKEND · SIMPY</span><p style="font-size:21px;">Módulo A (simulación) + B/B+ (análisis). Exporta <b class="mono">output.json</b>.</p></div>
+      <div class="ar"><span class="mono cold" style="font-size:17px;">output.json →</span></div>
+      <div class="card accent gold" style="flex:1;"><span class="ck">FRONTEND · GODOT</span><p style="font-size:21px;">Lee el JSON e interpola en 2D. <b>Cero cálculo.</b></p></div>
+    </div>
+    <ul class="feat">
+      <li>Python hace toda la matemática <b>offline</b>; Godot solo reproduce → corre en Ubuntu de bajos recursos</li>
+      <li>El <b class="mono">output.json</b> v1.0 es el único punto de acoplamiento — <b>auto-auditado</b> (8 invariantes)</li>
+      <li>Documentación como <b>LLM-Wiki</b>: schema, índice, log, fuentes integradas y síntesis evolutiva</li>
+    </ul>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 14 · FRONTEND / DEMO ============ -->
+<section class="bg-battle grid-ov scan" data-label="Demo">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">FRONTEND GODOT · DEMO</span></div>
+    <div class="cols" style="margin-top:26px;">
+      <div class="col" style="flex:1.3;justify-content:center;"><div class="shot"><img src="assets/frontend_mock.png" alt="Reproductor Godot 2D"></div>
+        <div class="cap">Reproductor 2D — torres coloreadas por temperatura, cola, fugas y HUD</div></div>
+      <div class="col" style="justify-content:center;">
+        <div class="section-head"><span class="eyebrow">REPRODUCIR, NO CALCULAR</span><h2 style="margin-top:14px;">Godot <em>2D</em>.</h2></div>
+        <ul class="feat">
+          <li>Lee <b class="mono">output.json</b> e interpola la línea de tiempo</li>
+          <li class="h">Torres <span class="cold">azul</span>→<span class="hot">rojo</span> según temperatura; gris en cooldown</li>
+          <li>Export web (HTML5/PWA) para hostear gratis</li>
+        </ul>
+        <div class="card accent gold" style="padding:24px 28px;display:flex;align-items:center;gap:18px;">
+          <span class="demo-badge">◖ DEMO EN VIVO</span>
+          <p style="font-size:22px;">Lo vemos corriendo sobre el propio Tower Defense.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 15 · CONCLUSIONES ============ -->
+<section class="bg-deep grid-ov" data-label="Conclusiones">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> RESULTADOS</span><span class="meta">CONCLUSIONES Y RECOMENDACIONES</span></div>
+    <div class="section-head" style="margin-top:26px;"><span class="eyebrow">LO QUE NOS LLEVAMOS</span>
+      <h2 style="margin-top:12px;">El <em>botín</em>.</h2></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px;flex:1;align-content:center;">
+      <div class="card accent"><span class="ck cold">ESTABILIDAD PRIMERO</span><p style="font-size:21px;">Hay un c_min para ρ&lt;1; debajo, la fuga es masiva.</p></div>
+      <div class="card accent gold"><span class="ck">RETORNOS DECRECIENTES</span><p style="font-size:21px;">La 1ª torre aporta ~89%; el óptimo es <b class="gold">c*=3</b>, no el máximo.</p></div>
+      <div class="card accent hot"><span class="ck">LA TEMPERATURA IMPORTA</span><p style="font-size:21px;">Rompe M/M/c y sube la fuga: por eso se <b>simula</b>.</p></div>
+      <div class="card accent green"><span class="ck">DIMENSIONAR AL PICO</span><p style="font-size:21px;">Con oleadas, c se elige por el pico de λ(t), no el promedio.</p></div>
+      <div class="card accent pur"><span class="ck">PRIORIDAD = REASIGNAR</span><p style="font-size:21px;">Priorizar al fuerte baja su espera (cμ); no cambia la fuga.</p></div>
+      <div class="card accent"><span class="ck cold">GESTIÓN TÉRMICA</span><p style="font-size:21px;">Mejor enfriamiento recupera capacidad más barato que una torre.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 16 · CIERRE ============ -->
+<section class="bg-battle grid-ov scan" data-label="Cierre">
+  <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:.5;">
+    <circle cx="1620" cy="300" r="200" fill="none" stroke="#3fa7ff" stroke-width="1.5" opacity=".2"/>
+    <circle cx="1620" cy="300" r="34" fill="#179e74"/>
+    <rect x="1590" y="270" width="60" height="60" rx="10" transform="rotate(45 1620 300)" fill="none" stroke="#38d39f" stroke-width="3"/>
+  </svg>
+  <div class="hero-scrim"></div>
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> TOWER&nbsp;DEFENSE&nbsp;ESTOCÁSTICO</span><span class="meta">¡GRACIAS!</span></div>
+    <div class="hero-wrap">
+      <span class="eyebrow">PREGUNTAS &amp; DEMO</span>
+      <h1 style="margin-top:20px;">¡Gracias!</h1>
+      <p class="lead" style="margin-top:24px;max-width:900px;">Defendemos el modelo, no el juego — pero el juego lo hace divertido. Vamos a la <span class="gold">demo en vivo</span>.</p>
+      <div style="margin-top:30px;display:flex;flex-direction:column;gap:10px;">
+        <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-rag-karpathy</span>
+        <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-back</span>
+        <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-front</span>
+      </div>
+      <div class="members" style="margin-top:40px;">
+        <div class="member"><div class="av">LE</div><div class="nm">Luciano Esteban</div></div>
+        <div class="member"><div class="av">TA</div><div class="nm">Thaiel Anaya</div></div>
+        <div class="member"><div class="av">MB</div><div class="nm">Martín Blasson <small>«Tincho»</small></div></div>
+        <div class="member"><div class="av">LS</div><div class="nm">Luca Sucri</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+</deck-stage>
+</body>
+</html>
