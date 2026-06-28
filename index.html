@@ -136,8 +136,10 @@ table.t tr.hot td:last-child{color:var(--hot);}
 .title-badges{display:flex;gap:14px;margin:30px 0 0;flex-wrap:wrap;}
 .members{display:flex;gap:40px;margin-top:auto;padding-top:30px;}
 .member{display:flex;align-items:center;gap:14px;}
-.member .av{width:54px;height:54px;border-radius:50%;background:var(--panel2);border:2px solid var(--cold);
-  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:20px;color:var(--cold2);}
+.member .av{width:62px;height:62px;border-radius:50%;background:var(--panel2);border:2px solid var(--cold);
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:20px;color:var(--cold2);
+  overflow:hidden;flex:none;box-shadow:0 0 18px rgba(63,167,255,.25);}
+.member img.av{object-fit:cover;}
 .member .nm{font-size:20px;font-weight:600;}
 .member .nm small{display:block;font-size:14px;color:var(--faint);font-family:var(--mono);}
 .member:nth-child(2) .av{border-color:var(--green);color:#9af0d0;}
@@ -226,10 +228,10 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <span class="demo-badge">◖ DEMO EN VIVO</span>
       </div>
       <div class="members">
-        <div class="member"><div class="av">LE</div><div class="nm">Luciano Esteban<small>placeholder foto</small></div></div>
-        <div class="member"><div class="av">TA</div><div class="nm">Thaiel Anaya<small>placeholder foto</small></div></div>
-        <div class="member"><div class="av">MB</div><div class="nm">Martín Blasson<small>«Tincho»</small></div></div>
-        <div class="member"><div class="av">LS</div><div class="nm">Luca Sucri<small>placeholder foto</small></div></div>
+        <div class="member"><img class="av" src="assets/photos/luciano.jpg" alt="Luciano Esteban"><div class="nm">Luciano Esteban</div></div>
+        <div class="member"><img class="av" src="assets/photos/thaiel.jpg" alt="Thaiel Anaya"><div class="nm">Thaiel Anaya</div></div>
+        <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson<small>«Tincho»</small></div></div>
+        <div class="member"><img class="av" src="assets/photos/luca.jpg" alt="Luca Sucri"><div class="nm">Luca Sucri</div></div>
       </div>
     </div>
   </div>
@@ -347,7 +349,18 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="col"><div class="card accent" style="flex:1;"><span class="ck">ALEATORIAS</span>
         <ul class="feat"><li>Tiempo entre arribos ~ <b class="mono">Exp(λ)</b></li><li>Tiempo de servicio ~ <b class="mono">Exp(μ)</b></li><li>(ext.) tipo de enemigo — discreta</li></ul></div></div>
       <div class="col"><div class="card accent hot" style="flex:1;"><span class="ck">CONTINUA — TEMPERATURA</span>
-        <ul class="feat"><li class="h">Cada torre se <b>calienta</b> al disparar (rampa)</li><li class="h">y se <b>enfría</b> al descansar (ley de Newton)</li><li class="h">Es el <b>elemento del juego</b> y la variable continua del TP</li></ul></div></div>
+        <ul class="feat"><li class="h">Cada torre se <b>calienta</b> al disparar (rampa)</li><li class="h">y se <b>enfría</b> al descansar (ley de Newton)</li><li class="h">Es el <b>elemento del juego</b> y la variable continua del TP</li></ul>
+        <svg viewBox="0 0 340 88" style="width:100%;margin-top:16px;" aria-hidden="true">
+          <defs><linearGradient id="heatG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#3FA7FF"/><stop offset="55%" stop-color="#FFC34D"/><stop offset="100%" stop-color="#FF5A36"/></linearGradient></defs>
+          <rect x="14" y="22" width="312" height="20" rx="10" fill="url(#heatG)"/>
+          <g font-family="JetBrains Mono, monospace" font-size="12.5">
+            <line x1="20" y1="16" x2="20" y2="48" stroke="#3FA7FF" stroke-width="2"/><text x="14" y="64" text-anchor="start" fill="#3FA7FF">T_amb</text>
+            <line x1="190" y1="14" x2="190" y2="50" stroke="#FFC34D" stroke-width="2" stroke-dasharray="3 3"/><text x="190" y="64" text-anchor="middle" fill="#FFC34D">T_resume</text>
+            <line x1="320" y1="14" x2="320" y2="50" stroke="#FF5A36" stroke-width="2"/><text x="326" y="64" text-anchor="end" fill="#FF5A36">T_max</text>
+          </g>
+          <text x="170" y="82" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#5E6C88">&gt; T_max  ⇒  cooldown</text>
+        </svg></div></div>
       <div class="col"><div class="card accent gold" style="flex:1;"><span class="ck">CONTROL · SALIDA</span>
         <ul class="feat"><li><b>λ, μ, c, K</b> · semilla</li><li>Umbrales térmicos</li><li>Salida: <b>Lq, Wq, ρ</b>, tasa de fuga</li></ul></div></div>
     </div>
@@ -374,11 +387,25 @@ table.t tr.hot td:last-child{color:var(--hot);}
         </ul>
       </div>
       <div class="col" style="justify-content:center;">
-        <div class="card accent" style="padding:42px 38px;">
+        <div class="card accent" style="padding:38px 38px;">
           <span class="ck">EXPONENCIAL POR TRANSFORMADA INVERSA</span>
-          <div class="mono" style="font-size:30px;color:var(--mut);">F(x) = 1 − e^(−λx) = R</div>
-          <div class="mono" style="font-size:64px;font-weight:700;color:var(--cold);margin:18px 0;">x = −(1/λ)·ln(R)</div>
-          <div class="mono" style="font-size:22px;color:var(--mut);">misma semilla ⇒ mismo output.json</div>
+          <div class="mono" style="font-size:28px;color:var(--mut);">F(x) = 1 − e^(−λx) = R</div>
+          <div class="mono" style="font-size:54px;font-weight:700;color:var(--cold);margin:12px 0;">x = −(1/λ)·ln(R)</div>
+          <svg viewBox="0 0 380 210" style="width:100%;max-width:430px;margin:6px 0 4px;" aria-hidden="true">
+            <line x1="44" y1="22" x2="44" y2="176" stroke="#5E6C88" stroke-width="1.5"/>
+            <line x1="44" y1="176" x2="356" y2="176" stroke="#5E6C88" stroke-width="1.5"/>
+            <path d="M44,176 C 78,150 104,108 150,86 S 260,52 352,42" fill="none" stroke="#3FA7FF" stroke-width="3"/>
+            <line x1="44" y1="86" x2="150" y2="86" stroke="#FFC34D" stroke-width="2" stroke-dasharray="4 4"/>
+            <line x1="150" y1="86" x2="150" y2="176" stroke="#FF5A36" stroke-width="2" stroke-dasharray="4 4"/>
+            <circle cx="150" cy="86" r="5" fill="#fff"/>
+            <g font-family="JetBrains Mono, monospace" font-size="15" fill="#93A1BD">
+              <text x="36" y="32" text-anchor="end" fill="#93A1BD">1</text>
+              <text x="36" y="91" text-anchor="end" fill="#FFC34D">R</text>
+              <text x="150" y="198" text-anchor="middle" fill="#FF5A36">x</text>
+              <text x="352" y="36" text-anchor="end" fill="#3FA7FF">F(x)</text>
+            </g>
+          </svg>
+          <div class="mono" style="font-size:20px;color:var(--mut);">sorteás R ▸ leés x · misma semilla ⇒ mismo output.json</div>
         </div>
       </div>
     </div>
@@ -521,11 +548,17 @@ table.t tr.hot td:last-child{color:var(--hot);}
     <div class="section-head" style="margin-top:28px;"><span class="eyebrow">CERO ACOPLAMIENTO EN TIEMPO REAL</span>
       <h2 style="margin-top:12px;">Tres piezas, <em>un contrato</em>.</h2></div>
     <div class="flow" style="margin:14px 0 26px;">
-      <div class="card accent" style="flex:1;"><span class="ck">RAG · LLM-WIKI</span><p style="font-size:21px;">Fuente de verdad: modelo, ecuaciones y el <b>contrato</b> de datos.</p></div>
+      <div class="card accent" style="flex:1;">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#3FA7FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><path d="M4 5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2z"/><path d="M19 18H6a2 2 0 0 0-2 2"/><path d="M8 7h7M8 10.5h7"/></svg>
+        <span class="ck">RAG · LLM-WIKI</span><p style="font-size:21px;">Fuente de verdad: modelo, ecuaciones y el <b>contrato</b> de datos.</p></div>
       <div class="ar">→</div>
-      <div class="card accent green" style="flex:1;"><span class="ck">BACKEND · SIMPY</span><p style="font-size:21px;">Módulo A (simulación) + B/B+ (análisis). Exporta <b class="mono">output.json</b>.</p></div>
+      <div class="card accent green" style="flex:1;">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#38D39F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg>
+        <span class="ck">BACKEND · SIMPY</span><p style="font-size:21px;">Módulo A (simulación) + B/B+ (análisis). Exporta <b class="mono">output.json</b>.</p></div>
       <div class="ar"><span class="mono cold" style="font-size:17px;">output.json →</span></div>
-      <div class="card accent gold" style="flex:1;"><span class="ck">FRONTEND · GODOT</span><p style="font-size:21px;">Lee el JSON e interpola en 2D. <b>Cero cálculo.</b></p></div>
+      <div class="card accent gold" style="flex:1;">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#FFC34D" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1"/><circle cx="18" cy="14" r="1"/></svg>
+        <span class="ck">FRONTEND · GODOT</span><p style="font-size:21px;">Lee el JSON e interpola en 2D. <b>Cero cálculo.</b></p></div>
     </div>
     <ul class="feat">
       <li>Python hace toda la matemática <b>offline</b>; Godot solo reproduce → corre en Ubuntu de bajos recursos</li>
@@ -596,12 +629,13 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-rag-karpathy</span>
         <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-back</span>
         <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-front</span>
+        <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-presentaci-n</span>
       </div>
       <div class="members" style="margin-top:40px;">
-        <div class="member"><div class="av">LE</div><div class="nm">Luciano Esteban</div></div>
-        <div class="member"><div class="av">TA</div><div class="nm">Thaiel Anaya</div></div>
-        <div class="member"><div class="av">MB</div><div class="nm">Martín Blasson <small>«Tincho»</small></div></div>
-        <div class="member"><div class="av">LS</div><div class="nm">Luca Sucri</div></div>
+        <div class="member"><img class="av" src="assets/photos/luciano.jpg" alt="Luciano Esteban"><div class="nm">Luciano Esteban</div></div>
+        <div class="member"><img class="av" src="assets/photos/thaiel.jpg" alt="Thaiel Anaya"><div class="nm">Thaiel Anaya</div></div>
+        <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson <small>«Tincho»</small></div></div>
+        <div class="member"><img class="av" src="assets/photos/luca.jpg" alt="Luca Sucri"><div class="nm">Luca Sucri</div></div>
       </div>
     </div>
   </div>
