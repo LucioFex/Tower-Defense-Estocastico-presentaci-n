@@ -192,6 +192,124 @@ table.t tr.hot td:last-child{color:var(--hot);}
 .repo{font-family:var(--mono);font-size:20px;color:var(--cold2);}
 
 @media print{ .foot{position:absolute;} }
+
+/* ============================================================
+   ✦ LOOK & FEEL "TOWER DEFENSE" — animaciones de entrada + ambiente
+   Se disparan al activarse cada slide [data-deck-active] y se
+   re-disparan al volver a ella. Anuladas en @media print y con
+   prefers-reduced-motion → el PDF y la accesibilidad quedan intactos.
+   ============================================================ */
+@keyframes td-rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes td-fall{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes td-left{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:none}}
+@keyframes td-zoom{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+@keyframes td-pop{0%{opacity:0;transform:scale(.84)}62%{opacity:1;transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+
+/* — piezas principales: deal-in en cascada — */
+[data-deck-active] .hud{animation:td-fall .55s .04s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .section-head,
+[data-deck-active] .hero-wrap>.eyebrow,
+[data-deck-active] .hero-wrap h1{animation:td-rise .65s .12s both cubic-bezier(.2,.85,.25,1)}
+[data-deck-active] .lead{animation:td-rise .65s .24s both cubic-bezier(.2,.85,.25,1)}
+[data-deck-active] .repo{animation:td-left .5s .30s both ease}
+[data-deck-active] .foot{animation:td-rise .6s .46s both ease}
+
+/* — contenido: tarjetas, capturas, métricas — */
+[data-deck-active] .card{animation:td-zoom .6s .30s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .shot{animation:td-zoom .7s .30s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .stat{animation:td-pop .6s .42s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .stat-row .stat:nth-child(2){animation-delay:.52s}
+[data-deck-active] .democue{animation:td-zoom .6s .44s both cubic-bezier(.2,.8,.2,1)}
+
+/* — listas con stagger (las púas se "despliegan") — */
+[data-deck-active] ul.feat li{animation:td-left .5s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] ul.feat li:nth-child(1){animation-delay:.30s}
+[data-deck-active] ul.feat li:nth-child(2){animation-delay:.38s}
+[data-deck-active] ul.feat li:nth-child(3){animation-delay:.46s}
+[data-deck-active] ul.feat li:nth-child(4){animation-delay:.54s}
+[data-deck-active] ul.feat li:nth-child(5){animation-delay:.62s}
+[data-deck-active] ul.feat li:nth-child(6){animation-delay:.70s}
+
+/* — tablas: repartir las filas como cartas — */
+[data-deck-active] table.t tr{animation:td-left .45s both ease}
+[data-deck-active] table.t tr:nth-child(1){animation-delay:.32s}
+[data-deck-active] table.t tr:nth-child(2){animation-delay:.40s}
+[data-deck-active] table.t tr:nth-child(3){animation-delay:.48s}
+[data-deck-active] table.t tr:nth-child(4){animation-delay:.56s}
+[data-deck-active] table.t tr:nth-child(5){animation-delay:.64s}
+[data-deck-active] table.t tr:nth-child(6){animation-delay:.72s}
+
+/* — bloques temáticos con stagger propio — */
+[data-deck-active] .waves .wave{animation:td-left .55s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .waves .wave:nth-child(1){animation-delay:.30s}
+[data-deck-active] .waves .wave:nth-child(2){animation-delay:.42s}
+[data-deck-active] .waves .wave:nth-child(3){animation-delay:.54s}
+[data-deck-active] .waves .wave:nth-child(4){animation-delay:.66s}
+[data-deck-active] .watch{animation:td-rise .6s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .watch:nth-child(1){animation-delay:.34s}
+[data-deck-active] .watch:nth-child(2){animation-delay:.46s}
+[data-deck-active] .watch:nth-child(3){animation-delay:.58s}
+[data-deck-active] .flow>*{animation:td-zoom .5s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .flow>*:nth-child(1){animation-delay:.34s}
+[data-deck-active] .flow>*:nth-child(2){animation-delay:.44s}
+[data-deck-active] .flow>*:nth-child(3){animation-delay:.54s}
+[data-deck-active] .flow>*:nth-child(4){animation-delay:.64s}
+[data-deck-active] .flow>*:nth-child(5){animation-delay:.74s}
+[data-deck-active] .members .member{animation:td-pop .6s both cubic-bezier(.2,.8,.2,1)}
+[data-deck-active] .members .member:nth-child(1){animation-delay:.36s}
+[data-deck-active] .members .member:nth-child(2){animation-delay:.48s}
+[data-deck-active] .members .member:nth-child(3){animation-delay:.60s}
+[data-deck-active] .members .member:nth-child(4){animation-delay:.72s}
+
+/* — AMBIENTE: grilla viva que respira y se desplaza (centro de comando) — */
+.grid-ov[data-deck-active]::before{animation:td-grid 16s linear infinite}
+@keyframes td-grid{0%{opacity:.78;background-position:0 0,0 0}50%{opacity:1}100%{opacity:.78;background-position:0 64px,64px 0}}
+
+/* — barrido holográfico que recorre la slide (sólo donde no hay scanlines) — */
+.grid-ov:not(.scan)[data-deck-active]::after{content:"";position:absolute;left:0;right:0;top:-30%;height:30%;
+  z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(63,167,255,.06) 50%,transparent);
+  animation:td-sweep 7.5s linear infinite}
+@keyframes td-sweep{0%{transform:translateY(0)}100%{transform:translateY(440%)}}
+
+/* — scanlines CRT que ruedan en las slides .scan — */
+.scan[data-deck-active]::after{animation:td-roll 6s linear infinite}
+@keyframes td-roll{0%{background-position:0 0;opacity:.5}50%{opacity:.72}100%{background-position:0 8px;opacity:.5}}
+
+/* — baliza de radar: el pip del HUD late y emite un anillo (ping) — */
+.hud .tag .pip{position:relative}
+[data-deck-active] .hud .tag .pip{animation:td-beacon 1.6s ease-in-out infinite}
+@keyframes td-beacon{0%,100%{box-shadow:0 0 14px var(--hot);transform:scale(1)}50%{box-shadow:0 0 26px var(--hot),0 0 8px #fff;transform:scale(1.18)}}
+[data-deck-active] .hud .tag .pip::after{content:"";position:absolute;inset:0;border:1.5px solid var(--hot);border-radius:2px;
+  pointer-events:none;animation:td-ring 1.6s ease-out infinite}
+@keyframes td-ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.4);opacity:0}}
+
+/* — púas de las listas que laten (color intacto) — */
+[data-deck-active] ul.feat li::before{animation:td-diamond 2.6s ease-in-out infinite}
+@keyframes td-diamond{0%,100%{transform:rotate(45deg) scale(1)}50%{transform:rotate(45deg) scale(1.28)}}
+
+/* — avisos de demo "respirando" para que enganchen la vista — */
+[data-deck-active] .demo-badge{animation:td-breathe 1.9s ease-in-out infinite}
+[data-deck-active] .democue .pill{animation:td-breathe 2.1s ease-in-out infinite}
+@keyframes td-breathe{0%,100%{box-shadow:0 0 22px rgba(255,195,77,.5);transform:translateY(0)}50%{box-shadow:0 0 42px rgba(255,195,77,.85);transform:translateY(-2px)}}
+
+/* — shimmer metálico en los titulares destacados (em) — */
+[data-deck-active] h1 em,[data-deck-active] h2 em{
+  background:linear-gradient(100deg,var(--cold) 0%,#bfe0ff 25%,var(--cold) 50%,#bfe0ff 75%,var(--cold) 100%);
+  background-size:220% auto;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;animation:td-shine 4.5s linear infinite}
+@keyframes td-shine{to{background-position:220% center}}
+
+/* — micro-interacciones al hover (look & feel; no afectan el PDF) — */
+.card,.stat,.shot,.wave,.watch{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease}
+.card:hover,.stat:hover,.wave:hover,.watch:hover{transform:translateY(-4px)}
+.shot:hover{transform:translateY(-4px) scale(1.012);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(63,167,255,.25)}
+
+/* — respeto a accesibilidad y export limpio a PDF — */
+@media (prefers-reduced-motion:reduce){ *{animation:none !important} }
+@media print{
+  *{animation:none !important}
+  .grid-ov::after{display:none !important}
+}
 </style>
 </head>
 <body>
