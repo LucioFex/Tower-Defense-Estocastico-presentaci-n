@@ -148,6 +148,22 @@ table.t tr.hot td:last-child{color:var(--hot);}
 
 .demo-badge{display:inline-flex;align-items:center;gap:12px;font-family:var(--pixel);font-size:13px;
   color:#0a0e1a;background:var(--gold);border-radius:8px;padding:11px 16px;box-shadow:0 0 24px rgba(255,195,77,.5);}
+.demo-badge.lg{font-size:20px;padding:18px 28px;gap:16px;border-radius:12px;}
+
+/* invitación contextual a la demo */
+.democue{display:flex;align-items:center;gap:18px;background:rgba(255,195,77,.10);
+  border:1px solid rgba(255,195,77,.45);border-radius:14px;padding:16px 22px;}
+.democue .pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--pixel);font-size:11px;
+  color:#0a0e1a;background:var(--gold);border-radius:7px;padding:9px 12px;white-space:nowrap;flex:none;
+  box-shadow:0 0 18px rgba(255,195,77,.4);}
+.democue p{font-size:20px;color:var(--ink);margin:0;}
+.democue p b{color:var(--gold);}
+
+/* tarjetas "qué mirar" en la slide de demo */
+.watch{display:flex;flex-direction:column;gap:14px;background:linear-gradient(180deg,var(--panel),var(--panel2));
+  border:1px solid var(--line2);border-radius:16px;padding:26px 26px;flex:1;}
+.watch .wk{font-family:var(--pixel);font-size:11px;letter-spacing:.04em;}
+.watch p{font-size:20px;color:var(--ink);}
 
 /* wave divider chips on map */
 .waves{display:flex;flex-direction:column;gap:16px;margin-top:8px;}
@@ -458,6 +474,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <div class="card accent hot" style="margin-top:8px;">
           <p style="font-size:23px;">La temperatura <b class="hot">rompe el supuesto markoviano</b> (c servidores siempre disponibles). Las fórmulas son una <b>cota</b>; la <span class="cold">simulación</span> captura el comportamiento real.</p>
         </div>
+        <div class="democue" style="margin-top:6px;"><span class="pill">▶ EN LA DEMO</span><p>Mirá las torres pasar de <b>azul a rojo</b> y apagarse en cooldown.</p></div>
       </div>
       <div class="col" style="justify-content:center;">
         <div class="shot"><img src="assets/dark/temperatura.png" alt="Temperatura de las torres"></div>
@@ -526,6 +543,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
           <div class="mono" style="font-size:26px;color:#fff;">CT(c) = c·C_torre + C_fuga·λ·Pb(c)</div></div>
         <div class="stat hot" style="max-width:340px;"><span class="big">c* = 3</span><span class="lbl">mínimo de costo (torres + fugas)</span></div>
         <ul class="feat"><li>Sumar una torre conviene mientras el <b>ahorro en fugas</b> supere su costo</li><li>Dimensionar a <b class="gold">c*</b>, no al máximo: sobre-proveer desperdicia capacidad</li></ul>
+        <div class="democue"><span class="pill">▶ EN LA DEMO</span><p>Agregá y sacá torres y mirá cómo cambian <b>cola y fugas</b> en vivo.</p></div>
       </div>
       <div class="col" style="flex:1.15;justify-content:center;">
         <div class="shot"><img src="assets/dark/costo_optimo.png" alt="Costo total = torres + fugas"></div>
@@ -548,7 +566,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="col" style="justify-content:center;"><div class="shot"><img src="assets/dark/no_estacionario.png" alt="Oleadas no estacionarias"></div>
         <div class="cap">Oleadas λ(t): <span class="hot">c=2 → 42% fuga</span> · <span class="cold">c=4 → 10%</span></div></div>
     </div>
-    <div class="card accent gold" style="margin-top:22px;padding:20px 30px;"><p style="font-size:24px;"><b class="gold">Dimensionar al pico, no al promedio.</b> Con oleadas, la capacidad se elige por el máximo de λ(t) — si no, la base cae en los picos.</p></div>
+    <div class="democue" style="margin-top:22px;padding:20px 30px;"><span class="pill">▶ EN LA DEMO</span><p style="font-size:23px;"><b>Dimensionar al pico, no al promedio.</b> Lanzamos una <b>oleada</b> en vivo y vemos la cola saturarse y la base caer si faltan torres.</p></div>
   </div>
   <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -598,10 +616,10 @@ table.t tr.hot td:last-child{color:var(--hot);}
   <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 14 · FRONTEND / DEMO ============ -->
-<section class="bg-battle grid-ov scan" data-label="Demo">
+<!-- ============ 14 · FRONTEND ============ -->
+<section class="bg-battle grid-ov scan" data-label="Frontend">
   <div class="frame">
-    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">FRONTEND GODOT · DEMO</span></div>
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">FRONTEND GODOT 2D</span></div>
     <div class="cols" style="margin-top:26px;">
       <div class="col" style="flex:1.3;justify-content:center;"><div class="shot"><img src="assets/frontend_mock.png" alt="Reproductor Godot 2D"></div>
         <div class="cap">Reproductor 2D — torres coloreadas por temperatura, cola, fugas y HUD</div></div>
@@ -612,17 +630,44 @@ table.t tr.hot td:last-child{color:var(--hot);}
           <li class="h">Torres <span class="cold">azul</span>→<span class="hot">rojo</span> según temperatura; gris en cooldown</li>
           <li>Export web (HTML5/PWA) para hostear gratis</li>
         </ul>
-        <div class="card accent gold" style="padding:24px 28px;display:flex;align-items:center;gap:18px;">
-          <span class="demo-badge">◖ DEMO EN VIVO</span>
-          <p style="font-size:22px;">Lo vemos corriendo sobre el propio Tower Defense.</p>
-        </div>
+        <div class="democue"><span class="pill">▶ A CONTINUACIÓN</span><p><b>Demo en vivo</b> sobre el propio Tower Defense.</p></div>
       </div>
     </div>
   </div>
   <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 15 · CONCLUSIONES ============ -->
+<!-- ============ 15 · DEMO EN VIVO ============ -->
+<section class="bg-deep grid-ov scan" data-label="Demo en vivo">
+  <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:.55;">
+    <path d="M -40 720 C 360 720, 420 460, 820 460 S 1240 660, 1620 520 S 1960 420, 2000 420" fill="none" stroke="#16223c" stroke-width="64" stroke-linecap="round"/>
+    <use href="#td-creep" x="300" y="660" width="50" height="48" style="color:#FFC34D"/>
+    <use href="#td-creep" x="470" y="660" width="50" height="48" style="color:#FFC34D"/>
+    <use href="#td-tower" x="820" y="404" width="66" height="86" style="color:#3FA7FF"/>
+    <use href="#td-tower" x="1300" y="500" width="66" height="86" style="color:#FF5A36"/>
+    <use href="#td-base" x="1812" y="372" width="100" height="116" style="color:#38D39F"/>
+  </svg>
+  <div class="hero-scrim"></div>
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">¡MANOS A LA OBRA!</span></div>
+    <div class="hero-wrap">
+      <span class="eyebrow">DEL MODELO A LA PANTALLA</span>
+      <div style="display:flex;align-items:center;gap:30px;margin-top:18px;">
+        <h1>Demo<br><em>en vivo</em>.</h1>
+        <span class="demo-badge lg" style="margin-top:10px;">▶ DEMO EN VIVO</span>
+      </div>
+      <p class="lead" style="margin-top:24px;max-width:980px;">Corremos el Tower Defense y miramos el modelo <span class="gold">respirar</span>. Esto es lo que hay que mirar:</p>
+      <div style="display:flex;gap:24px;margin-top:26px;max-width:1320px;">
+        <div class="watch"><span class="wk cold">TEMPERATURA</span><p>Las torres pasan de <span class="cold">azul</span> a <span class="hot">rojo</span> y entran en <b>cooldown</b>.</p></div>
+        <div class="watch"><span class="wk gold">LA COLA</span><p>Los enemigos se <b>encolan</b> (FIFO) cuando no hay torre libre.</p></div>
+        <div class="watch"><span class="wk hot">LA FUGA</span><p>Si la zona se <b>llena</b>, el enemigo se fuga y la base pierde vida.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 16 · CONCLUSIONES ============ -->
 <section class="bg-deep grid-ov" data-label="Conclusiones">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> RESULTADOS</span><span class="meta">CONCLUSIONES Y RECOMENDACIONES</span></div>

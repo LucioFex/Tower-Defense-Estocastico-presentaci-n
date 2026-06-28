@@ -27,18 +27,28 @@ make_dark_charts.py   regenera assets/dark/ desde el backend (output.json + expe
 .nojekyll             para GitHub Pages
 ```
 
-## Recorrido (16 slides)
+## Recorrido (17 slides)
 Portada · Mapa (Waves) · **W1** problema + modelo de colas · **W2** variables, PRNG, motor SimPy ·
 **W3** validación, rendimiento marginal, óptimo · **W4** experimentos (IC/oleadas/prioridad),
-arquitectura, frontend+**demo** · Conclusiones · Cierre.
+arquitectura, frontend, **Demo en vivo** · Conclusiones · Cierre.
 
 > Los temas **no** están rotulados por orador (lo recordamos en vivo). Nombres solo en portada y
-> cierre, para tener flexibilidad. Hay un cue de **demo en vivo** sobre el propio Tower Defense.
+> cierre, para tener flexibilidad.
+
+### Invitaciones a la demo
+La demo está tejida en varios puntos: badge en la **portada**, cues `▶ EN LA DEMO` en **motor**
+(temperatura), **óptimo** (jugar con c) y **oleadas**, una slide dedicada **"Demo en vivo"** (qué
+mirar: temperatura / cola / fuga) y el cierre. Los símbolos SVG `td-tower` / `td-creep` / `td-base`
+(definidos en la portada, `currentColor`) se reutilizan en todo el deck.
+
+> **Esto puede cambiar con la práctica final.** Los números salen del backend (ver *Datos clave*);
+> las **fotos de las pruebas** se suman igual que las del equipo (carpeta `assets/`). Si cambian las
+> corridas, regenerar gráficos y actualizar las cifras en `index.html`.
 
 ## Editar
 - **Texto / slides:** editar `index.html` (cada slide es un `<section>`). Las variables de color y
   tipografía están en `:root` al inicio del `<style>`.
-- **Fotos de integrantes:** hoy hay avatares con iniciales (`.member .av`) en portada y cierre.
+- **Fotos de integrantes:** en `assets/photos/` (recorte cuadrado). Reemplazables en portada y cierre.
   Para fotos reales: poner las imágenes en `assets/` y reemplazar el `<div class="av">XX</div>` por
   `<img class="av" src="assets/foto.jpg">` (el `.av` ya recorta en círculo; agregar
   `object-fit:cover` si hace falta).
