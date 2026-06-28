@@ -114,6 +114,15 @@ table.t td.n{font-family:var(--mono);}
 table.t tr td:last-child{color:var(--cold2);font-family:var(--mono);}
 table.t tr.hot td:last-child{color:var(--hot);}
 
+/* ===== clave de símbolos / fórmulas (apoyo de estudio en la propia slide) ===== */
+.symkey{margin-top:20px;display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 15px;
+  padding:13px 22px;background:rgba(63,167,255,.05);border:1px solid var(--line2);border-radius:13px;}
+.symkey .skt{font-family:var(--pixel);font-size:11px;color:var(--gold);letter-spacing:.05em;
+  align-self:center;margin-right:4px;white-space:nowrap;}
+.symkey .sk{font-size:16px;color:var(--mut);line-height:1.4;}
+.symkey .sk b{font-family:var(--mono);color:var(--cold2);font-weight:700;}
+.symkey .sk em{font-style:normal;font-family:var(--mono);color:var(--gold);}
+
 /* ===== TD game art (CSS) ===== */
 .tower{position:relative;width:84px;height:84px;border-radius:16px;flex:none;
   background:radial-gradient(circle at 50% 35%,#2a3a5e,#172138);border:2px solid var(--cold);
@@ -510,6 +519,14 @@ table.t tr.hot td:last-child{color:var(--hot);}
         </div>
       </div>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>λ</b> tasa de llegadas (enemigos/s)</span>
+      <span class="sk"><b>μ</b> tasa de servicio por torre (kills/s)</span>
+      <span class="sk"><b>c</b> nº de torres (servidores)</span>
+      <span class="sk"><b>K</b> capacidad del sistema (cola+servicio)</span>
+      <span class="sk"><b>FIFO</b> orden de llegada</span>
+      <span class="sk"><b>∞</b> población infinita</span>
+      <span class="sk"><b>ρ = λ/(c·μ)</b> utilización: fracción de tiempo que cada torre está ocupada; estable si <em>ρ&lt;1</em></span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">04</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -543,6 +560,13 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <span class="eyebrow" style="color:var(--cold);">CHEQUEO</span>
       <p style="font-size:24px;">Ley de Little como control de consistencia: <span class="mono cold" style="font-weight:700;">L = λ·W</span> &nbsp;y&nbsp; <span class="mono cold" style="font-weight:700;">Lq = λ·Wq</span></p>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>λ</b> llegadas/s · <b>μ</b> servicio por torre</span>
+      <span class="sk"><b>Exp(λ)</b> exponencial: tiempo entre eventos (media 1/λ, sin memoria)</span>
+      <span class="sk"><b>L</b>/<b>Lq</b> nº medio en el sistema / en cola</span>
+      <span class="sk"><b>W</b>/<b>Wq</b> tiempo medio en el sistema / espera en cola</span>
+      <span class="sk"><b>T_amb·T_resume·T_max</b> temp. ambiente·reactivación·máxima</span>
+      <span class="sk"><b>L=λ·W</b> Ley de Little (cantidad media = tasa × tiempo medio)</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">05</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -584,6 +608,11 @@ table.t tr.hot td:last-child{color:var(--hot);}
         </div>
       </div>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>Xᵢ</b> enteros del generador · <b>a</b> multiplicador · <b>C</b> incremento · <b>m</b> módulo</span>
+      <span class="sk"><b>R</b> nº pseudoaleatorio uniforme en [0,1)</span>
+      <span class="sk"><b>F(x)</b> función de distribución acumulada</span>
+      <span class="sk"><b>x=−(1/λ)·ln(R)</b> transformada inversa: convierte un <b>R</b> uniforme en un tiempo exponencial</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">06</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -611,6 +640,11 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <div class="cap">Temperatura de las torres — calienta al disparar, enfría al descansar</div>
       </div>
     </div>
+    <div class="symkey"><span class="skt">CLAVE</span>
+      <span class="sk"><b>markoviano</b> sin memoria: llegadas Poisson y servicio exponencial</span>
+      <span class="sk"><b>cooldown</b> torre sobrecalentada que deja de atender (baja la capacidad efectiva)</span>
+      <span class="sk"><b>cota</b> límite optimista de la fórmula; la simulación capta el efecto real</span>
+      <span class="sk"><b>FEL</b> lista de eventos futuros (el reloj salta de evento a evento)</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">07</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -638,6 +672,13 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <div class="cap">Evolución temporal de la cola y del sistema</div>
       </div>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>Wq</b> espera media en cola (s)</span>
+      <span class="sk"><b>Lq</b> nº medio en cola · <b>L</b> nº medio en el sistema</span>
+      <span class="sk"><b>Pb</b> probabilidad de bloqueo (= la fuga)</span>
+      <span class="sk"><b>ρ</b> utilización</span>
+      <span class="sk"><b>λ_ef=λ(1−Pb)</b> tasa efectiva (la que realmente entra)</span>
+      <span class="sk"><b>L=λ_ef·W</b> Ley de Little, chequeo de consistencia</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">08</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -658,6 +699,11 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <ul class="feat"><li>ΔLq por torre ≈ <b class="mono">2.53 → 0.25 → 0.05 → 0.01</b></li><li>Pasado el óptimo, las torres quedan <b>ociosas</b> (ρ→0)</li></ul>
       </div>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>Lq</b> nº medio en cola</span>
+      <span class="sk"><b>ΔLq(c)=Lq(c−1)−Lq(c)</b> cuánto baja la cola al sumar la torre c</span>
+      <span class="sk"><b>c_min</b> menor nº de torres con <em>ρ&lt;1</em> (estable)</span>
+      <span class="sk"><b>ρ</b> utilización (<em>ρ→0</em> = torre ociosa)</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">09</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -680,6 +726,12 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <div class="cap">Costo de capacidad ↑ + costo de fugas ↓ = óptimo interior</div>
       </div>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>CT(c)</b> costo total con c torres</span>
+      <span class="sk"><b>C_torre</b> costo por torre · <b>C_fuga</b> costo por enemigo fugado</span>
+      <span class="sk"><b>Pb(c)</b> prob. de bloqueo con c torres</span>
+      <span class="sk"><b>c*</b> nº de torres que minimiza CT</span>
+      <span class="sk"><b>CT(c)=c·C_torre + C_fuga·λ·Pb(c)</b></span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">10</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -697,6 +749,10 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <div class="cap">Oleadas λ(t): <span class="hot">c=2 → 42% fuga</span> · <span class="cold">c=4 → 10%</span></div></div>
     </div>
     <div class="democue" style="margin-top:22px;padding:20px 30px;"><span class="pill">▶ EN LA DEMO</span><p style="font-size:23px;"><b>Dimensionar al pico, no al promedio.</b> Lanzamos una <b>oleada</b> en vivo y vemos la cola saturarse y la base caer si faltan torres.</p></div>
+    <div class="symkey"><span class="skt">CLAVE</span>
+      <span class="sk"><b>IC 95%</b> intervalo de confianza: rango que contiene el valor real con 95% de confianza</span>
+      <span class="sk"><b>λ(t)</b> tasa de llegadas variable en el tiempo (oleadas, régimen no estacionario)</span>
+      <span class="sk"><b>c*</b> nº óptimo de torres · <b>réplicas</b> corridas con distinta semilla para medir variabilidad</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">11</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -714,6 +770,12 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <ul class="feat"><li>El débil espera más; el <b>Wq total casi no cambia</b> (work-conserving)</li><li class="h">La <b>fuga no cambia</b>: es por bloqueo de capacidad, no por espera</li><li>Tipos de enemigo: a igual media, <b>más varianza ⇒ más fuga</b> (Pollaczek-Khinchine)</li></ul>
       </div>
     </div>
+    <div class="symkey"><span class="skt">SÍMBOLOS</span>
+      <span class="sk"><b>cμ</b> costo × tasa de servicio (regla: atender primero al de mayor cμ)</span>
+      <span class="sk"><b>Wq</b> espera media en cola</span>
+      <span class="sk"><b>σ²</b> varianza del tiempo de servicio</span>
+      <span class="sk"><b>work-conserving</b> servidores nunca ociosos habiendo trabajo</span>
+      <span class="sk"><b>Pollaczek-Khinchine</b> a igual media, más <b>σ²</b> ⇒ más cola/fuga</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">12</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
