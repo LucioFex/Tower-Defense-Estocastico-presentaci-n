@@ -263,7 +263,7 @@
       <div class="hd">★ Apoyo material estudio</div>
       <ul class="terms">
         <li><b>Mapa de la materia cubierto</b> — <b>Unidad I</b> (sistema/modelo/simulación, V&amp;V) · <b>Unidad II</b> (PRNG, transformada inversa, v.a.) · <b>Unidad III</b> (colas Kendall, Little, M/M/1, M/M/c, M/M/c/K, eventos discretos).</li>
-        <li><b>Glosario exprés para preguntas</b> — ρ (utilización), Ley de Little (L=λW), Erlang B/C, FIFO, bloqueo/pérdida, régimen estacionario, transformada inversa.</li>
+        <li><b>Glosario exprés para preguntas</b> — <b>ρ</b>: utilización (fracción de tiempo ocupado); <b>Little</b> L=λW: cantidad media = tasa × tiempo medio; <b>Erlang B</b>: prob. de bloqueo / <b>Erlang C</b>: prob. de esperar; <b>FIFO</b>: se atiende por orden de llegada; <b>bloqueo/pérdida</b>: el que llega con el sistema lleno se va; <b>estacionario</b>: el sistema ya “se asentó”; <b>transformada inversa</b>: generar una v.a. a partir de un R~U(0,1).</li>
         <li><b>Toma de decisiones con simulación</b> <span class="unit">UNIDAD I</span> — el fin no es el número sino elegir bien (cuántas torres, cómo priorizar) bajo incertidumbre.</li>
       </ul>
     </div>
@@ -406,10 +406,10 @@
     <div class="study">
       <div class="hd">★ Apoyo material estudio</div>
       <ul class="terms">
-        <li><b>M/M/1</b> <span class="unit">UNIDAD III</span> — <span class="fla">L=ρ/(1−ρ)</span>, <span class="fla">Lq=ρ²/(1−ρ)</span>, <span class="fla">W=1/(μ−λ)</span>, <span class="fla">Wq=ρ/(μ−λ)</span>.</li>
-        <li><b>M/M/c — Erlang C</b> — probabilidad de que un cliente tenga que esperar; de ahí Lq y Wq con c servidores.</li>
-        <li><b>M/M/c/K — Erlang B</b> — probabilidad de <b>bloqueo</b> Pb (sistema lleno); la tasa efectiva es <span class="fla">λ_ef=λ(1−Pb)</span>.</li>
-        <li><b>Validación por Little</b> — si <span class="fla">L≈λ_ef·W</span> en la corrida, el modelo es internamente consistente.</li>
+        <li><b>M/M/1</b> <span class="unit">UNIDAD III</span> — el caso más simple, <b>1 torre</b>. Con L = nº medio en el sistema, Lq = nº medio en cola, W = tiempo medio en el sistema y Wq = espera media en cola: <span class="fla">L=ρ/(1−ρ)</span>, <span class="fla">Lq=ρ²/(1−ρ)</span>, <span class="fla">W=1/(μ−λ)</span>, <span class="fla">Wq=ρ/(μ−λ)</span> (todo se dispara cuando ρ→1).</li>
+        <li><b>M/M/c — fórmula de Erlang C</b> — lo mismo con <b>c torres</b>: da la probabilidad de que un cliente <b>tenga que esperar</b>, y de ahí Lq y Wq.</li>
+        <li><b>M/M/c/K — fórmula de Erlang B</b> — con capacidad finita K agrega la probabilidad de <b>bloqueo</b> Pb (llega con el sistema lleno → se pierde = fuga). La tasa que realmente entra es <span class="fla">λ_ef=λ(1−Pb)</span>.</li>
+        <li><b>Validación por Ley de Little</b> — si en la corrida se cumple <span class="fla">L≈λ_ef·W</span> (cantidad media = tasa de entrada × tiempo medio), el modelo es <b>internamente consistente</b>.</li>
       </ul>
     </div>
   </div>
@@ -468,7 +468,7 @@
       <ul class="terms">
         <li><b>Modelo de costos en colas</b> <span class="unit">UNIDAD III</span> — costo total = <b>costo de servicio</b> (crece con c) + <b>costo de espera/pérdida</b> (decrece con c).</li>
         <li><b>Óptimo interior</b> — al sumar dos costos de sentido opuesto aparece un mínimo “en el medio”: el c que minimiza CT.</li>
-        <li><b>Analogía con inventarios (EOQ)</b> <span class="unit">UNIDAD III</span> — mismo patrón de <b>trade-off</b> entre dos costos contrapuestos que da un lote/óptimo intermedio.</li>
+        <li><b>Analogía con inventarios (EOQ)</b> <span class="unit">UNIDAD III</span> — el <b>lote económico de pedido</b>: pedir mucho encarece almacenar, pedir poco encarece los pedidos; el óptimo cae en el medio. Es el mismo <b>trade-off</b> de dos costos contrapuestos que acá define c*.</li>
       </ul>
     </div>
   </div>
@@ -535,8 +535,8 @@
       <ul class="terms">
         <li><b>Análisis estadístico de la salida</b> <span class="unit">UNIDAD I/III</span> — media muestral, desvío, error estándar e <b>intervalo de confianza</b> (t-Student) sobre las réplicas.</li>
         <li><b>Replicaciones independientes</b> — N corridas con semillas distintas; más réplicas ⇒ IC más angosto (mayor precisión).</li>
-        <li><b>Transitorio vs. estacionario</b> — el arranque (warm-up) sesga; se descarta antes de medir el régimen estacionario.</li>
-        <li><b>Sistemas terminantes vs. no terminantes</b> — definen si se mide un horizonte fijo o el equilibrio de largo plazo.</li>
+        <li><b>Transitorio vs. estacionario</b> — al arrancar vacío el sistema todavía “se está acomodando” (transitorio/warm-up) y sesga los promedios; se <b>descarta ese tramo inicial</b> antes de medir el régimen estacionario.</li>
+        <li><b>Sistemas terminantes vs. no terminantes</b> — <b>terminante</b>: tiene un fin natural (p. ej. un día de atención) y se mide ese horizonte; <b>no terminante</b>: corre indefinidamente y se mide el <b>equilibrio</b> de largo plazo. Acá usamos un horizonte fijo de 1200 s.</li>
       </ul>
     </div>
   </div>
@@ -566,9 +566,9 @@
       <div class="hd">★ Apoyo material estudio</div>
       <ul class="terms">
         <li><b>Disciplinas de cola</b> <span class="unit">UNIDAD III</span> — FIFO, LIFO, SIRO (azar) y <b>prioridad</b> con o sin desalojo (preemptive / non-preemptive).</li>
-        <li><b>Regla cμ</b> — atender primero a la clase con mayor producto <span class="fla">c·μ</span> minimiza el costo de espera ponderado.</li>
-        <li><b>M/G/1 — Pollaczek-Khinchine</b> — con servicio general, <span class="fla">Lq=(λ²σ²+ρ²)/(2(1−ρ))</span>: la espera crece con la <b>varianza</b> del servicio.</li>
-        <li><b>Conservación del trabajo</b> — cambiar la disciplina <b>reparte</b> la espera entre clases pero no altera la carga total.</li>
+        <li><b>Regla cμ</b> — para minimizar la espera ponderada por costo, atendé primero a la clase con mayor producto <b>costo × tasa de servicio</b> (c·μ). Justifica “atacar primero al fuerte”.</li>
+        <li><b>M/G/1 — fórmula de Pollaczek-Khinchine</b> — cola con servicio de distribución <b>general</b> (la “G”, no necesariamente exponencial). Con σ² = varianza del servicio: <span class="fla">Lq=(λ²σ²+ρ²)/(2(1−ρ))</span> → a igual media, <b>más varianza ⇒ más cola</b> y más fuga.</li>
+        <li><b>Conservación del trabajo (work-conserving)</b> — si las torres nunca están ociosas habiendo enemigos, cambiar la disciplina <b>reparte</b> la espera entre clases pero <b>no</b> altera la carga total ni la espera media global.</li>
       </ul>
     </div>
   </div>

@@ -326,27 +326,28 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <stop offset="0%" stop-color="#1a2740"/><stop offset="100%" stop-color="#22324f"/>
       </linearGradient>
       <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      <!-- ===== arte temático reutilizable (color via currentColor) ===== -->
+      <!-- ===== arte temático: SPRITES MEDIEVALES (mismos IDs; el color de estado va por
+           el glow inferior + un tinte 30% via currentColor, así sigue leyéndose frío/caliente) ===== -->
+      <filter id="td-tint" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+        <feFlood flood-color="currentColor" result="f"/>
+        <feComposite in="f" in2="SourceAlpha" operator="in" result="sil"/>
+        <feComponentTransfer in="sil" result="silt"><feFuncA type="linear" slope="0.30"/></feComponentTransfer>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="silt"/></feMerge>
+      </filter>
       <symbol id="td-tower" viewBox="0 0 64 84">
-        <ellipse cx="32" cy="77" rx="27" ry="6" fill="#0b1220" opacity=".8"/>
-        <rect x="13" y="42" width="38" height="32" rx="7" fill="#15203a" stroke="currentColor" stroke-width="2.6"/>
-        <line x1="20" y1="54" x2="44" y2="54" stroke="currentColor" stroke-width="2" opacity=".45"/>
-        <line x1="20" y1="61" x2="44" y2="61" stroke="currentColor" stroke-width="2" opacity=".45"/>
-        <rect x="9" y="22" width="46" height="26" rx="11" fill="#1d2b48" stroke="currentColor" stroke-width="2.6"/>
-        <rect x="29" y="1" width="10" height="27" rx="3.5" fill="currentColor"/>
-        <circle cx="32" cy="35" r="8" fill="currentColor"/><circle cx="32" cy="35" r="3.4" fill="#0b1220"/>
+        <ellipse cx="32" cy="73" rx="26" ry="9" fill="currentColor" opacity=".26"/>
+        <ellipse cx="32" cy="74" rx="15" ry="5" fill="#0b1220" opacity=".5"/>
+        <image href="assets/spr_tower.png" x="0" y="2" width="64" height="70" preserveAspectRatio="xMidYMax meet" style="image-rendering:pixelated" filter="url(#td-tint)"/>
       </symbol>
       <symbol id="td-creep" viewBox="0 0 48 46">
-        <path d="M5 31 q0 -24 19 -24 q19 0 19 24 v4 q-3.5 4 -6.3 0 q-3.2 5 -6.3 0 q-3.2 5 -6.3 0 q-3.2 5 -6.3 0 q-2.8 4 -6.5 0 z" fill="currentColor"/>
-        <path d="M16 10 l-3.5 -7 M32 10 l3.5 -7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-        <circle cx="12" cy="2.5" r="2.4" fill="currentColor"/><circle cx="36" cy="2.5" r="2.4" fill="currentColor"/>
-        <circle cx="18" cy="24" r="4.4" fill="#0b1220"/><circle cx="30" cy="24" r="4.4" fill="#0b1220"/>
-        <circle cx="19.3" cy="22.7" r="1.5" fill="#fff"/><circle cx="31.3" cy="22.7" r="1.5" fill="#fff"/>
+        <ellipse cx="24" cy="39" rx="13" ry="4.5" fill="currentColor" opacity=".30"/>
+        <ellipse cx="24" cy="40" rx="7" ry="2.5" fill="#0b1220" opacity=".5"/>
+        <image href="assets/spr_goblin.png" x="0" y="2" width="48" height="36" preserveAspectRatio="xMidYMax meet" style="image-rendering:pixelated" filter="url(#td-tint)"/>
       </symbol>
       <symbol id="td-base" viewBox="0 0 64 74">
-        <polygon points="32,4 56,19 56,51 32,70 8,51 8,19" fill="#10402f" stroke="currentColor" stroke-width="2.6"/>
-        <polygon points="32,15 46,25 46,45 32,57 18,45 18,25" fill="currentColor" opacity=".22"/>
-        <circle cx="32" cy="36" r="8.5" fill="currentColor"/><circle cx="32" cy="36" r="3.6" fill="#0b1220"/>
+        <ellipse cx="32" cy="64" rx="28" ry="8" fill="currentColor" opacity=".30"/>
+        <ellipse cx="32" cy="65" rx="16" ry="5" fill="#0b1220" opacity=".5"/>
+        <image href="assets/spr_castle.png" x="0" y="0" width="64" height="62" preserveAspectRatio="xMidYMax meet" style="image-rendering:pixelated" filter="url(#td-tint)"/>
       </symbol>
     </defs>
     <!-- path -->
@@ -750,23 +751,72 @@ table.t tr.hot td:last-child{color:var(--hot);}
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">FRONTEND GODOT 2D</span></div>
     <div class="cols" style="margin-top:26px;">
-      <div class="col" style="flex:1.3;justify-content:center;"><div class="shot"><img src="assets/frontend_mock.png" alt="Reproductor Godot 2D"></div>
-        <div class="cap">Reproductor 2D — torres coloreadas por temperatura, cola, fugas y HUD</div></div>
+      <div class="col" style="flex:1.3;justify-content:center;"><div class="shot"><img src="assets/game_normal.png" alt="Tower Defense medieval en Godot 2D"></div>
+        <div class="cap">Mundo medieval — cueva, torres de piedra, goblins, castillo y HUD didáctico</div></div>
       <div class="col" style="justify-content:center;">
         <div class="section-head"><span class="eyebrow">REPRODUCIR, NO CALCULAR</span><h2 style="margin-top:14px;">Godot <em>2D</em>.</h2></div>
         <ul class="feat">
-          <li>Lee <b class="mono">output.json</b> e interpola la línea de tiempo</li>
-          <li class="h">Torres <span class="cold">azul</span>→<span class="hot">rojo</span> según temperatura; gris en cooldown</li>
-          <li>Export web (HTML5/PWA) para hostear gratis</li>
+          <li>Lee <b class="mono">output.json</b> e interpola la línea de tiempo (cero cálculo)</li>
+          <li class="h">Estética <b>medieval</b>: torres de piedra, goblins, castillo y ambientación</li>
+          <li>Torres <span class="cold">azul</span>→<span class="hot">rojo</span> por temperatura; gris en cooldown</li>
+          <li>HUD <b>didáctico</b> + export web (HTML5/PWA) gratis</li>
         </ul>
-        <div class="democue"><span class="pill">▶ A CONTINUACIÓN</span><p><b>Demo en vivo</b> sobre el propio Tower Defense.</p></div>
+        <div class="democue"><span class="pill">▶ A CONTINUACIÓN</span><p>El juego, <b>bajado a tierra</b>: cada concepto, hecho visible.</p></div>
       </div>
     </div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">14</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 15 · DEMO EN VIVO ============ -->
+<!-- ============ 15 · DICCIONARIO VISUAL ============ -->
+<section class="bg-deep grid-ov" data-label="Diccionario visual">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EL JUEGO, BAJADO A TIERRA</span></div>
+    <div class="section-head" style="margin-top:26px;"><span class="eyebrow">DEL MODELO AL JUEGO</span>
+      <h2 style="margin-top:12px;">Cada concepto, <em>visible</em>.</h2></div>
+    <div class="cols">
+      <div class="col" style="flex:1.25;justify-content:center;">
+        <div class="shot"><img src="assets/game_normal.png" alt="Mapeo visual de los conceptos de colas"></div>
+        <div class="cap">El mismo modelo <b style="color:var(--ink)">(M/M/c)(FIFO/K/∞)</b> que validamos, ahora jugable</div>
+      </div>
+      <div class="col" style="justify-content:center;">
+        <ul class="feat">
+          <li><b>Cueva → goblins</b>: llegadas <span class="cold">Poisson(λ)</span>, con tiempos entre arribos exponenciales</li>
+          <li><b>Torre</b> = servidor (canal): atenderlo = dispararle y matarlo</li>
+          <li><b>Fila de goblins</b> hacia la torre = la cola <b>FIFO</b> de capacidad <b class="mono">K</b></li>
+          <li><b>Recorrido</b> del goblin hasta morir = su tiempo en el sistema</li>
+          <li class="h"><b>Goblin rojo al castillo</b> = la <span class="hot">fuga</span> (pérdida por bloqueo)</li>
+          <li><b>Temperatura</b> <span class="cold">azul</span>→<span class="hot">roja</span> + cooldown = la capacidad que se <b>degrada</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">15</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 16 · HUD DIDÁCTICO + ESCENARIOS ============ -->
+<section class="bg-battle grid-ov" data-label="HUD y escenarios">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">APRENDER JUGANDO</span></div>
+    <div class="section-head" style="margin-top:26px;"><span class="eyebrow">LA TEORÍA, EN PANTALLA</span>
+      <h2 style="margin-top:12px;">Validar y <em>explorar</em>.</h2></div>
+    <div class="cols">
+      <div class="col" style="flex:1.2;justify-content:center;">
+        <div class="shot"><img src="assets/game_saturado.png" alt="HUD didáctico: teoría vs simulación, c* y cola en el tiempo"></div>
+        <div class="cap">Carga alta (λ=0.70): torres al <span class="hot">rojo</span>, cola y fugas creciendo en vivo</div>
+      </div>
+      <div class="col" style="justify-content:center;gap:15px;">
+        <div class="card accent green" style="padding:17px 24px;"><span class="ck">VALIDACIÓN EN VIVO</span><p style="font-size:21px;">Panel <b>Teoría vs Simulación</b>: ρ, Lq, Wq, L, W y fuga, lado a lado mientras corre.</p></div>
+        <div class="card accent gold" style="padding:17px 24px;"><span class="ck">DIMENSIONADO c*</span><p style="font-size:21px;">Tabla de barrido de torres: resalta el <b class="gold">c* óptimo</b> según la carga.</p></div>
+        <div class="card accent" style="padding:17px 24px;"><span class="ck cold">ALEATORIEDAD</span><p style="font-size:21px;">Gráfico <b>cola en el tiempo</b>: los picos son las ráfagas de llegadas.</p></div>
+        <div class="democue"><span class="pill">▶ INTERACTIVO</span><p>Con el <b>selector</b> cambiás carga (λ), torres (c) y disciplina (FIFO/Prioridad) al instante.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">16</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 17 · DEMO EN VIVO ============ -->
 <section class="bg-deep grid-ov scan" data-label="Demo en vivo">
   <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:.55;">
     <path d="M -40 720 C 360 720, 420 460, 820 460 S 1240 660, 1620 520 S 1960 420, 2000 420" fill="none" stroke="#16223c" stroke-width="64" stroke-linecap="round"/>
@@ -793,10 +843,10 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">15</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">17</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 16 · CONCLUSIONES ============ -->
+<!-- ============ 18 · CONCLUSIONES ============ -->
 <section class="bg-deep grid-ov" data-label="Conclusiones">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> RESULTADOS</span><span class="meta">CONCLUSIONES Y RECOMENDACIONES</span></div>
@@ -811,10 +861,10 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="card accent"><span class="ck cold">GESTIÓN TÉRMICA</span><p style="font-size:21px;">Mejor enfriamiento recupera capacidad más barato que una torre.</p></div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">16</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">18</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 16 · CIERRE ============ -->
+<!-- ============ 19 · CIERRE ============ -->
 <section class="bg-battle grid-ov scan" data-label="Cierre">
   <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:.5;">
     <circle cx="1620" cy="300" r="200" fill="none" stroke="#3fa7ff" stroke-width="1.5" opacity=".2"/>
@@ -842,7 +892,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><span class="sn">17</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><span class="sn">19</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 </deck-stage>
