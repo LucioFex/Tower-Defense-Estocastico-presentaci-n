@@ -294,7 +294,7 @@
       <div class="hd">▾ Apoyo teórico / práctico</div>
       <p><span class="term">Variable aleatoria discreta vs. continua</span> <span class="unit">UNIDAD II</span> — discreta toma valores contables (tipo de enemigo); continua toma cualquier valor en un intervalo (temperatura, tiempos). Cada una se genera distinto.</p>
       <p><span class="term">Distribución exponencial</span> <span class="unit">UNIDAD II/III</span> — modela el <b>tiempo entre eventos</b> de un proceso sin memoria; media 1/λ (arribos) y 1/μ (servicio). Su “falta de memoria” es lo que hace markoviano al sistema.</p>
-      <p><span class="term">Variable continua del TP — temperatura</span> — evoluciona por una EDO por tramos (rampa al disparar, enfriamiento de Newton al descansar); no es aleatoria, es <b>determinística dado el historial</b> de disparos.</p>
+      <p><span class="term">Variable continua del TP — temperatura</span> — evoluciona por una ecuación diferencial por tramos: rampa al disparar y <b>decaimiento exponencial hacia la temperatura ambiente</b> al descansar (esto último es la ley de enfriamiento de Newton). No es aleatoria: es <b>determinística dado el historial</b> de disparos.</p>
       <div class="formula">Ley de Little:   L = λ · W      Lq = λ · Wq</div>
       <p><span class="term">Ley de Little</span> <span class="unit">UNIDAD III</span> — relación universal: el nº promedio de clientes en el sistema (L) es la tasa de llegadas efectiva por el tiempo promedio en el sistema (W). Se usa como control: si los números simulados la cumplen, hay consistencia interna.</p>
     </div>
@@ -319,7 +319,7 @@
         <li>Explicar el generador <b>congruencial lineal</b> y por qué “pseudo”: es determinístico pero parece aleatorio.</li>
         <li>Resaltar las propiedades buscadas: <b>uniforme, independiente, reproducible (semilla), período amplio</b>.</li>
         <li>Mostrar la <b>transformada inversa</b> de la exponencial: cómo se pasa de un R~U(0,1) a un tiempo.</li>
-        <li>Aclarar que la simulación usa Mersenne Twister + streams independientes (arribos/servicio/tipo).</li>
+        <li>Aclarar la doble capa: el apunte (U2) es el <b>congruencial</b> —implementado en <code>prng.py</code>—; la corrida usa el generador por defecto del lenguaje + <b>streams independientes</b> (arribos/servicio/tipo).</li>
       </ul>
     </div>
     <div class="theory">
@@ -330,7 +330,7 @@
       <p><span class="term">Pseudoaleatorio</span> — la sucesión es 100% determinística: misma <b>semilla ⇒ misma corrida</b>. Esto es una ventaja: hace la simulación <b>reproducible y auditable</b> (mismo <code>output.json</code>).</p>
       <p><span class="term">Método de la transformada inversa</span> <span class="unit">UNIDAD II</span> — para generar una v.a. con función de distribución F: se sortea R~U(0,1) y se despeja x = F⁻¹(R).</p>
       <div class="formula">F(x) = 1 − e^(−λx) = R   ⟹   x = −(1/λ)·ln(R)</div>
-      <p><span class="term">Mersenne Twister</span> — el PRNG estándar de Python/NumPy; período enorme (2¹⁹⁹³⁷−1). Usar <b>streams independientes</b> (uno por fuente de azar) evita correlaciones espurias.</p>
+      <p><span class="term">Generador del lenguaje (aclaración)</span> — la corrida usa el PRNG por defecto de Python/NumPy, de período muy largo (se llama <em>Mersenne Twister</em>). <b>No es del apunte</b>: lo que se ve en U2 es el <b>congruencial</b>, implementado en <code>prng.py</code>; este es solo el generador que trae el lenguaje. Usar <b>streams independientes</b> (uno por fuente de azar) evita correlaciones.</p>
     </div>
     <div class="study">
       <div class="hd">★ Apoyo material estudio</div>
@@ -468,7 +468,7 @@
       <ul class="terms">
         <li><b>Modelo de costos en colas</b> <span class="unit">UNIDAD III</span> — costo total = <b>costo de servicio</b> (crece con c) + <b>costo de espera/pérdida</b> (decrece con c).</li>
         <li><b>Óptimo interior</b> — al sumar dos costos de sentido opuesto aparece un mínimo “en el medio”: el c que minimiza CT.</li>
-        <li><b>Analogía con inventarios (EOQ)</b> <span class="unit">UNIDAD III</span> — el <b>lote económico de pedido</b>: pedir mucho encarece almacenar, pedir poco encarece los pedidos; el óptimo cae en el medio. Es el mismo <b>trade-off</b> de dos costos contrapuestos que acá define c*.</li>
+        <li><b>Costo óptimo de capacidad</b> <span class="unit">UNIDAD III</span> — objetivo central de la materia: el nivel de capacidad que <b>minimiza el costo global</b>, balanceando costo de servicio (más torres) contra costo de espera/pérdida (fugas). Dos costos contrapuestos ⇒ mínimo intermedio (c*).</li>
       </ul>
     </div>
   </div>
@@ -544,31 +544,31 @@
 
 <!-- 12 Prioridad -->
 <div class="slide m-luca">
-  <div class="bar"><div class="l"><span class="num">SLIDE 12 · WAVE 04</span><span class="ttl">Prioridad (regla cμ): reasignar, no eliminar</span></div><span class="who">Referente: Luca</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 12 · WAVE 04</span><span class="ttl">Prioridad: reasignar, no eliminar</span></div><span class="who">Referente: Luca</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
         <li>Priorizar al enemigo <b>“fuerte”</b> baja su espera de <b>4.24 → 2.15 s</b>.</li>
-        <li>El débil espera más, pero el <b>Wq total casi no cambia</b> (sistema work-conserving): se <b>reasigna</b> la espera, no se elimina.</li>
+        <li>El débil espera más, pero el <b>Wq total casi no cambia</b>: se <b>reparte</b> la espera entre clases, no se elimina (las torres nunca quedan ociosas con trabajo).</li>
         <li>Importante: la <b>fuga no cambia</b> con la prioridad — la fuga es por <b>bloqueo de capacidad</b>, no por espera.</li>
-        <li>A igual media de servicio, <b>más varianza ⇒ más fuga</b> (Pollaczek-Khinchine).</li>
+        <li>A igual media de servicio, <b>más variabilidad (varianza) ⇒ más fuga</b>.</li>
       </ul>
     </div>
     <div class="theory">
       <div class="hd">▾ Apoyo teórico / práctico</div>
       <p><span class="term">Disciplinas de cola</span> <span class="unit">UNIDAD III</span> — FIFO atiende por orden de llegada; con <b>prioridades</b> ciertas clases se atienden antes. Cambia el reparto de la espera entre clases.</p>
-      <p><span class="term">Regla cμ</span> — para minimizar la espera ponderada conviene priorizar a quien tiene mayor producto costo×tasa de servicio (cμ). Justifica “atacar primero al fuerte”.</p>
-      <p><span class="term">Principio work-conserving</span> — si los servidores nunca están ociosos habiendo trabajo, el <b>trabajo total</b> (y la espera media global) no cambia con la disciplina: sólo se redistribuye entre clases.</p>
-      <p><span class="term">Fórmula de Pollaczek-Khinchine</span> — en colas con servicio general, la espera crece con la <b>variabilidad</b> del tiempo de servicio: a igual media, mayor varianza ⇒ mayor Lq/Wq y más bloqueo.</p>
+      <p><span class="term">Prioridad por “fuerza”</span> — la disciplina no tiene por qué ser FIFO: atendiendo primero al enemigo <b>fuerte</b> (el que tarda más en morir) baja su espera. Es una <b>disciplina con prioridad</b>, tema de U3.</p>
+      <p><span class="term">La espera total no cambia, se reparte</span> — como las torres nunca quedan ociosas habiendo enemigos, el <b>tiempo de espera total</b> no cambia con la disciplina: al fuerte le sacamos espera y al débil se la sumamos. Sólo cambia <b>quién</b> espera.</p>
+      <p><span class="term">Variabilidad del servicio</span> — a <b>igual media</b> de servicio, cuanta más <b>varianza</b> (tiempos más dispares), mayor la cola (Lq/Wq) y más bloqueo. Por eso los “tipos de enemigo” con la misma media rinden distinto.</p>
       <p class="note"><b>Distinción fina a remarcar:</b> espera y fuga son cosas distintas — la prioridad mueve la <b>espera</b>; la fuga sólo baja con más <b>capacidad</b> (K o c).</p>
     </div>
     <div class="study">
       <div class="hd">★ Apoyo material estudio</div>
       <ul class="terms">
-        <li><b>Disciplinas de cola</b> <span class="unit">UNIDAD III</span> — FIFO, LIFO, SIRO (azar) y <b>prioridad</b> con o sin desalojo (preemptive / non-preemptive).</li>
-        <li><b>Regla cμ</b> — para minimizar la espera ponderada por costo, atendé primero a la clase con mayor producto <b>costo × tasa de servicio</b> (c·μ). Justifica “atacar primero al fuerte”.</li>
-        <li><b>M/G/1 — fórmula de Pollaczek-Khinchine</b> — cola con servicio de distribución <b>general</b> (la “G”, no necesariamente exponencial). Con σ² = varianza del servicio: <span class="fla">Lq=(λ²σ²+ρ²)/(2(1−ρ))</span> → a igual media, <b>más varianza ⇒ más cola</b> y más fuga.</li>
-        <li><b>Conservación del trabajo (work-conserving)</b> — si las torres nunca están ociosas habiendo enemigos, cambiar la disciplina <b>reparte</b> la espera entre clases pero <b>no</b> altera la carga total ni la espera media global.</li>
+        <li><b>Disciplinas de cola</b> <span class="unit">UNIDAD III</span> — además de <b>FIFO</b> (orden de llegada) y <b>LIFO</b>, está la atención por <b>prioridad</b> (con o sin desalojo del que ya está en servicio).</li>
+        <li><b>Prioridad al «fuerte»</b> — en vez de FIFO, atender primero a la clase que más tarda baja su espera. Es elegir la <b>disciplina</b> de la cola, no cambiar la capacidad.</li>
+        <li><b>Efecto de la varianza del servicio</b> — a <b>igual media</b>, cuanta más <b>varianza</b> (σ²) en el tiempo de servicio, mayor la cola y más fuga. Es la intuición detrás de los “tipos de enemigo”.</li>
+        <li><b>La espera total se reparte, no cambia</b> — como las torres nunca quedan ociosas con enemigos esperando, cambiar el orden de atención <b>reparte</b> la espera entre clases pero no altera la espera media global.</li>
       </ul>
     </div>
   </div>

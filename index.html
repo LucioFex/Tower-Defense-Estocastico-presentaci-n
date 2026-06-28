@@ -541,7 +541,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="col"><div class="card accent" style="flex:1;"><span class="ck">ALEATORIAS</span>
         <ul class="feat"><li>Tiempo entre arribos ~ <b class="mono">Exp(λ)</b></li><li>Tiempo de servicio ~ <b class="mono">Exp(μ)</b></li><li>(ext.) tipo de enemigo — discreta</li></ul></div></div>
       <div class="col"><div class="card accent hot" style="flex:1;"><span class="ck">CONTINUA — TEMPERATURA</span>
-        <ul class="feat"><li class="h">Cada torre se <b>calienta</b> al disparar (rampa)</li><li class="h">y se <b>enfría</b> al descansar (ley de Newton)</li><li class="h">Es el <b>elemento del juego</b> y la variable continua del TP</li></ul>
+        <ul class="feat"><li class="h">Cada torre se <b>calienta</b> al disparar (rampa)</li><li class="h">y se <b>enfría</b> al descansar (decaimiento exponencial hacia la ambiente)</li><li class="h">Es el <b>elemento del juego</b> y la variable continua del TP</li></ul>
         <svg viewBox="0 0 340 88" style="width:100%;margin-top:16px;" aria-hidden="true">
           <defs><linearGradient id="heatG" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#3FA7FF"/><stop offset="55%" stop-color="#FFC34D"/><stop offset="100%" stop-color="#FF5A36"/></linearGradient></defs>
@@ -581,7 +581,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <ul class="feat">
           <li>Generador <b>congruencial</b>: <span class="mono">X₍ᵢ₊₁₎=(a·Xᵢ+C) mod m</span></li>
           <li>Uniforme · independiente · <b>reproducible</b> (semilla) · período amplio</li>
-          <li>La simulación usa <b>Mersenne Twister</b> + transformada inversa</li>
+          <li>El backend implementa el <b>congruencial</b>; la corrida usa el generador por defecto del lenguaje (período muy largo) + transformada inversa</li>
           <li><b>Streams independientes</b>: arribos / servicio / tipo → números aleatorios comunes</li>
         </ul>
       </div>
@@ -760,22 +760,21 @@ table.t tr.hot td:last-child{color:var(--hot);}
 <!-- ============ 12 · EXPERIMENTOS II · PRIORIDAD ============ -->
 <section class="bg-deep grid-ov" data-label="Prioridad">
   <div class="frame">
-    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EXPERIMENTOS · PRIORIDAD (REGLA cμ)</span></div>
+    <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EXPERIMENTOS · DISCIPLINA CON PRIORIDAD</span></div>
     <div class="cols" style="margin-top:28px;">
       <div class="col" style="flex:1.1;justify-content:center;"><div class="shot"><img src="assets/dark/prioridad.png" alt="Espera por clase FIFO vs prioridad"></div>
         <div class="cap">Espera por clase: FIFO vs. prioridad al enemigo «fuerte»</div></div>
       <div class="col" style="justify-content:center;">
         <div class="section-head"><span class="eyebrow">ATACAR PRIMERO AL FUERTE</span><h2 style="margin-top:14px;font-size:50px;">Reasignar,<br>no <em>eliminar</em>.</h2></div>
         <div class="stat pur" style="max-width:420px;"><span class="big" style="color:var(--purple)">4.24 → 2.15 s</span><span class="lbl">espera del enemigo fuerte (con prioridad)</span></div>
-        <ul class="feat"><li>El débil espera más; el <b>Wq total casi no cambia</b> (work-conserving)</li><li class="h">La <b>fuga no cambia</b>: es por bloqueo de capacidad, no por espera</li><li>Tipos de enemigo: a igual media, <b>más varianza ⇒ más fuga</b> (Pollaczek-Khinchine)</li></ul>
+        <ul class="feat"><li>El débil espera más; el <b>Wq total casi no cambia</b>: la espera se <b>reparte</b>, no se elimina</li><li class="h">La <b>fuga no cambia</b>: es por bloqueo de capacidad, no por espera</li><li>Tipos de enemigo: a igual media de servicio, <b>más variabilidad ⇒ más fuga</b></li></ul>
       </div>
     </div>
     <div class="symkey"><span class="skt">SÍMBOLOS</span>
-      <span class="sk"><b>cμ</b> costo × tasa de servicio (regla: atender primero al de mayor cμ)</span>
+      <span class="sk"><b>prioridad</b> disciplina de cola: se atiende primero al enemigo «fuerte», no por orden de llegada</span>
       <span class="sk"><b>Wq</b> espera media en cola</span>
-      <span class="sk"><b>σ²</b> varianza del tiempo de servicio</span>
-      <span class="sk"><b>work-conserving</b> servidores nunca ociosos habiendo trabajo</span>
-      <span class="sk"><b>Pollaczek-Khinchine</b> a igual media, más <b>σ²</b> ⇒ más cola/fuga</span></div>
+      <span class="sk"><b>σ² (varianza)</b> cuánto varía el tiempo de servicio alrededor de su media</span>
+      <span class="sk"><b>se reparte la espera</b> la espera total no cambia; solo cambia quién espera (las torres nunca quedan ociosas con trabajo)</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">12</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
