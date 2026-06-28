@@ -181,6 +181,28 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <stop offset="0%" stop-color="#1a2740"/><stop offset="100%" stop-color="#22324f"/>
       </linearGradient>
       <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <!-- ===== arte temático reutilizable (color via currentColor) ===== -->
+      <symbol id="td-tower" viewBox="0 0 64 84">
+        <ellipse cx="32" cy="77" rx="27" ry="6" fill="#0b1220" opacity=".8"/>
+        <rect x="13" y="42" width="38" height="32" rx="7" fill="#15203a" stroke="currentColor" stroke-width="2.6"/>
+        <line x1="20" y1="54" x2="44" y2="54" stroke="currentColor" stroke-width="2" opacity=".45"/>
+        <line x1="20" y1="61" x2="44" y2="61" stroke="currentColor" stroke-width="2" opacity=".45"/>
+        <rect x="9" y="22" width="46" height="26" rx="11" fill="#1d2b48" stroke="currentColor" stroke-width="2.6"/>
+        <rect x="29" y="1" width="10" height="27" rx="3.5" fill="currentColor"/>
+        <circle cx="32" cy="35" r="8" fill="currentColor"/><circle cx="32" cy="35" r="3.4" fill="#0b1220"/>
+      </symbol>
+      <symbol id="td-creep" viewBox="0 0 48 46">
+        <path d="M5 31 q0 -24 19 -24 q19 0 19 24 v4 q-3.5 4 -6.3 0 q-3.2 5 -6.3 0 q-3.2 5 -6.3 0 q-3.2 5 -6.3 0 q-2.8 4 -6.5 0 z" fill="currentColor"/>
+        <path d="M16 10 l-3.5 -7 M32 10 l3.5 -7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="12" cy="2.5" r="2.4" fill="currentColor"/><circle cx="36" cy="2.5" r="2.4" fill="currentColor"/>
+        <circle cx="18" cy="24" r="4.4" fill="#0b1220"/><circle cx="30" cy="24" r="4.4" fill="#0b1220"/>
+        <circle cx="19.3" cy="22.7" r="1.5" fill="#fff"/><circle cx="31.3" cy="22.7" r="1.5" fill="#fff"/>
+      </symbol>
+      <symbol id="td-base" viewBox="0 0 64 74">
+        <polygon points="32,4 56,19 56,51 32,70 8,51 8,19" fill="#10402f" stroke="currentColor" stroke-width="2.6"/>
+        <polygon points="32,15 46,25 46,45 32,57 18,45 18,25" fill="currentColor" opacity=".22"/>
+        <circle cx="32" cy="36" r="8.5" fill="currentColor"/><circle cx="32" cy="36" r="3.6" fill="#0b1220"/>
+      </symbol>
     </defs>
     <!-- path -->
     <path d="M -40 760 C 360 760, 380 420, 760 420 S 1180 700, 1500 560 S 1900 360, 2000 360"
@@ -196,19 +218,19 @@ table.t tr.hot td:last-child{color:var(--hot);}
     <circle cx="1500" cy="560" r="170" fill="none" stroke="#7e8aa6" stroke-width="1.5" opacity=".16"/>
     <!-- towers -->
     <g filter="url(#glow)">
-      <rect x="726" y="386" width="68" height="68" rx="14" fill="#1d2b48" stroke="#3fa7ff" stroke-width="3"/>
-      <rect x="1146" y="552" width="68" height="68" rx="14" fill="#3a1f1f" stroke="#ff5a36" stroke-width="3"/>
-      <rect x="1466" y="526" width="68" height="68" rx="14" fill="#222a3c" stroke="#5b6680" stroke-width="3"/>
+      <use href="#td-tower" x="726" y="368" width="68" height="89" style="color:#3FA7FF"/>
+      <use href="#td-tower" x="1146" y="520" width="68" height="89" style="color:#FF5A36"/>
+      <use href="#td-tower" x="1466" y="494" width="68" height="89" style="color:#5B6680"/>
     </g>
-    <!-- creeps -->
+    <!-- creeps (bichitos) -->
     <g>
-      <rect x="250" y="690" width="34" height="34" rx="9" fill="#e0a100"/>
-      <rect x="430" y="556" width="34" height="34" rx="9" fill="#e0a100"/>
-      <rect x="980" y="520" width="34" height="34" rx="9" fill="#e0a100"/>
-      <rect x="1330" y="560" width="34" height="34" rx="9" fill="#e0381f"/>
+      <use href="#td-creep" x="246" y="684" width="46" height="44" style="color:#FFC34D"/>
+      <use href="#td-creep" x="426" y="550" width="46" height="44" style="color:#FFC34D"/>
+      <use href="#td-creep" x="976" y="514" width="46" height="44" style="color:#FFC34D"/>
+      <use href="#td-creep" x="1326" y="554" width="46" height="44" style="color:#FF5A36"/>
     </g>
     <!-- base core -->
-    <g filter="url(#glow)"><rect x="1812" y="312" width="96" height="96" rx="14" transform="rotate(45 1860 360)" fill="#179e74" stroke="#38d39f" stroke-width="3"/></g>
+    <g filter="url(#glow)"><use href="#td-base" x="1806" y="300" width="104" height="120" style="color:#38D39F"/></g>
   </svg>
   <div class="hero-scrim"></div>
   <div class="frame">
@@ -230,7 +252,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="members">
         <div class="member"><img class="av" src="assets/photos/luciano.jpg" alt="Luciano Esteban"><div class="nm">Luciano Esteban</div></div>
         <div class="member"><img class="av" src="assets/photos/thaiel.jpg" alt="Thaiel Anaya"><div class="nm">Thaiel Anaya</div></div>
-        <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson<small>«Tincho»</small></div></div>
+        <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson</div></div>
         <div class="member"><img class="av" src="assets/photos/luca.jpg" alt="Luca Sucri"><div class="nm">Luca Sucri</div></div>
       </div>
     </div>
@@ -275,24 +297,31 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="col" style="flex:1;justify-content:center;">
         <div class="card" style="padding:40px 34px;">
           <span class="ck">VISTA DEL SISTEMA</span>
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-            <div style="text-align:center;"><div class="creep" style="width:42px;height:42px;margin:0 auto 12px;"></div><div class="muted" style="font-size:17px;">spawn</div></div>
-            <div class="ar mono" style="color:var(--faint);font-size:30px;">→</div>
-            <div style="display:flex;flex-direction:column;gap:14px;align-items:center;">
-              <div style="display:flex;gap:10px;"><span class="creep"></span><span class="creep"></span><span class="creep"></span></div>
-              <div class="muted mono" style="font-size:16px;">cola (FIFO)</div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:10px;">
+            <div style="text-align:center;"><svg viewBox="0 0 48 46" style="width:46px;height:44px;color:#FFC34D"><use href="#td-creep"/></svg><div class="muted" style="font-size:17px;margin-top:8px;">spawn</div></div>
+            <div class="ar mono" style="color:var(--faint);font-size:30px;padding-bottom:24px;">→</div>
+            <div style="text-align:center;">
+              <div style="display:flex;gap:8px;justify-content:center;">
+                <svg viewBox="0 0 48 46" style="width:34px;height:33px;color:#FFC34D"><use href="#td-creep"/></svg>
+                <svg viewBox="0 0 48 46" style="width:34px;height:33px;color:#FFC34D"><use href="#td-creep"/></svg>
+                <svg viewBox="0 0 48 46" style="width:34px;height:33px;color:#FFC34D"><use href="#td-creep"/></svg></div>
+              <div class="muted mono" style="font-size:16px;margin-top:10px;">cola · FIFO</div>
             </div>
-            <div style="display:flex;gap:18px;">
-              <div class="tower">0</div><div class="tower hot">1</div><div class="tower cool">2</div>
+            <div style="text-align:center;">
+              <div style="display:flex;gap:14px;justify-content:center;align-items:flex-end;">
+                <svg viewBox="0 0 64 84" style="width:50px;height:66px;color:#3FA7FF"><use href="#td-tower"/></svg>
+                <svg viewBox="0 0 64 84" style="width:50px;height:66px;color:#FF5A36"><use href="#td-tower"/></svg>
+                <svg viewBox="0 0 64 84" style="width:50px;height:66px;color:#5B6680"><use href="#td-tower"/></svg></div>
+              <div class="muted mono" style="font-size:16px;margin-top:6px;">c torres · μ</div>
             </div>
-            <div class="ar mono" style="color:var(--faint);font-size:30px;">→</div>
-            <div style="text-align:center;"><div class="core" style="width:70px;height:70px;margin:0 auto 18px;"></div><div class="muted" style="font-size:17px;">base</div></div>
+            <div class="ar mono" style="color:var(--faint);font-size:30px;padding-bottom:24px;">→</div>
+            <div style="text-align:center;"><svg viewBox="0 0 64 74" style="width:62px;height:72px;color:#38D39F"><use href="#td-base"/></svg><div class="muted" style="font-size:17px;margin-top:6px;">base</div></div>
           </div>
-          <div class="legend" style="margin-top:28px;justify-content:center;">
-            <span class="li"><span class="creep" style="width:18px;height:18px;"></span> enemigo</span>
-            <span class="li"><span style="width:18px;height:18px;border-radius:5px;border:2px solid var(--cold);display:inline-block;"></span> torre fría</span>
-            <span class="li"><span style="width:18px;height:18px;border-radius:5px;border:2px solid var(--hot);display:inline-block;"></span> caliente</span>
-            <span class="li"><span style="width:18px;height:18px;border-radius:5px;border:2px solid #5b6680;display:inline-block;"></span> cooldown</span>
+          <div class="legend" style="margin-top:30px;justify-content:center;">
+            <span class="li"><svg viewBox="0 0 48 46" style="width:24px;height:23px;color:#FFC34D"><use href="#td-creep"/></svg> enemigo</span>
+            <span class="li"><svg viewBox="0 0 64 84" style="width:19px;height:25px;color:#3FA7FF"><use href="#td-tower"/></svg> torre fría</span>
+            <span class="li"><svg viewBox="0 0 64 84" style="width:19px;height:25px;color:#FF5A36"><use href="#td-tower"/></svg> caliente</span>
+            <span class="li"><svg viewBox="0 0 64 84" style="width:19px;height:25px;color:#5B6680"><use href="#td-tower"/></svg> cooldown</span>
           </div>
         </div>
       </div>
@@ -634,7 +663,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="members" style="margin-top:40px;">
         <div class="member"><img class="av" src="assets/photos/luciano.jpg" alt="Luciano Esteban"><div class="nm">Luciano Esteban</div></div>
         <div class="member"><img class="av" src="assets/photos/thaiel.jpg" alt="Thaiel Anaya"><div class="nm">Thaiel Anaya</div></div>
-        <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson <small>«Tincho»</small></div></div>
+        <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson</div></div>
         <div class="member"><img class="av" src="assets/photos/luca.jpg" alt="Luca Sucri"><div class="nm">Luca Sucri</div></div>
       </div>
     </div>
