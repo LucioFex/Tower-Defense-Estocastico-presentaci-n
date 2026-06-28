@@ -49,8 +49,13 @@ section{position:relative;overflow:hidden;font-family:var(--sans);color:var(--in
 .hud .tag .pip{width:12px;height:12px;background:var(--hot);box-shadow:0 0 14px var(--hot);}
 .hud .meta{color:var(--mut);}
 .foot{position:absolute;left:110px;right:110px;bottom:46px;display:flex;justify-content:space-between;
-  font-family:var(--mono);font-size:17px;color:var(--faint);letter-spacing:.02em;z-index:5;}
+  align-items:center;font-family:var(--mono);font-size:17px;color:var(--faint);letter-spacing:.02em;z-index:5;}
 .foot b{color:var(--mut);font-weight:600;}
+/* identificador sutil: nº de slide + foto del responsable, a la izquierda del footer */
+.foot .fl{display:flex;align-items:center;gap:11px;}
+.foot .pf{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:none;
+  border:1.5px solid rgba(255,255,255,.30);box-shadow:0 0 10px rgba(0,0,0,.3);}
+.foot .sn{color:var(--mut);font-weight:700;letter-spacing:.10em;opacity:.9;}
 
 /* ===== type ===== */
 .eyebrow{font-family:var(--pixel);font-size:14px;color:var(--gold);letter-spacing:.04em;}
@@ -279,7 +284,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">01</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 02 · MAPA / RECORRIDO ============ -->
@@ -298,7 +303,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
     </div>
     <p class="lead" style="margin-top:28px;">Presentación descontracturada — intervenimos cuando haga falta. Al final, <span class="gold">demo en vivo</span> sobre el propio Tower Defense.</p>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">02</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 03 · EL PROBLEMA ============ -->
@@ -349,7 +354,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">03</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 04 · MAPEO A COLAS ============ -->
@@ -387,7 +392,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">04</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 05 · VARIABLES ============ -->
@@ -420,7 +425,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <p style="font-size:24px;">Ley de Little como control de consistencia: <span class="mono cold" style="font-weight:700;">L = λ·W</span> &nbsp;y&nbsp; <span class="mono cold" style="font-weight:700;">Lq = λ·Wq</span></p>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">05</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 06 · ALEATORIEDAD ============ -->
@@ -461,7 +466,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">06</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 07 · MOTOR SIMPY ============ -->
@@ -488,7 +493,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">07</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 08 · VALIDACIÓN ============ -->
@@ -515,7 +520,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">08</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 09 · RENDIMIENTO MARGINAL ============ -->
@@ -535,7 +540,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">09</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 10 · ÓPTIMO ECONÓMICO ============ -->
@@ -557,7 +562,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">10</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 11 · EXPERIMENTOS I ============ -->
@@ -574,7 +579,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
     </div>
     <div class="democue" style="margin-top:22px;padding:20px 30px;"><span class="pill">▶ EN LA DEMO</span><p style="font-size:23px;"><b>Dimensionar al pico, no al promedio.</b> Lanzamos una <b>oleada</b> en vivo y vemos la cola saturarse y la base caer si faltan torres.</p></div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">11</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 12 · EXPERIMENTOS II · PRIORIDAD ============ -->
@@ -591,7 +596,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">12</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 13 · ARQUITECTURA ============ -->
@@ -619,7 +624,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <li>Documentación como <b>LLM-Wiki</b>: schema, índice, log, fuentes integradas y síntesis evolutiva</li>
     </ul>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">13</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 14 · FRONTEND ============ -->
@@ -640,7 +645,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">14</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 15 · DEMO EN VIVO ============ -->
@@ -670,7 +675,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">15</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 16 · CONCLUSIONES ============ -->
@@ -688,7 +693,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <div class="card accent"><span class="ck cold">GESTIÓN TÉRMICA</span><p style="font-size:21px;">Mejor enfriamiento recupera capacidad más barato que una torre.</p></div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">16</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 <!-- ============ 16 · CIERRE ============ -->
@@ -719,7 +724,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
       </div>
     </div>
   </div>
-  <div class="foot"><span><b>Ing. en Informática</b> · UCEMA</span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">17</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 </deck-stage>
