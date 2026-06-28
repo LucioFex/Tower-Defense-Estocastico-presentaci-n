@@ -129,6 +129,14 @@ table.t tr.hot td:last-child{color:var(--hot);}
   margin-right:8px;white-space:nowrap;}
 .symkey .src b{color:var(--cold2);font-family:var(--mono);font-weight:700;}
 .symkey .src em{font-style:normal;color:var(--green);font-family:var(--mono);}
+/* "ruta del dato": pipeline de dónde sale cada número (slide arquitectura) */
+.dataroute{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;
+  background:rgba(56,211,159,.07);border:1px solid var(--line2);border-radius:14px;padding:16px 22px;}
+.dataroute .drl{font-family:var(--pixel);font-size:11px;color:var(--green);letter-spacing:.05em;align-self:center;margin-right:8px;white-space:nowrap;}
+.dataroute .step{display:flex;flex-direction:column;justify-content:center;gap:3px;}
+.dataroute .step b{font-size:21px;color:#fff;font-weight:700;}
+.dataroute .step small{font-family:var(--mono);font-size:14.5px;color:var(--mut);}
+.dataroute .dra{align-self:center;color:var(--green);font-size:24px;font-weight:700;}
 
 /* ===== TD game art (CSS) ===== */
 .tower{position:relative;width:84px;height:84px;border-radius:16px;flex:none;
@@ -652,7 +660,8 @@ table.t tr.hot td:last-child{color:var(--hot);}
       <span class="sk"><b>markoviano</b> sin memoria: llegadas Poisson y servicio exponencial</span>
       <span class="sk"><b>cooldown</b> torre sobrecalentada que deja de atender (baja la capacidad efectiva)</span>
       <span class="sk"><b>cota</b> límite optimista de la fórmula; la simulación capta el efecto real</span>
-      <span class="sk"><b>FEL</b> lista de eventos futuros (el reloj salta de evento a evento)</span></div>
+      <span class="sk"><b>FEL</b> lista de eventos futuros (el reloj salta de evento a evento)</span>
+      <span class="src"><span class="dl">FUENTE DE DATOS</span>la figura es la temperatura de las 3 torres en la <b>corrida base</b> (seed 42): sube al disparar, baja al descansar. Sale de las muestras (<em>samples</em>) de la corrida.</span></div>
   </div>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">07</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
@@ -811,6 +820,14 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#FFC34D" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1"/><circle cx="18" cy="14" r="1"/></svg>
         <span class="ck">FRONTEND · GODOT</span><p style="font-size:21px;">Lee el JSON e interpola en 2D. <b>Cero cálculo.</b></p></div>
     </div>
+    <div class="dataroute" style="margin-bottom:22px;"><span class="drl">RUTA DEL DATO</span>
+      <span class="step"><b>Escenario</b><small>λ μ c K · seed</small></span>
+      <span class="dra">→</span>
+      <span class="step"><b>SimPy corre</b><small>eventos discretos</small></span>
+      <span class="dra">→</span>
+      <span class="step"><b>output.json</b><small>contrato v1.0</small></span>
+      <span class="dra">→</span>
+      <span class="step"><b>Deck + Juego</b><small>solo muestran</small></span></div>
     <ul class="feat">
       <li>Python hace toda la matemática <b>offline</b>; Godot solo reproduce → corre en Ubuntu de bajos recursos</li>
       <li>El <b class="mono">output.json</b> v1.0 es el único punto de acoplamiento — <b>auto-auditado</b> (8 invariantes)</li>
