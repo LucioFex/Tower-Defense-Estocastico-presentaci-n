@@ -145,6 +145,18 @@ table.t tr.hot td:last-child{color:var(--hot);}
 .member:nth-child(2) .av{border-color:var(--green);color:#9af0d0;}
 .member:nth-child(3) .av{border-color:var(--gold);color:#ffe6a8;}
 .member:nth-child(4) .av{border-color:var(--hot);color:#ffc3b3;}
+/* Cierre (slide final): fotos y nombres más grandes */
+section[data-label="Cierre"] .members{gap:64px;padding-top:40px;}
+section[data-label="Cierre"] .member{gap:22px;}
+section[data-label="Cierre"] .member .av{width:120px;height:120px;border-width:3px;font-size:34px;box-shadow:0 0 26px rgba(63,167,255,.3);}
+section[data-label="Cierre"] .member .nm{font-size:30px;}
+section[data-label="Cierre"] .member .nm small{font-size:20px;}
+/* Cierre: fotos y nombres más grandes solo en la slide final */
+.members--big{gap:56px;}
+.members--big .member{gap:22px;}
+.members--big .member .av{width:128px;height:128px;border-width:3px;font-size:36px;box-shadow:0 0 26px rgba(63,167,255,.3);}
+.members--big .member .nm{font-size:32px;}
+.members--big .member .nm small{font-size:20px;}
 
 .demo-badge{display:inline-flex;align-items:center;gap:12px;font-family:var(--pixel);font-size:13px;
   color:#0a0e1a;background:var(--gold);border-radius:8px;padding:11px 16px;box-shadow:0 0 24px rgba(255,195,77,.5);}
@@ -705,7 +717,7 @@ table.t tr.hot td:last-child{color:var(--hot);}
         <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-front</span>
         <span class="repo">github.com/LucioFex/Tower-Defense-Estocastico-presentaci-n</span>
       </div>
-      <div class="members" style="margin-top:40px;">
+      <div class="members members--big" style="margin-top:40px;">
         <div class="member"><img class="av" src="assets/photos/luciano.jpg" alt="Luciano Esteban"><div class="nm">Luciano Esteban</div></div>
         <div class="member"><img class="av" src="assets/photos/thaiel.jpg" alt="Thaiel Anaya"><div class="nm">Thaiel Anaya</div></div>
         <div class="member"><img class="av" src="assets/photos/martin.jpg" alt="Martín Blasson"><div class="nm">Martín Blasson</div></div>
