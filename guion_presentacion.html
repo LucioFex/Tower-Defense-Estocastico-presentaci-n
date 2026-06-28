@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Guion de presentación — Tower Defense Estocástico</title>
+<style>
+  :root{
+    --ink:#1b2230; --soft:#52607a; --faint:#8a96ad; --line:#e3e8f0; --bg:#ffffff;
+    --luciano:#2563eb; --thaiel:#0f9d58; --martin:#c08a00; --luca:#e2533a;
+    --cold:#2563eb; --green:#0f9d58; --gold:#c08a00; --hot:#e2533a; --purple:#7c4dff;
+    --mono:'Consolas','SF Mono','JetBrains Mono',monospace;
+    --sans:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:13.5px;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .page{padding:0 6mm;}
+  h1,h2,h3,h4{margin:0;line-height:1.18;}
+  .mono{font-family:var(--mono);}
+  code{font-family:var(--mono);background:#f1f4f9;padding:1px 5px;border-radius:4px;font-size:.92em;color:#23324d;}
+  em{color:var(--cold);font-style:normal;font-weight:600;}
+
+  /* ---------- Cover ---------- */
+  .cover{height:268mm;display:flex;flex-direction:column;justify-content:center;padding:0 8mm;page-break-after:always;}
+  .cover .kick{font-family:var(--mono);letter-spacing:.22em;font-size:12px;color:var(--soft);text-transform:uppercase;}
+  .cover h1{font-size:44px;margin-top:14px;letter-spacing:-.5px;}
+  .cover h1 span{color:var(--cold);}
+  .cover .sub{font-size:17px;color:var(--soft);margin-top:18px;max-width:150mm;}
+  .cover .meta{margin-top:30px;font-size:13px;color:var(--faint);font-family:var(--mono);}
+  .legend-cover{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;}
+  .legend-cover .lc{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-size:13px;}
+  .legend-cover .dot{width:13px;height:13px;border-radius:50%;flex:none;}
+  .legend-cover b{font-weight:700;}
+  .legend-cover small{color:var(--faint);font-family:var(--mono);}
+
+  /* ---------- Member divider ---------- */
+  .member-div{page-break-before:always;padding:14mm 8mm 0;}
+  .member-div .tag{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase;}
+  .member-div h2{font-size:34px;margin-top:10px;display:flex;align-items:center;gap:16px;}
+  .member-div .chip{width:18px;height:46px;border-radius:6px;display:inline-block;}
+  .member-div .scope{margin-top:12px;font-size:14px;color:var(--soft);}
+  .member-div .scope b{color:var(--ink);}
+  .member-div .rule{height:3px;border-radius:3px;margin-top:16px;}
+
+  /* ---------- Slide card ---------- */
+  .slide{border:1px solid var(--line);border-radius:14px;margin:8mm 8mm 0;overflow:hidden;
+    page-break-inside:avoid;break-inside:avoid;box-shadow:0 1px 0 rgba(20,30,60,.03);}
+  .slide .bar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;color:#fff;}
+  .slide .bar .l{display:flex;align-items:baseline;gap:12px;}
+  .slide .bar .num{font-family:var(--mono);font-size:12px;opacity:.85;letter-spacing:.1em;}
+  .slide .bar .ttl{font-size:18px;font-weight:700;}
+  .slide .bar .who{font-size:12px;font-family:var(--mono);background:rgba(255,255,255,.22);
+    padding:5px 11px;border-radius:20px;white-space:nowrap;}
+  .slide .body{padding:14px 20px 18px;}
+
+  .blk{margin-top:4px;}
+  .blk + .blk{margin-top:14px;}
+  .blk .hd{display:flex;align-items:center;gap:8px;font-size:11px;font-family:var(--mono);
+    letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin-bottom:7px;}
+  .blk .hd .ic{width:15px;height:15px;flex:none;}
+  .say ul{margin:0;padding-left:20px;}
+  .say li{margin:4px 0;}
+  .say li b{color:var(--ink);}
+
+  .theory{background:#f7f9fc;border:1px solid #eaeef5;border-radius:10px;padding:12px 16px;margin-top:14px;}
+  .theory .hd{color:#39517d;}
+  .theory p{margin:6px 0;}
+  .theory .term{font-weight:700;color:var(--ink);}
+  .theory .unit{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    background:#e7edf7;color:#33548c;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:1px;}
+  .formula{font-family:var(--mono);background:#eef2f8;border-left:3px solid var(--cold);
+    padding:7px 12px;border-radius:0 6px 6px 0;margin:7px 0;font-size:13px;color:#1c2c4a;}
+  .keyvals{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;}
+  .kv{font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);border-radius:7px;padding:4px 9px;color:var(--soft);}
+  .kv b{color:var(--ink);}
+  .note{font-size:12px;color:var(--soft);margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;}
+  .note b{color:var(--hot);}
+
+  /* ---------- Apoyo material estudio ---------- */
+  .study{background:#fbf8ff;border:1px solid #ece1fb;border-left:3px solid var(--purple);
+    border-radius:10px;padding:11px 16px;margin-top:10px;}
+  .study .hd{color:#5b3da8;}
+  .study ul.terms{margin:3px 0 0;padding-left:18px;}
+  .study ul.terms li{margin:5px 0;}
+  .study ul.terms li b{color:var(--ink);font-weight:700;}
+  .study .unit{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.07em;
+    background:#efe7fb;color:#5b3da8;padding:1px 7px;border-radius:20px;margin-left:4px;vertical-align:1px;}
+  .study .fla{font-family:var(--mono);font-size:11.5px;color:#3a2b66;background:#f1ebfb;
+    padding:1px 6px;border-radius:4px;}
+
+  /* color theming per member via .m-* on .slide */
+  .m-luciano .bar{background:linear-gradient(90deg,#2563eb,#1e4fd0);}
+  .m-thaiel  .bar{background:linear-gradient(90deg,#0f9d58,#0c7d47);}
+  .m-martin  .bar{background:linear-gradient(90deg,#c08a00,#9a6f00);}
+  .m-luca    .bar{background:linear-gradient(90deg,#e2533a,#c23f29);}
+
+  @page{size:A4;margin:11mm 0 13mm;}
+  @media print{.slide{box-shadow:none;}}
+  .pgfoot{position:fixed;bottom:5mm;left:0;right:0;text-align:center;font-size:10px;color:var(--faint);font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<!-- ============================ COVER ============================ -->
+<section class="cover">
+  <div class="kick">Documento de apoyo · para presentar con seguridad</div>
+  <h1>Tower Defense <span>Estocástico</span><br>Guion por integrante</h1>
+  <p class="sub">Para cada slide: su <b>referente/lead</b>, los <b>puntos a mencionar</b>, un
+  <b>apoyo teórico/práctico</b> sobre los conceptos usados en esa diapositiva, y un
+  <b>“Apoyo material estudio”</b> con los conceptos clave de la materia
+  (Unidad&nbsp;I — simulación y modelos · Unidad&nbsp;II — números pseudoaleatorios · Unidad&nbsp;III — teoría de colas).</p>
+  <div class="legend-cover">
+    <span class="lc"><span class="dot" style="background:var(--luciano)"></span><b>Luciano Esteban</b>&nbsp;<small>01·02·03·04·17</small></span>
+    <span class="lc"><span class="dot" style="background:var(--thaiel)"></span><b>Thaiel Anaya</b>&nbsp;<small>05·06·07</small></span>
+    <span class="lc"><span class="dot" style="background:var(--martin)"></span><b>Martín Blasson</b>&nbsp;<small>08·09·10·16</small></span>
+    <span class="lc"><span class="dot" style="background:var(--luca)"></span><b>Luca Sucri</b>&nbsp;<small>11·12·13·14·15</small></span>
+  </div>
+  <p class="sub" style="margin-top:18px;font-size:14px;"><b>Presentación en equipo:</b> la charla es colaborativa — todos intervenimos cuando haga falta. El <b>referente/lead</b> de cada slide (marcado abajo) es quien la conduce, no el único que habla. El <b>cierre (slide 17) lo hace Luciano</b>.</p>
+  <div class="meta">Ing. en Informática · UCEMA · Prof. Sergio Sirotinsky &nbsp;|&nbsp; Simulación de Sistemas &nbsp;|&nbsp; Modelo (M/M/c)(FIFO/K/∞) · λ=0.40 · μ=0.25 · c=3 · K=10</div>
+</section>
+
+
+<!-- ============================ LUCIANO ============================ -->
+<section class="member-div">
+  <div class="tag">Integrante 1 de 4</div>
+  <h2><span class="chip" style="background:var(--luciano)"></span>Luciano Esteban</h2>
+  <p class="scope"><b>Abre y cierra la charla.</b> Slides <b>01 Portada · 02 Recorrido · 03 Problema · 04 Modelo de colas · 17 Cierre</b>. Marca el encuadre (qué se entrega y por qué) y la traducción del juego a teoría de colas.</p>
+  <div class="rule" style="background:var(--luciano)"></div>
+</section>
+
+<!-- 01 Portada -->
+<div class="slide m-luciano">
+  <div class="bar"><div class="l"><span class="num">SLIDE 01 · PORTADA</span><span class="ttl">Tower Defense Estocástico</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Presentar al equipo y el título. Frase ancla: <b>“el entregable no es un videojuego, es la validación de un modelo de colas”</b>.</li>
+        <li>Anticipar que hay <b>demo en vivo</b> al final: un Tower Defense real que reproduce la simulación.</li>
+        <li>Marca de la casa: tono descontracturado, intervenimos cuando haga falta.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Modelo</span> <span class="unit">UNIDAD I</span> — una representación simplificada de un sistema real que conserva las relaciones relevantes para responder una pregunta. Acá el sistema real es “defender una base de oleadas”; el modelo es una red de líneas de espera.</p>
+      <p><span class="term">Simulación</span> <span class="unit">UNIDAD I</span> — experimentar sobre el modelo (no sobre el sistema real) para estimar su comportamiento. Sirve cuando el sistema es estocástico y no hay fórmula cerrada exacta.</p>
+      <p><span class="term">Estocástico</span> — gobernado por el azar: las llegadas de enemigos y los tiempos de ataque son variables aleatorias, no valores fijos. De ahí “Tower Defense <em>Estocástico</em>”.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Vocabulario base</b> <span class="unit">UNIDAD I</span> — <b>sistema</b> (entidades que interactúan), <b>entidad</b> (enemigo, torre), <b>atributo</b>, <b>estado</b> (lo que describe al sistema en un instante) y <b>evento</b> (cambio de estado).</li>
+        <li><b>Clasificación de modelos</b> <span class="unit">UNIDAD I</span> — determinístico vs. <b>estocástico</b>, estático vs. <b>dinámico</b>, continuo vs. <b>discreto</b>. Este TP es matemático, dinámico, estocástico y de eventos discretos.</li>
+        <li><b>¿Cuándo simular?</b> — cuando el sistema es complejo o estocástico, no hay fórmula cerrada exacta, o experimentar en la realidad es caro/riesgoso.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 02 Recorrido -->
+<div class="slide m-luciano">
+  <div class="bar"><div class="l"><span class="num">SLIDE 02 · RECORRIDO</span><span class="ttl">El mapa de la charla (4 Waves)</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Dar el índice como “oleadas”: <b>W1</b> problema y modelo · <b>W2</b> aleatoriedad y motor · <b>W3</b> validación y resultados · <b>W4</b> experimentos, arquitectura y demo.</li>
+        <li>Aclarar que cada Wave la lleva principalmente un integrante, pero el tono es de equipo.</li>
+        <li>Recordar el cierre con demo en vivo.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Por qué este orden</span> — sigue el método de un estudio de simulación: (1) formular el problema, (2) construir el modelo y sus entradas aleatorias, (3) <em>verificar y validar</em>, (4) experimentar y concluir. Es el esqueleto clásico de la materia llevado a un caso lúdico.</p>
+      <p><span class="term">Validación vs. verificación</span> — <b>verificar</b> es “¿programé bien el modelo?”; <b>validar</b> es “¿el modelo representa la realidad?”. Las Waves 3 y 4 son justamente eso.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Etapas de un estudio de simulación</b> <span class="unit">UNIDAD I</span> — formular el problema → datos → modelo conceptual → programa → <b>verificación</b> → <b>validación</b> → diseño de experimentos → corridas → análisis → documentar.</li>
+        <li><b>Verificación vs. validación</b> — verificar = el programa hace lo que el modelo dice; validar = el modelo representa la realidad.</li>
+        <li><b>Variable de estado</b> — describe el sistema en cada instante (longitud de cola, temperatura de cada torre).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 Problema -->
+<div class="slide m-luciano">
+  <div class="bar"><div class="l"><span class="num">SLIDE 03 · WAVE 01</span><span class="ttl">El problema: defender la base de oleadas</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Describir el sistema: enemigos avanzan → zona con <b>c torres</b> los ataca → si están ocupadas, <b>esperan en cola</b>.</li>
+        <li>Punto clave: si la zona está <b>llena</b>, el enemigo <b>se fuga</b> y daña la base (esto es lo que después llamamos “bloqueo”).</li>
+        <li>Repetir el encuadre: el entregable es la <b>validación del modelo</b>, el juego es el vehículo.</li>
+        <li>Apoyarse en el diagrama spawn → cola(FIFO) → c torres → base.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Sistema de líneas de espera (colas)</span> <span class="unit">UNIDAD III</span> — clientes que llegan, esperan si el servicio está ocupado, son atendidos y se van. Sus tres piezas: <b>proceso de llegadas</b>, <b>mecanismo de servicio</b> y <b>disciplina de la cola</b>.</p>
+      <p><span class="term">Mapeo del juego</span> — enemigo = <em>cliente</em>; torre = <em>servidor</em>; “esperar a que se libere una torre” = <em>cola</em>; “fugarse porque está lleno” = <em>pérdida/bloqueo</em> por capacidad finita.</p>
+      <p><span class="term">Capacidad finita K</span> — el sistema admite a lo sumo K enemigos entre cola y servicio; el K-ésimo+1 se pierde. Es lo que hace que existan fugas y que el modelo sea “con pérdida”.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Estructura de un sistema de colas</b> <span class="unit">UNIDAD III</span> — <b>fuente/población</b>, <b>proceso de llegadas</b>, <b>cola</b> (capacidad K + disciplina), <b>servidores</b> (c) y <b>salida</b>.</li>
+        <li><b>Población infinita vs. finita</b> — acá se asume población infinita (∞): la tasa de llegada no depende de cuántos ya estén dentro.</li>
+        <li><b>Sistema con pérdida (bloqueo)</b> — si la capacidad es finita, el cliente que llega lleno se pierde; es la <b>fuga</b> del juego.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 04 Modelo de colas -->
+<div class="slide m-luciano">
+  <div class="bar"><div class="l"><span class="num">SLIDE 04 · WAVE 01</span><span class="ttl">Traducción a teoría de colas · Kendall-Lee</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Mostrar la tabla de equivalencias (enemigo↔cliente, torre↔servidor, fuga↔bloqueo).</li>
+        <li>Leer la notación <b>(M/M/c)(FIFO/K/∞)</b> en voz alta y desglosarla.</li>
+        <li>Introducir <b>ρ = λ/(c·μ)</b> y la condición de estabilidad <b>ρ&lt;1</b> — es el concepto que sostiene toda la Wave 3.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Notación de Kendall-Lee</span> <span class="unit">UNIDAD III</span> — formato <code>(A/B/c)(disciplina/K/N)</code>: <b>A</b> distribución de llegadas, <b>B</b> de servicio, <b>c</b> nº de servidores, <b>disciplina</b> de atención, <b>K</b> capacidad del sistema, <b>N</b> tamaño de la población.</p>
+      <p><span class="term">M = markoviano</span> — llegadas Poisson y servicios exponenciales (sin memoria). <b>c</b> torres, disciplina <b>FIFO</b> (primero en llegar, primero en ser atendido), <b>K</b> finita, población <b>∞</b>.</p>
+      <div class="formula">ρ = λ / (c · μ)   →   estable si  ρ &lt; 1</div>
+      <p><span class="term">Factor de utilización ρ</span> — fracción del tiempo que, en promedio, está ocupado cada servidor. Si ρ≥1 la cola crece sin límite (en capacidad infinita): el sistema “no da abasto”.</p>
+      <div class="keyvals"><span class="kv">λ = <b>0.40</b> arribos/s</span><span class="kv">μ = <b>0.25</b> serv/s</span><span class="kv">c = <b>3</b></span><span class="kv">ρ = <b>0.533</b></span></div>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Notación de Kendall</b> <span class="unit">UNIDAD III</span> — <span class="fla">A/B/c/K/N/disciplina</span>: distribución de llegadas / de servicio / nº de servidores / capacidad / población / orden de atención.</li>
+        <li><b>Proceso de Poisson ↔ Exponencial</b> — si las llegadas son Poisson de tasa λ, los <b>tiempos entre llegadas</b> son Exp(λ). Igual para el servicio con μ.</li>
+        <li><b>Tasas e intensidades</b> — λ (arribos/u.t.), μ (servicio/u.t.), intensidad ofrecida <span class="fla">a = λ/μ</span> (Erlangs), utilización <span class="fla">ρ = λ/(c·μ)</span>.</li>
+        <li><b>Estabilidad</b> — con cola infinita se requiere ρ&lt;1; con K finita el sistema nunca “explota”, pero aparece bloqueo.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 17 Cierre -->
+<div class="slide m-luciano">
+  <div class="bar"><div class="l"><span class="num">SLIDE 17 · CIERRE</span><span class="ttl">¡Gracias! · Preguntas</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Cerrar con la frase: <b>“defendemos el modelo, no el juego — pero el juego lo hace divertido”</b>.</li>
+        <li>Mostrar los 4 repos (RAG/doc, backend, frontend, presentación) e invitar a preguntas.</li>
+        <li>Quedar para las <b>preguntas</b> del profesor — la demo ya ocurrió en la slide 15, el cierre es sólo el final.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Mensaje a dejar grabado</span> — el TP muestra el ciclo completo: modelar un sistema estocástico, generarlo con números pseudoaleatorios, validarlo contra la teoría de colas y usar la simulación para responder preguntas de diseño (¿cuántas torres?).</p>
+      <p><span class="term">Posibles preguntas y cómo pararse</span> — “¿por qué simular y no usar la fórmula?” → porque la <b>temperatura</b> rompe el supuesto markoviano (ver W2). “¿cómo sé que está bien?” → por la <b>Ley de Little</b> y el acuerdo con M/M/c sin temperatura (ver W3).</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Mapa de la materia cubierto</b> — <b>Unidad I</b> (sistema/modelo/simulación, V&amp;V) · <b>Unidad II</b> (PRNG, transformada inversa, v.a.) · <b>Unidad III</b> (colas Kendall, Little, M/M/1, M/M/c, M/M/c/K, eventos discretos).</li>
+        <li><b>Glosario exprés para preguntas</b> — ρ (utilización), Ley de Little (L=λW), Erlang B/C, FIFO, bloqueo/pérdida, régimen estacionario, transformada inversa.</li>
+        <li><b>Toma de decisiones con simulación</b> <span class="unit">UNIDAD I</span> — el fin no es el número sino elegir bien (cuántas torres, cómo priorizar) bajo incertidumbre.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================ THAIEL ============================ -->
+<section class="member-div">
+  <div class="tag">Integrante 2 de 4</div>
+  <h2><span class="chip" style="background:var(--thaiel)"></span>Thaiel Anaya</h2>
+  <p class="scope"><b>Wave 02 — aleatoriedad y motor.</b> Slides <b>05 Variables · 06 Aleatoriedad · 07 Motor SimPy</b>. Explica de qué está hecho el modelo, cómo se generan los números aleatorios y por qué hace falta simular.</p>
+  <div class="rule" style="background:var(--thaiel)"></div>
+</section>
+
+<!-- 05 Variables -->
+<div class="slide m-thaiel">
+  <div class="bar"><div class="l"><span class="num">SLIDE 05 · WAVE 02</span><span class="ttl">Variables del modelo</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Clasificar las variables: <b>aleatorias</b> (arribos Exp(λ), servicio Exp(μ), tipo de enemigo), <b>continua</b> (temperatura) y de <b>control/salida</b> (λ, μ, c, K, semilla → Lq, Wq, ρ, fuga).</li>
+        <li>Destacar la <b>temperatura</b> como “la variable continua del TP” y el elemento de juego.</li>
+        <li>Cerrar con la <b>Ley de Little</b> como chequeo de consistencia.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Variable aleatoria discreta vs. continua</span> <span class="unit">UNIDAD II</span> — discreta toma valores contables (tipo de enemigo); continua toma cualquier valor en un intervalo (temperatura, tiempos). Cada una se genera distinto.</p>
+      <p><span class="term">Distribución exponencial</span> <span class="unit">UNIDAD II/III</span> — modela el <b>tiempo entre eventos</b> de un proceso sin memoria; media 1/λ (arribos) y 1/μ (servicio). Su “falta de memoria” es lo que hace markoviano al sistema.</p>
+      <p><span class="term">Variable continua del TP — temperatura</span> — evoluciona por una EDO por tramos (rampa al disparar, enfriamiento de Newton al descansar); no es aleatoria, es <b>determinística dado el historial</b> de disparos.</p>
+      <div class="formula">Ley de Little:   L = λ · W      Lq = λ · Wq</div>
+      <p><span class="term">Ley de Little</span> <span class="unit">UNIDAD III</span> — relación universal: el nº promedio de clientes en el sistema (L) es la tasa de llegadas efectiva por el tiempo promedio en el sistema (W). Se usa como control: si los números simulados la cumplen, hay consistencia interna.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>V.A. discreta vs. continua</b> <span class="unit">UNIDAD II</span> — discreta: valores contables (tipo de enemigo, función de probabilidad); continua: intervalo real (tiempos, temperatura, función de densidad f(x)).</li>
+        <li><b>Distribución exponencial</b> <span class="unit">UNIDAD II</span> — <span class="fla">f(x)=λe^(−λx)</span>, media <span class="fla">1/λ</span>, varianza <span class="fla">1/λ²</span>; <b>sin memoria</b> (lo pasado no afecta lo que falta).</li>
+        <li><b>Ley de Little</b> <span class="unit">UNIDAD III</span> — <span class="fla">L=λW</span> vale para cualquier sistema estable; relaciona cantidad media y tiempo medio.</li>
+        <li><b>Poisson (discreta)</b> — cuenta de eventos en un intervalo; es la cara discreta del proceso cuyos tiempos son exponenciales.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 06 Aleatoriedad -->
+<div class="slide m-thaiel">
+  <div class="bar"><div class="l"><span class="num">SLIDE 06 · WAVE 02</span><span class="ttl">Números pseudoaleatorios reproducibles</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Explicar el generador <b>congruencial lineal</b> y por qué “pseudo”: es determinístico pero parece aleatorio.</li>
+        <li>Resaltar las propiedades buscadas: <b>uniforme, independiente, reproducible (semilla), período amplio</b>.</li>
+        <li>Mostrar la <b>transformada inversa</b> de la exponencial: cómo se pasa de un R~U(0,1) a un tiempo.</li>
+        <li>Aclarar que la simulación usa Mersenne Twister + streams independientes (arribos/servicio/tipo).</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Generador congruencial lineal (GCL)</span> <span class="unit">UNIDAD II</span> — produce una sucesión de enteros con una recurrencia; dividiendo por m se obtienen uniformes en [0,1).</p>
+      <div class="formula">X₍ᵢ₊₁₎ = (a · Xᵢ + C) mod m      Rᵢ = Xᵢ / m</div>
+      <p><span class="term">Parámetros</span> — <b>a</b> multiplicador, <b>C</b> incremento, <b>m</b> módulo, <b>X₀</b> semilla. La elección de a, C, m define el período (cuántos valores antes de repetir) y la calidad estadística.</p>
+      <p><span class="term">Pseudoaleatorio</span> — la sucesión es 100% determinística: misma <b>semilla ⇒ misma corrida</b>. Esto es una ventaja: hace la simulación <b>reproducible y auditable</b> (mismo <code>output.json</code>).</p>
+      <p><span class="term">Método de la transformada inversa</span> <span class="unit">UNIDAD II</span> — para generar una v.a. con función de distribución F: se sortea R~U(0,1) y se despeja x = F⁻¹(R).</p>
+      <div class="formula">F(x) = 1 − e^(−λx) = R   ⟹   x = −(1/λ)·ln(R)</div>
+      <p><span class="term">Mersenne Twister</span> — el PRNG estándar de Python/NumPy; período enorme (2¹⁹⁹³⁷−1). Usar <b>streams independientes</b> (uno por fuente de azar) evita correlaciones espurias.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Propiedades de buenos números aleatorios</b> <span class="unit">UNIDAD II</span> — <b>uniformidad</b> e <b>independencia</b> (y, en la práctica, período largo y reproducibilidad).</li>
+        <li><b>Generador congruencial lineal</b> <span class="unit">UNIDAD II</span> — <span class="fla">X₍ᵢ₊₁₎=(aXᵢ+C) mod m</span>; mixto (C≠0) vs. multiplicativo (C=0). El período máximo depende de a, C, m.</li>
+        <li><b>Pruebas estadísticas</b> <span class="unit">UNIDAD II</span> — de <b>uniformidad</b> (chi-cuadrado, Kolmogórov-Smirnov) y de <b>independencia</b> (prueba de corridas).</li>
+        <li><b>Métodos de generación de v.a.</b> <span class="unit">UNIDAD II</span> — <b>transformada inversa</b> (la del TP), aceptación-rechazo, convolución. Exponencial: <span class="fla">x=−(1/λ)·ln(1−R)</span>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 07 Motor SimPy -->
+<div class="slide m-thaiel">
+  <div class="bar"><div class="l"><span class="num">SLIDE 07 · WAVE 02</span><span class="ttl">Motor de simulación · SimPy · “el calor rompe la fórmula”</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Explicar el motor: cola FIFO con <code>simpy.Store</code>, cada torre es un proceso que la consume.</li>
+        <li><b>K finita</b> → el que llega con el sistema lleno se fuga (bloqueo).</li>
+        <li>Idea central de la Wave: la <b>temperatura rompe el supuesto markoviano</b> (las c torres ya no están siempre disponibles) → la fórmula cerrada queda como <b>cota</b> y por eso hay que <b>simular</b>.</li>
+        <li><b>Cue de demo:</b> mirar las torres pasar de azul a rojo y apagarse en cooldown.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Simulación por eventos discretos (DES)</span> <span class="unit">UNIDAD III</span> — el reloj salta de evento a evento (arribo, fin de servicio, sobrecalentamiento…), no avanza en pasos fijos. SimPy es una librería de DES basada en <em>procesos</em> y <em>recursos</em>.</p>
+      <p><span class="term">Recurso / servidor</span> — cada torre modela un servidor que toma un enemigo de la <code>Store</code> (cola), lo “atiende” un tiempo Exp(μ) y lo libera.</p>
+      <p><span class="term">Supuesto markoviano</span> <span class="unit">UNIDAD III</span> — las fórmulas M/M/c suponen <b>c servidores siempre disponibles</b> y tasas constantes. Si una torre entra en cooldown, la capacidad efectiva baja y deja de cumplirse: el sistema ya no es M/M/c puro.</p>
+      <p class="note"><b>Por eso simular &gt; fórmula:</b> la expresión analítica da una cota optimista; sólo la simulación captura el efecto de la indisponibilidad térmica sobre la fuga real.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Mecánica de eventos discretos</b> <span class="unit">UNIDAD III</span> — <b>reloj de simulación</b>, <b>lista de eventos futuros</b> (FEL) y avance al próximo evento (next-event time advance).</li>
+        <li><b>Enfoques de modelado</b> — por <b>eventos</b>, por <b>procesos</b> (el de SimPy) o por <b>actividades</b>.</li>
+        <li><b>Estadísticas</b> — contadores <b>de tiempo</b> (área bajo L(t)) y <b>de conteo</b> (nº de fugas), de donde salen L, Lq, Wq.</li>
+        <li><b>Proceso de nacimiento-muerte</b> — base markoviana de M/M/c: el estado es el nº de clientes; nacer = llegar, morir = terminar servicio.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================ MARTÍN ============================ -->
+<section class="member-div">
+  <div class="tag">Integrante 3 de 4</div>
+  <h2><span class="chip" style="background:var(--martin)"></span>Martín Blasson</h2>
+  <p class="scope"><b>Wave 03 — validación y resultados + conclusiones.</b> Slides <b>08 Validación · 09 Rendimiento marginal · 10 Óptimo económico · 16 Conclusiones</b>. Demuestra que el modelo es correcto y responde “¿cuántas torres?”.</p>
+  <div class="rule" style="background:var(--martin)"></div>
+</section>
+
+<!-- 08 Validación -->
+<div class="slide m-martin">
+  <div class="bar"><div class="l"><span class="num">SLIDE 08 · WAVE 03</span><span class="ttl">Validación: analítico vs. simulado</span></div><span class="who">Referente: Martín</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Mostrar la tabla analítico vs. simulado (Wq, Lq, L, fuga Pb).</li>
+        <li>Resaltar la <b>Ley de Little verificada</b> con error ≈ <b>1.2%</b> → el modelo es internamente consistente.</li>
+        <li>Argumento doble: <b>sin temperatura</b>, sim ≈ analítico (motor validado); <b>con temperatura</b>, la brecha en la fuga (0.16% → 4.0%) <b>mide el efecto</b> de lo que la fórmula no ve.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Validación de un modelo</span> <span class="unit">UNIDAD I/III</span> — confrontar la salida de la simulación contra un referente conocido. Acá el referente son las <b>fórmulas cerradas M/M/c y M/M/c/K</b>.</p>
+      <p><span class="term">Métricas de cola</span> <span class="unit">UNIDAD III</span> — <b>Wq</b> espera media en cola; <b>Lq</b> nº medio en cola; <b>L</b> nº medio en el sistema; <b>Pb</b> probabilidad de bloqueo (fuga).</p>
+      <p><span class="term">Erlang C / Erlang B</span> — M/M/c (cola infinita) usa la fórmula de <b>Erlang C</b> para la probabilidad de esperar; M/M/c/K (capacidad finita) usa <b>Erlang B</b> para la probabilidad de bloqueo Pb.</p>
+      <p class="note"><b>Lectura clave de la brecha:</b> si sólo difiere la fuga cuando enciendo la temperatura, entonces la temperatura es la causante — evidencia limpia para “por qué simular”.</p>
+      <div class="keyvals"><span class="kv">Little: error <b>≈1.2%</b></span><span class="kv">Pb analít. <b>0.16%</b></span><span class="kv">Pb sim. <b>4.0%</b></span></div>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>M/M/1</b> <span class="unit">UNIDAD III</span> — <span class="fla">L=ρ/(1−ρ)</span>, <span class="fla">Lq=ρ²/(1−ρ)</span>, <span class="fla">W=1/(μ−λ)</span>, <span class="fla">Wq=ρ/(μ−λ)</span>.</li>
+        <li><b>M/M/c — Erlang C</b> — probabilidad de que un cliente tenga que esperar; de ahí Lq y Wq con c servidores.</li>
+        <li><b>M/M/c/K — Erlang B</b> — probabilidad de <b>bloqueo</b> Pb (sistema lleno); la tasa efectiva es <span class="fla">λ_ef=λ(1−Pb)</span>.</li>
+        <li><b>Validación por Little</b> — si <span class="fla">L≈λ_ef·W</span> en la corrida, el modelo es internamente consistente.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 09 Rendimiento marginal -->
+<div class="slide m-martin">
+  <div class="bar"><div class="l"><span class="num">SLIDE 09 · WAVE 03</span><span class="ttl">Rendimiento marginal decreciente: “más torres ≠ mejor”</span></div><span class="who">Referente: Martín</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Mostrar Lq vs. c y la mejora marginal ΔLq por torre: <b>2.53 → 0.25 → 0.05 → 0.01</b>.</li>
+        <li>Conclusión: la <b>1ª torre sobre c_min aporta ~89%</b> de toda la reducción de cola.</li>
+        <li><b>c_min = 2</b> es el mínimo para estabilidad (ρ&lt;1); pasado el óptimo las torres quedan <b>ociosas</b> (ρ→0).</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Rendimientos marginales decrecientes</span> — cada servidor adicional reduce la cola, pero cada vez menos: la curva Lq(c) es convexa y se aplana. Es un resultado típico de M/M/c.</p>
+      <p><span class="term">c_min (estabilidad)</span> <span class="unit">UNIDAD III</span> — el menor c que cumple ρ=λ/(cμ)&lt;1. Con λ=0.40 y μ=0.25: cμ&gt;0.40 ⇒ c≥2. Con c=1, ρ&gt;1 y la cola explota.</p>
+      <div class="formula">ΔLq(c) = Lq(c−1) − Lq(c)     (ganancia de agregar la torre c)</div>
+      <p><span class="term">Servidor ocioso (ρ→0)</span> — al sumar torres de más, ρ por servidor cae hacia 0: capacidad pagada que casi no se usa. Esto motiva el análisis económico del slide siguiente.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Comportamiento de Lq(c)</b> <span class="unit">UNIDAD III</span> — en M/M/c la cola cae al sumar servidores, con forma <b>convexa decreciente</b> (cada uno rinde menos).</li>
+        <li><b>Intensidad ofrecida</b> — <span class="fla">a=λ/μ</span> (Erlangs); para estabilidad hace falta <b>c &gt; a</b>, es decir ρ=a/c&lt;1.</li>
+        <li><b>Análisis marginal</b> — comparar el beneficio de la c-ésima unidad contra su costo; principio que reaparece en el óptimo económico.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 10 Óptimo económico -->
+<div class="slide m-martin">
+  <div class="bar"><div class="l"><span class="num">SLIDE 10 · WAVE 03</span><span class="ttl">Óptimo económico: el costo dibuja una U</span></div><span class="who">Referente: Martín</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Plantear el <b>costo total</b> como suma de costo de capacidad (torres) + costo de fugas.</li>
+        <li>El primero crece con c, el segundo decrece con c → la suma es una <b>U</b> con mínimo interior: <b>c* = 3</b>.</li>
+        <li>Regla práctica: sumar una torre conviene <b>mientras el ahorro en fugas supere su costo</b>. Dimensionar a c*, no al máximo.</li>
+        <li><b>Cue de demo:</b> agregar/sacar torres y ver cómo cambian cola y fugas en vivo.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Análisis de costo en colas</span> <span class="unit">UNIDAD III</span> — el diseño óptimo balancea <b>costo de servicio</b> (más servidores) contra <b>costo de espera/pérdida</b> (clientes que esperan o se van).</p>
+      <div class="formula">CT(c) = c · C_torre + C_fuga · λ · Pb(c)</div>
+      <p><span class="term">Óptimo interior</span> — como un término sube y el otro baja, el mínimo no está en los extremos sino “en el medio” (c*=3). Es el punto donde el <b>ahorro marginal</b> en fugas iguala al <b>costo marginal</b> de una torre.</p>
+      <p class="note"><b>Mensaje de gestión:</b> sobre-proveer (muchas torres) desperdicia capacidad; sub-proveer dispara las fugas. El valor del modelo es encontrar ese punto sin probar a ciegas.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Modelo de costos en colas</b> <span class="unit">UNIDAD III</span> — costo total = <b>costo de servicio</b> (crece con c) + <b>costo de espera/pérdida</b> (decrece con c).</li>
+        <li><b>Óptimo interior</b> — al sumar dos costos de sentido opuesto aparece un mínimo “en el medio”: el c que minimiza CT.</li>
+        <li><b>Analogía con inventarios (EOQ)</b> <span class="unit">UNIDAD III</span> — mismo patrón de <b>trade-off</b> entre dos costos contrapuestos que da un lote/óptimo intermedio.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 16 Conclusiones -->
+<div class="slide m-martin">
+  <div class="bar"><div class="l"><span class="num">SLIDE 16 · RESULTADOS</span><span class="ttl">Conclusiones y recomendaciones (“el botín”)</span></div><span class="who">Referente: Martín</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Recorrer los 6 takeaways: <b>estabilidad primero</b>, <b>retornos decrecientes</b> (c*=3), <b>la temperatura importa</b>, <b>dimensionar al pico</b>, <b>prioridad = reasignar</b>, <b>gestión térmica</b>.</li>
+        <li>Hilo conductor: cada conclusión sale de una slide anterior; sirve como resumen ejecutivo.</li>
+        <li>Dar pie a Luciano para el cierre/demo.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">De resultados a recomendaciones</span> — el objetivo final de un estudio de simulación no es el número sino la <b>decisión</b>: cuántas torres, cómo priorizar, dónde invertir (enfriamiento vs. otra torre).</p>
+      <p><span class="term">Gestión térmica vs. capacidad</span> — recuperar disponibilidad mejorando el enfriamiento puede ser <b>más barato</b> que comprar otra torre: una palanca que sólo se ve porque se modeló la temperatura.</p>
+      <p><span class="term">Síntesis</span> — estabilidad (ρ&lt;1) es condición necesaria; el óptimo económico afina el cuánto; los experimentos (W4) ponen a prueba la robustez.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Síntesis de teoría de colas</b> <span class="unit">UNIDAD III</span> — estabilidad (ρ&lt;1), Ley de Little, rendimientos marginales, costos y disciplinas/prioridad.</li>
+        <li><b>Decisión bajo incertidumbre</b> <span class="unit">UNIDAD I</span> — la simulación convierte resultados estocásticos en recomendaciones de diseño.</li>
+        <li><b>Validez y límites del modelo</b> — las conclusiones valen dentro de los supuestos (λ, μ, K, modelo térmico); cambiarlos exige re-validar.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================ LUCA ============================ -->
+<section class="member-div">
+  <div class="tag">Integrante 4 de 4</div>
+  <h2><span class="chip" style="background:var(--luca)"></span>Luca Sucri</h2>
+  <p class="scope"><b>Wave 04 — experimentos, arquitectura y demo.</b> Slides <b>11 Experimentos I · 12 Prioridad · 13 Arquitectura · 14 Frontend · 15 Demo en vivo</b>. Cierra con rigor estadístico, ingeniería del sistema y la demostración.</p>
+  <div class="rule" style="background:var(--luca)"></div>
+</section>
+
+<!-- 11 Experimentos I -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 11 · WAVE 04</span><span class="ttl">Experimentos I: confianza y oleadas</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li><b>Rigor:</b> con réplicas e <b>IC 95%</b> mostramos que <b>c*=3 es robusto</b>, no un artefacto de la semilla.</li>
+        <li><b>Escenario no estacionario (oleadas λ(t)):</b> c=2 → 42% de fuga vs. c=4 → 10%.</li>
+        <li>Moraleja: <b>dimensionar al pico, no al promedio</b>.</li>
+        <li><b>Cue de demo:</b> lanzar una oleada en vivo y ver la cola saturarse y la base caer si faltan torres.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Réplicas independientes</span> <span class="unit">UNIDAD III</span> — correr la simulación N veces con semillas distintas para estimar la <b>variabilidad</b> del resultado, no un único número “con suerte”.</p>
+      <p><span class="term">Intervalo de confianza (IC 95%)</span> — rango que, con 95% de confianza, contiene el verdadero valor. Si los IC de c=3 y c=4 no se solapan donde importa, la decisión es estadísticamente sólida.</p>
+      <p><span class="term">Régimen estacionario vs. no estacionario</span> — estacionario: λ constante, el sistema “se asienta”. <b>No estacionario:</b> λ(t) varía (oleadas) y nunca llega al equilibrio; las fórmulas de régimen permanente no aplican y la <b>simulación es imprescindible</b>.</p>
+      <p class="note"><b>Dimensionar al pico:</b> en sistemas con picos (call centers, oleadas), elegir c por el máximo de λ(t) evita colapsos transitorios aunque el promedio “cierre”.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Análisis estadístico de la salida</b> <span class="unit">UNIDAD I/III</span> — media muestral, desvío, error estándar e <b>intervalo de confianza</b> (t-Student) sobre las réplicas.</li>
+        <li><b>Replicaciones independientes</b> — N corridas con semillas distintas; más réplicas ⇒ IC más angosto (mayor precisión).</li>
+        <li><b>Transitorio vs. estacionario</b> — el arranque (warm-up) sesga; se descarta antes de medir el régimen estacionario.</li>
+        <li><b>Sistemas terminantes vs. no terminantes</b> — definen si se mide un horizonte fijo o el equilibrio de largo plazo.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 12 Prioridad -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 12 · WAVE 04</span><span class="ttl">Prioridad (regla cμ): reasignar, no eliminar</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Priorizar al enemigo <b>“fuerte”</b> baja su espera de <b>4.24 → 2.15 s</b>.</li>
+        <li>El débil espera más, pero el <b>Wq total casi no cambia</b> (sistema work-conserving): se <b>reasigna</b> la espera, no se elimina.</li>
+        <li>Importante: la <b>fuga no cambia</b> con la prioridad — la fuga es por <b>bloqueo de capacidad</b>, no por espera.</li>
+        <li>A igual media de servicio, <b>más varianza ⇒ más fuga</b> (Pollaczek-Khinchine).</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Disciplinas de cola</span> <span class="unit">UNIDAD III</span> — FIFO atiende por orden de llegada; con <b>prioridades</b> ciertas clases se atienden antes. Cambia el reparto de la espera entre clases.</p>
+      <p><span class="term">Regla cμ</span> — para minimizar la espera ponderada conviene priorizar a quien tiene mayor producto costo×tasa de servicio (cμ). Justifica “atacar primero al fuerte”.</p>
+      <p><span class="term">Principio work-conserving</span> — si los servidores nunca están ociosos habiendo trabajo, el <b>trabajo total</b> (y la espera media global) no cambia con la disciplina: sólo se redistribuye entre clases.</p>
+      <p><span class="term">Fórmula de Pollaczek-Khinchine</span> — en colas con servicio general, la espera crece con la <b>variabilidad</b> del tiempo de servicio: a igual media, mayor varianza ⇒ mayor Lq/Wq y más bloqueo.</p>
+      <p class="note"><b>Distinción fina a remarcar:</b> espera y fuga son cosas distintas — la prioridad mueve la <b>espera</b>; la fuga sólo baja con más <b>capacidad</b> (K o c).</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Disciplinas de cola</b> <span class="unit">UNIDAD III</span> — FIFO, LIFO, SIRO (azar) y <b>prioridad</b> con o sin desalojo (preemptive / non-preemptive).</li>
+        <li><b>Regla cμ</b> — atender primero a la clase con mayor producto <span class="fla">c·μ</span> minimiza el costo de espera ponderado.</li>
+        <li><b>M/G/1 — Pollaczek-Khinchine</b> — con servicio general, <span class="fla">Lq=(λ²σ²+ρ²)/(2(1−ρ))</span>: la espera crece con la <b>varianza</b> del servicio.</li>
+        <li><b>Conservación del trabajo</b> — cambiar la disciplina <b>reparte</b> la espera entre clases pero no altera la carga total.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 13 Arquitectura -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 13 · WAVE 04</span><span class="ttl">Arquitectura desacoplada: tres piezas, un contrato</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Mostrar el flujo: <b>RAG/doc</b> (fuente de verdad) → <b>Backend SimPy</b> (hace la matemática, exporta <code>output.json</code>) → <b>Frontend Godot</b> (sólo reproduce).</li>
+        <li><b>Cero acoplamiento en tiempo real:</b> Python calcula offline; Godot interpola. Corre en hardware modesto.</li>
+        <li>El <code>output.json</code> v1.0 es el <b>único punto de contacto</b>, auto-auditado con 8 invariantes.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Separación cómputo / visualización</span> — patrón de ingeniería de simulación: el <b>solver</b> (lógica estocástica, pesado) se separa del <b>visor</b> (liviano). Permite reproducibilidad y reuso del mismo resultado.</p>
+      <p><span class="term">Contrato de datos (output.json v1.0)</span> — esquema fijo que ambos lados respetan: eventos, muestras, layout y estadísticos. Garantiza que cambiar el visor no toque la matemática.</p>
+      <p><span class="term">Auto-auditoría / invariantes</span> — verificaciones automáticas (balance de enemigos, rangos válidos, consistencia temporal) que <b>verifican</b> el modelo programado antes de exportar — la parte de “¿lo programé bien?”.</p>
+      <p class="note"><b>Reproducibilidad de punta a punta:</b> misma semilla ⇒ mismo <code>output.json</code> ⇒ misma reproducción visual. El azar queda totalmente bajo control.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Modelo conceptual → computacional</b> <span class="unit">UNIDAD I</span> — primero el modelo en papel (variables, relaciones), luego su implementación verificable.</li>
+        <li><b>Herramientas de simulación</b> <span class="unit">CLASE</span> — GPSS, AnyLogic y SimPy (la del TP); todas resuelven eventos discretos con distinto nivel de abstracción.</li>
+        <li><b>Números aleatorios comunes</b> <span class="unit">UNIDAD II</span> — usar la misma semilla entre escenarios reduce la varianza de la comparación (técnica de reducción de varianza).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 14 Frontend -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 14 · WAVE 04</span><span class="ttl">Frontend Godot 2D: reproducir, no calcular</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>El front <b>lee <code>output.json</code> e interpola</b> la línea de tiempo: <b>cero cálculo</b> de simulación.</li>
+        <li>Código de color: torres <b>azul→rojo</b> según temperatura, <b>gris</b> en cooldown; enemigos amarillos / rojos al fugarse; barra de vida de la base.</li>
+        <li>Export web (HTML5/PWA) para hostear gratis (itch.io / GitHub Pages).</li>
+        <li>Da pie: <b>a continuación, demo en vivo</b>.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Reproducción por interpolación</span> — el visor no resuelve la dinámica; toma estados muestreados (temperatura, longitud de cola) en la grilla <code>dt_sample</code> y los <b>interpola</b> entre eventos para animar suave.</p>
+      <p><span class="term">Lectura del contrato</span> — <code>events[]</code> da la línea de tiempo (spawn, enqueue, start_service, kill, leak, overheat, cooldown_done); <code>samples[]</code>/<code>series</code> las variables continuas; <code>stats</code>/<code>analytical</code> alimentan el HUD.</p>
+      <p><span class="term">Animación = traducción visual del modelo</span> — cada color/posición corresponde a un estado del sistema de colas: ver “una torre roja apagándose” <b>es</b> ver bajar la capacidad efectiva.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Animación de la simulación</b> <span class="unit">UNIDAD I</span> — herramienta de <b>verificación</b> y comunicación: ver el modelo moverse ayuda a detectar errores y a explicarlo.</li>
+        <li><b>Modelo vs. animación</b> — el modelo calcula (estocástico); la animación sólo <b>muestra</b> estados ya calculados.</li>
+        <li><b>Muestreo de variables de estado</b> — se guardan estados en una grilla temporal y se interpolan para reproducirlos.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 15 Demo en vivo -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 15 · WAVE 04</span><span class="ttl">Demo en vivo: el modelo respirando</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Correr el Tower Defense y guiar la mirada a <b>tres cosas</b>: <b>temperatura</b> (azul→rojo→cooldown), <b>la cola</b> (enemigos encolados FIFO), <b>la fuga</b> (zona llena → la base pierde vida).</li>
+        <li>Controles: <code>Espacio</code> play/pausa · <code>←/→</code> velocidad · <code>R</code> reiniciar.</li>
+        <li>Conectar lo que se ve con los conceptos: cada fenómeno visual es una métrica de la Wave 3.</li>
+        <li>Tener el <code>output.json</code> recién generado copiado en el front y Godot ya abierto.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Qué demuestra la demo</span> — cierra el argumento del TP: lo que la teoría predice (cola, espera, bloqueo) y lo que la temperatura agrega (cooldown ⇒ más fuga) se ven <b>en movimiento</b> sobre el mismo sistema.</p>
+      <p><span class="term">Anclaje conceptual en vivo</span> — temperatura = variable continua que rompe el supuesto markoviano; cola = disciplina FIFO; fuga = bloqueo por capacidad finita K. Nombrarlos mientras ocurren refuerza todo lo anterior.</p>
+      <p class="note"><b>Plan B:</b> si la demo falla, el deck tiene el <code>frontend_mock</code> y los gráficos; la validación numérica (W3) ya sostiene las conclusiones sin necesidad de la corrida en vivo.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Métricas a leer en pantalla</b> <span class="unit">UNIDAD III</span> — λ, μ, c, K, ρ y las salidas L, Lq, W, Wq y Pb (fuga).</li>
+        <li><b>Simulación híbrida</b> — combina una <b>variable continua</b> (temperatura, EDO por tramos) con <b>eventos discretos</b> (llegadas, servicios).</li>
+        <li><b>Teoría ↔ observación</b> — cada fenómeno visible (cola que crece, torre en cooldown, fuga) es una métrica concreta de la materia.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="pgfoot">Tower Defense Estocástico · Guion de presentación por integrante · Simulación de Sistemas — UCEMA</div>
+
+</body>
+</html>
