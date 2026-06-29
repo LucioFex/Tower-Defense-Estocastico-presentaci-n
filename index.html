@@ -766,7 +766,11 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">SIMPY EN CÓDIGO</span></div>
     <div class="section-head" style="margin-top:26px;"><span class="eyebrow">DEL MODELO AL CÓDIGO</span>
       <h2 style="margin-top:12px;">El modelo, hecho <em>código</em>.</h2></div>
-    <p class="lead" style="margin:2px 0 22px;max-width:1180px;">El motor es <b>SimPy</b>, una simulación por <b>eventos discretos</b>: el reloj salta de evento a evento. Cada pieza del programa <b>es</b> un concepto de la materia — no hay nada “de más”.</p>
+    <p class="lead" style="margin:2px 0 14px;max-width:1180px;">El motor es <b>SimPy</b>, simulación por <b>eventos discretos</b> (el reloj salta de evento a evento) — y cada pieza del código <b>es</b> un concepto de la materia:</p>
+    <pre class="codeblk" style="font-size:18px;line-height:1.5;padding:16px 24px;margin:0 0 18px;max-width:1180px;"><span class="cl">simulation.py · SimPy</span><span class="kw">def</span> <span class="fn">tower</span>():                  <span class="cm"># cada torre = un proceso (servidor)</span>
+    <span class="kw">while</span> True:
+        e = <span class="kw">yield</span> queue.<span class="fn">get</span>()         <span class="an">← toma de la cola FIFO (espera si está vacía)</span>
+        <span class="kw">yield</span> env.<span class="fn">timeout</span>(Exp(μ))      <span class="an">← la atiende: dispara un tiempo Exp(μ)</span></pre>
 
     <div class="cols">
       <div class="col"><div class="card accent" style="flex:1;"><span class="ck">LLEGADAS · COLA · SERVICIO</span>
