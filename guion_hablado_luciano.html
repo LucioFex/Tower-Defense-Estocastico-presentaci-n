@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guion hablado · Luciano · Tower Defense Estocástico</title>
+<style>
+  @page { size: A4; margin: 16mm 18mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Segoe UI", Calibri, system-ui, sans-serif;
+    color: #14181f; line-height: 1.5; margin: 0; font-size: 13.5pt;
+  }
+  .cover {
+    background: #101826; color: #fff; padding: 34px 30px; border-radius: 14px;
+    margin-bottom: 26px;
+  }
+  .cover h1 { margin: 0 0 6px; font-size: 26pt; letter-spacing: .01em; }
+  .cover .sub { color: #8fd6ff; font-size: 13pt; font-weight: 600; letter-spacing: .04em; }
+  .cover p { margin: 14px 0 0; color: #cfd8e6; font-size: 12.5pt; }
+  .cover .anchor {
+    margin-top: 16px; padding: 12px 16px; background: #1c2940; border-left: 5px solid #ffc34d;
+    border-radius: 8px; font-size: 13pt;
+  }
+  .cover .anchor b { color: #ffd87a; }
+  .map { margin-top: 14px; color: #aeb9cc; font-size: 11.5pt; }
+
+  .slide { page-break-inside: avoid; margin: 0 0 30px; }
+  .slide.brk { page-break-before: always; }
+  .head {
+    display: flex; align-items: baseline; gap: 12px; border-bottom: 3px solid #1c2940;
+    padding-bottom: 6px; margin-bottom: 12px;
+  }
+  .head .n {
+    background: #1c2940; color: #fff; font-weight: 700; font-size: 12pt;
+    padding: 3px 11px; border-radius: 7px; white-space: nowrap;
+  }
+  .head .t { font-size: 16pt; font-weight: 700; color: #101826; }
+  .head .role { margin-left: auto; font-size: 10.5pt; color: #7a8aa0; white-space: nowrap; }
+
+  .say {
+    background: #f4f8ff; border: 1px solid #d6e4fb; border-left: 6px solid #2f7fe0;
+    border-radius: 10px; padding: 14px 18px; margin: 10px 0;
+    font-size: 14.5pt; line-height: 1.62;
+  }
+  .say p { margin: 0 0 10px; }
+  .say p:last-child { margin-bottom: 0; }
+  .say b { color: #0a2a52; }
+  .say ul { margin: 6px 0 6px 0; padding-left: 22px; }
+  .say li { margin: 4px 0; }
+
+  .cue {
+    margin: 8px 0; padding: 8px 14px; background: #eafaf1; border-left: 5px solid #38b274;
+    border-radius: 8px; font-size: 12pt;
+  }
+  .cue b { color: #1f7a4d; }
+
+  .ask {
+    margin: 7px 0; padding: 8px 14px; background: #fff6e8; border-left: 5px solid #e8a13a;
+    border-radius: 8px; font-size: 11.5pt; color: #4a3a1c;
+  }
+  .ask b { color: #9a6a12; }
+
+  .tips { background: #f6f1fb; border: 1px solid #e2d5f3; border-radius: 12px; padding: 16px 20px; }
+  .tips h2 { margin: 0 0 8px; font-size: 15pt; color: #5a2d8c; }
+  .tips ul { margin: 0; padding-left: 22px; }
+  .tips li { margin: 6px 0; font-size: 12.5pt; }
+  .mono { font-family: "Consolas", monospace; }
+  em { color: #b25a00; font-style: normal; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="sub">GUION HABLADO · PARA LEER EN VIVO</div>
+  <h1>Tower Defense Estocástico</h1>
+  <div class="sub" style="color:#aeb9cc;font-weight:500;">Luciano · Slides 01 · 02 · 03 · 04 · 05 · 22</div>
+  <p>Lo que está en <b style="color:#9fd0ff">azul</b> es lo que decís en voz alta. Lo
+     <b style="color:#9be7bf">verde</b> es el enganche a la próxima slide. Lo
+     <b style="color:#ffd87a">amarillo</b> es por si te preguntan. No tenés que decir todo: con lo azul alcanza.</p>
+  <div class="anchor">FRASE ANCLA (repetila si te trabás): <b>“El entregable es la validación del modelo, el juego es el vehículo.”</b></div>
+  <div class="map" style="color:#ffd0a0;"><b>⚠ Thaiel no viene:</b> hoy cubrís también su Wave 02 (slides 06→10). O sea: presentás <b>01→10 de corrido</b> y volvés para el cierre (22) después de la demo. Las slides de Thaiel están marcadas con borde naranja más abajo.</div>
+</div>
+
+<!-- 01 -->
+<div class="slide">
+  <div class="head"><span class="n">SLIDE 01</span><span class="t">Portada</span><span class="role">Referente: Luciano</span></div>
+  <div class="say">
+    <p>“Buenas, somos Luciano, Thaiel, Martín y Luca. Les traemos el <b>Tower Defense Estocástico</b>. Lo primero que queremos dejar en claro, porque si no se presta a confusión: <b>lo que entregamos no es un videojuego, es la validación de un modelo de colas</b>. El juego es la forma divertida de <em>ver</em> el modelo funcionando, pero el objeto de estudio es el modelo.</p>
+    <p>Tres palabras del título: es un sistema <b>estocástico</b>, o sea gobernado por el azar — los enemigos no llegan en momentos fijos ni las torres tardan siempre lo mismo, son variables aleatorias. Lo <b>modelamos</b> como una red de líneas de espera, y lo <b>simulamos</b> para estimar cómo se comporta. De ahí el nombre.</p>
+    <p>Aviso desde ya: al final hay <b>demo en vivo</b>, un Tower Defense real que reproduce la simulación. Y la charla es descontracturada — si surge algo, nos metemos.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Antes de entrar en tema, les doy el mapa de por dónde vamos.”</div>
+  <div class="ask"><b>Si preguntan “¿qué es un modelo?”:</b> una representación simplificada del sistema real que conserva solo lo relevante para la pregunta que querés responder. Acá el sistema real es “defender una base de oleadas”; el modelo es una red de colas.</div>
+</div>
+
+<!-- 02 -->
+<div class="slide">
+  <div class="head"><span class="n">SLIDE 02</span><span class="t">Recorrido · el mapa</span><span class="role">Referente: Luciano</span></div>
+  <div class="say">
+    <p>“La charla está dividida en <b>cuatro oleadas</b>, como el juego:</p>
+    <ul>
+      <li><b>Wave 1</b> — el problema y el modelo de colas. Esto lo arranco yo.</li>
+      <li><b>Wave 2</b> — de dónde sale el azar y el motor de simulación.</li>
+      <li><b>Wave 3</b> — la validación: comparamos lo analítico contra lo simulado.</li>
+      <li><b>Wave 4</b> — experimentos, la arquitectura y la demo.</li>
+    </ul>
+    <p>Cada oleada la lleva principalmente uno de nosotros, pero presentamos como equipo. Y este orden no es caprichoso: es el método clásico de un estudio de simulación — primero formulás el problema, después construís el modelo y sus entradas aleatorias, después lo <b>verificás y validás</b>, y al final experimentás y concluís.</p>
+    <p>Una distinción que vale la pena: <b>verificar</b> es “¿programé bien el modelo?”; <b>validar</b> es “¿el modelo representa la realidad?”. Las Waves 3 y 4 son exactamente eso.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Antes del detalle, les muestro de un vistazo cómo está armada la máquina que van a ver corriendo.”</div>
+</div>
+
+<!-- 03 -->
+<div class="slide brk">
+  <div class="head"><span class="n">SLIDE 03</span><span class="t">Panorama · La máquina de la demo</span><span class="role">Referente: Luciano</span></div>
+  <div class="say">
+    <p>“Lo que van a ver corriendo en vivo se arma en <b>tres pasos</b>, y uno solo ocurre en pantalla.</p>
+    <p><b>Paso 1, offline:</b> Python con la librería SimPy simula toda la batalla por <b>eventos discretos</b> y arma una línea de tiempo completa. Esto pasa <b>una sola vez</b>, antes de la presentación.</p>
+    <p><b>Paso 2, el contrato:</b> esa simulación exporta un archivo, <span class="mono">output.json</span>, que es una <b>foto del sistema en cada instante</b> — cuántos hay en la cola, cuántos se fugaron, el estado de cada torre. Y como usamos una <b>semilla fija</b> para el azar, la corrida es <b>reproducible</b>: misma semilla, misma batalla, mismo archivo.</p>
+    <p><b>Paso 3, en vivo:</b> Godot, el motor del juego, <b>lee ese JSON e interpola</b> para animar. El HUD le dibuja la teoría encima. La pantalla <b>no calcula nada</b> — cero operaciones de matemática durante la corrida.</p>
+    <p>¿Por qué importa? Porque separamos el motor pesado, que resuelve la dinámica del azar, del visor liviano, que solo reproduce. Así corre fluido hasta en una máquina humilde. Y en la demo van a ver que cambiamos de <b>escenario en caliente</b> — λ tranquilo, normal o saturado; más o menos torres; orden de llegada o prioridad — y el juego <b>recarga el archivo al instante</b>.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Bueno, ahora sí, entremos en el problema concreto.”</div>
+  <div class="ask"><b>Si preguntan “¿qué es simulación por eventos discretos?”:</b> el reloj no avanza segundo a segundo; <b>salta de evento a evento</b> — un arribo, un fin de servicio, un sobrecalentamiento de torre. De esos saltos sale la línea de tiempo que guardamos.</div>
+  <div class="ask"><b>Si preguntan “¿por qué guardar y no calcular en vivo?”:</b> para que la demo sea <b>auditable y repetible</b> (misma semilla → mismo resultado) y para separar un cálculo pesado de una visualización liviana.</div>
+</div>
+
+<!-- 04 -->
+<div class="slide brk">
+  <div class="head"><span class="n">SLIDE 04</span><span class="t">El Problema · Wave 01</span><span class="role">Referente: Luciano</span></div>
+  <div class="say">
+    <p><i>(Apoyate en el diagrama: spawn → cola → c torres → base.)</i></p>
+    <p>“El sistema es este: los enemigos aparecen y avanzan por un camino hacia nuestra <b>base</b>. En el medio hay una zona con <b>c torres</b> que los atacan. Si las torres están todas ocupadas, los enemigos <b>esperan en cola</b>. Y acá está el punto clave: si la zona está <b>llena</b> —no hay lugar ni en las torres ni en la cola— el enemigo <b>se fuga</b> y daña la base. A esa fuga después la vamos a llamar <b>bloqueo</b>.</p>
+    <p>Esto, que parece un juego, es un <b>sistema de líneas de espera</b> de manual: clientes que llegan, esperan si el servicio está ocupado, son atendidos y se van. Tiene sus tres piezas: cómo <b>llegan</b>, cómo se los <b>atiende</b>, y la <b>disciplina de la cola</b>.</p>
+    <p>Una cosa importante: nuestro sistema tiene <b>capacidad finita</b> —le decimos K—. Admite a lo sumo K enemigos entre la cola y las torres; el que llega y lo encuentra lleno, se pierde. Eso es lo que hace que existan fugas: es un modelo <b>con pérdida</b>. Y de vuelta el encuadre: el entregable es <b>validar este modelo</b>, el juego es el vehículo.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Veamos cómo se traduce esto, pieza por pieza, al lenguaje de la teoría de colas.”</div>
+  <div class="ask"><b>Si preguntan “¿población infinita?”:</b> sí, asumimos población <b>infinita</b>: la tasa a la que llegan enemigos <b>no depende</b> de cuántos ya hay dentro del sistema.</div>
+</div>
+
+<!-- 05 -->
+<div class="slide brk">
+  <div class="head"><span class="n">SLIDE 05</span><span class="t">Modelo de colas · Kendall-Lee · Wave 01</span><span class="role">Referente: Luciano</span></div>
+  <div class="say">
+    <p><i>(La más técnica. Andá tranquilo, leé la notación en voz alta y señalá la tabla.)</i></p>
+    <p>“Traduzcamos el juego a la teoría. Cada cosa del Tower Defense es algo de un sistema de colas:</p>
+    <ul>
+      <li>el <b>enemigo</b> es un <b>cliente</b>,</li>
+      <li>la <b>torre</b> es un <b>servidor</b> o canal,</li>
+      <li><b>disparar hasta matarlo</b> es el <b>tiempo de servicio</b>,</li>
+      <li>los <b>enemigos esperando</b> son la <b>cola</b>, que atendemos por orden de llegada,</li>
+      <li>y la <b>fuga a la base</b> es el <b>bloqueo</b>: la cola está llena.</li>
+    </ul>
+    <p>Todo esto se resume en una notación estándar para describir colas —se la conoce como <b>notación de Kendall-Lee</b>—. La nuestra es <b>(M / M / c)(FIFO / K / ∞)</b>. Se lee así:</p>
+    <ul>
+      <li>La primera <b>M</b> es cómo llegan: markoviano, llegadas tipo Poisson.</li>
+      <li>La segunda <b>M</b> es el servicio: también markoviano, tiempos exponenciales, <em>sin memoria</em>.</li>
+      <li><b>c</b> es el número de torres, o sea de servidores.</li>
+      <li><b>FIFO</b> es la disciplina: el primero que llega es el primero en ser atendido.</li>
+      <li><b>K</b> es la capacidad total del sistema —cola más servicio— y es lo que habilita la fuga.</li>
+      <li>El <b>∞</b> es la población: infinita.</li>
+    </ul>
+    <p>Y el número que sostiene toda la Wave 3 es este: <b>ρ = λ sobre c por μ</b>. Es el <b>factor de utilización</b>: la fracción de tiempo que, en promedio, cada torre está ocupada. La regla es <b>ρ menor que uno</b> para que el sistema sea estable; si ρ llega a uno o más, con cola infinita la fila crece sin límite — el sistema “no da abasto”.</p>
+    <p>Para que tengan los números: todo el TP sale de una corrida con <b>λ = 0,40 arribos por segundo, μ = 0,25 servicios por segundo y c = 3 torres</b>. Eso da un <b>ρ de 0,533</b> — y ojo, ese 0,533 es <b>cuenta directa</b> de λ sobre c por μ, no es simulación.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche (ahora seguís vos con la Wave 02):</b> “Con el modelo planteado, sigamos: de dónde sale toda esta aleatoriedad y cómo la genera el motor de simulación.” <i>(Si querés blanquearlo: “Thaiel hoy no pudo venir, así que sigo yo.”)</i></div>
+  <div class="ask"><b>Símbolos:</b> <b>λ</b> = tasa de llegadas (enemigos/s) · <b>μ</b> = tasa de servicio por torre (kills/s) · <b>c</b> = nº de torres · <b>K</b> = capacidad (cola+servicio) · <b>ρ = λ/(c·μ)</b> = utilización.</div>
+  <div class="ask"><b>Si preguntan “¿por qué Poisson y exponencial van juntos?”:</b> si las llegadas son un proceso de Poisson de tasa λ, los <b>tiempos entre llegadas</b> son exponenciales. Lo mismo con el servicio y μ. Son dos caras de lo mismo.</div>
+</div>
+
+<!-- ===== BANNER COBERTURA THAIEL ===== -->
+<div class="slide brk">
+  <div style="background:#7a3d10;color:#fff;padding:14px 20px;border-radius:10px;">
+    <div style="font-size:11pt;font-weight:700;letter-spacing:.04em;color:#ffd0a0;">COBERTURA · WAVE 02 (de Thaiel)</div>
+    <div style="font-size:13pt;margin-top:5px;">Las siguientes 5 slides (06→10) las presentás vos. Es la parte más técnica: <b>aleatoriedad, transformada inversa, SimPy y temperatura</b>. Apoyate en la <b>chuleta técnica</b> — acá está lo que decís en voz alta, ahí está el detalle de cada término. Idea fuerza de toda la Wave: <b>la temperatura rompe el supuesto markoviano → por eso hay que simular y no alcanza la fórmula.</b></div>
+  </div>
+</div>
+
+<!-- 06 (Thaiel) -->
+<div class="slide" style="border-left:6px solid #e8841c;padding-left:10px;">
+  <div class="head" style="border-bottom-color:#e8841c;"><span class="n" style="background:#7a3d10;">SLIDE 06</span><span class="t">Variables del modelo</span><span class="role" style="color:#c47a32;">Cubre: Luciano (era Thaiel)</span></div>
+  <div class="say">
+    <p>“Entremos en de qué está hecho el modelo. Tenemos <b>tres tipos de variables</b>:</p>
+    <ul>
+      <li>Las <b>aleatorias</b>: el tiempo entre llegadas, que es exponencial de tasa λ; el tiempo de servicio de cada torre, exponencial de tasa μ; y el tipo de enemigo, que es discreta.</li>
+      <li>La <b>continua</b>: la <b>temperatura</b> de las torres. Es la gran variable continua del trabajo y a la vez el elemento de juego — cada torre se <b>calienta</b> al disparar y se <b>enfría</b> al descansar.</li>
+      <li>Y las de <b>control y salida</b>: nosotros fijamos λ, μ, c, K y la semilla; y el modelo nos devuelve la cola media, la espera media, ρ y la tasa de fuga.</li>
+    </ul>
+    <p>Y un chequeo que usamos para saber que los números son consistentes: la <b>Ley de Little</b> —una relación de la teoría de colas que dice que la cantidad media en el sistema es la tasa de llegada por el tiempo medio de permanencia, L = λ por W—. Si nuestros números la cumplen, hay consistencia interna.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Veamos de dónde sale esa aleatoriedad, o sea cómo generamos los números al azar.”</div>
+  <div class="ask"><b>Clave técnica:</b> <b>discreta</b> = valores contables (tipo de enemigo); <b>continua</b> = cualquier valor en un intervalo (temperatura, tiempos). La temperatura <b>no es aleatoria</b>: es determinística dado el historial de disparos.</div>
+</div>
+
+<!-- 07 (Thaiel) -->
+<div class="slide brk" style="border-left:6px solid #e8841c;padding-left:10px;">
+  <div class="head" style="border-bottom-color:#e8841c;"><span class="n" style="background:#7a3d10;">SLIDE 07</span><span class="t">Números pseudoaleatorios reproducibles</span><span class="role" style="color:#c47a32;">Cubre: Luciano (era Thaiel)</span></div>
+  <div class="say">
+    <p>“¿De dónde sale el azar? De un <b>generador de números pseudoaleatorios</b>. Se llama <b>pseudo</b> porque es 100% determinístico —una fórmula— pero la secuencia <em>parece</em> aleatoria. El del apunte es el <b>generador congruencial</b>: cada número sale del anterior con la fórmula <span class="mono">X(i+1) = (a·X(i) + C) mod m</span>.</p>
+    <p>Lo que buscamos de un buen generador es que sea <b>uniforme, independiente, de período amplio</b> y, clave para nosotros, <b>reproducible</b>: misma semilla, misma secuencia.</p>
+    <p>Ahora, esos números salen entre 0 y 1, uniformes. Para convertirlos en <b>tiempos exponenciales</b> usamos el <b>método de la transformada inversa</b>: sorteás un número R uniforme, y despejás el tiempo de la fórmula. Para la exponencial queda <span class="mono">x = −(1/λ)·ln(R)</span>. Sorteás R, leés x. Y como la semilla está fija, sale siempre el mismo <span class="mono">output.json</span>.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Con el azar resuelto, veamos el motor que arma toda la batalla: SimPy.”</div>
+  <div class="ask"><b>Si preguntan por el generador real:</b> en el apunte vemos el <b>congruencial</b> (está implementado en <span class="mono">prng.py</span>). La corrida final usa el generador por defecto del lenguaje, de período muy largo —es solo un <b>detalle de implementación</b>, no tema de clase—. Usamos <b>streams independientes</b> (uno para llegadas, otro para servicio, otro para tipo) para que no se correlacionen.</div>
+  <div class="ask"><b>Si preguntan “¿qué es la transformada inversa?”:</b> un método para generar una variable aleatoria con la distribución que querés, partiendo de un R uniforme entre 0 y 1: invertís su función de distribución acumulada.</div>
+</div>
+
+<!-- 08 (Thaiel) -->
+<div class="slide brk" style="border-left:6px solid #e8841c;padding-left:10px;">
+  <div class="head" style="border-bottom-color:#e8841c;"><span class="n" style="background:#7a3d10;">SLIDE 08</span><span class="t">Motor SimPy · “el calor rompe la fórmula”</span><span class="role" style="color:#c47a32;">Cubre: Luciano (era Thaiel)</span></div>
+  <div class="say">
+    <p><i>(Esta es LA slide de la Wave. Si entendés esta, entendés por qué existe el TP.)</i></p>
+    <p>“El motor está hecho con SimPy, una librería de <b>simulación por eventos discretos</b>. La cola es FIFO; cada torre es un proceso que va sacando enemigos de esa cola y los atiende. La capacidad es finita —K—, así que el que llega con el sistema lleno se <b>fuga</b>: eso es el bloqueo.</p>
+    <p>Y acá está el corazón de todo: le agregamos <b>temperatura</b> a las torres. Cuando una torre se sobrecalienta, entra en <b>cooldown</b> y deja de atender un rato — o sea, baja la cantidad de torres efectivamente disponibles. Eso <b>rompe el supuesto markoviano</b>, que asume que las c torres están siempre disponibles. Por eso la fórmula de colas nos da solo una <b>cota</b> optimista, y para tener el número real <b>hay que simular</b>. Esa es la razón de ser del trabajo.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Y todo esto, ¿cómo se ve en el código? Lo miramos en dos pantallas.” <span style="color:#9a6a12;">(Cue de demo: las torres pasan de azul a rojo y se apagan en cooldown.)</span></div>
+  <div class="ask"><b>Si preguntan “¿qué es el supuesto markoviano?”:</b> que el sistema no tiene memoria — llegadas Poisson y servicio exponencial, con las c torres siempre activas. La temperatura le mete “memoria” (depende del historial de disparos), así que deja de ser un M/M/c puro.</div>
+</div>
+
+<!-- 09 (Thaiel) -->
+<div class="slide brk" style="border-left:6px solid #e8841c;padding-left:10px;">
+  <div class="head" style="border-bottom-color:#e8841c;"><span class="n" style="background:#7a3d10;">SLIDE 09</span><span class="t">SimPy en código I · llegadas y servicio</span><span class="role" style="color:#c47a32;">Cubre: Luciano (era Thaiel)</span></div>
+  <div class="say">
+    <p><i>(No leas el código línea por línea. Mostrá que cada línea ES un concepto.)</i></p>
+    <p>“Lo importante de este código es que <b>cada línea es un concepto de la materia</b>, no código suelto.</p>
+    <p>Arriba está la función de <b>llegadas</b>: sortea con la exponencial cuándo llega el próximo enemigo —eso <b>es</b> un proceso de Poisson—; si el sistema ya está lleno, en capacidad K, lo cuenta como <b>fuga</b>, que es el bloqueo; y si hay lugar, lo mete en la cola FIFO.</p>
+    <p>Abajo está el <b>proceso de cada torre</b>: toma el siguiente de la cola —y si está vacía, espera—, y lo atiende durante un tiempo exponencial de tasa μ, que es el disparo hasta matarlo. En dos bloques chiquitos, el programa <b>implementa exactamente</b> el modelo (M/M/c)(FIFO/K/∞) que planteamos al principio.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche:</b> “Y la segunda mitad: la temperatura y el motor que pone todo a correr.”</div>
+</div>
+
+<!-- 10 (Thaiel) -->
+<div class="slide brk" style="border-left:6px solid #e8841c;padding-left:10px;">
+  <div class="head" style="border-bottom-color:#e8841c;"><span class="n" style="background:#7a3d10;">SLIDE 10</span><span class="t">SimPy en código II · temperatura y motor</span><span class="role" style="color:#c47a32;">Cubre: Luciano (era Thaiel)</span></div>
+  <div class="say">
+    <p>“Acá está la <b>temperatura</b>, que es la variable continua de estado. Tiene dos tramos: una <b>rampa</b> mientras la torre dispara, y cuando descansa <b>decae</b> hacia la temperatura ambiente —ese enfriamiento gradual es lo que se conoce como la ley de enfriamiento de Newton: cuanto más caliente está, más rápido baja—. Cuando supera el máximo, la torre entra en <b>cooldown</b> y deja de atender: ahí baja la capacidad efectiva y se rompe el supuesto markoviano.</p>
+    <p>Y abajo está el <b>motor</b>, la función que pone todo a andar: lanza el proceso de llegadas, lanza un proceso por cada torre, y corre hasta el tiempo final. El reloj no avanza segundo a segundo: <b>salta de evento a evento</b>, procesando la lista de eventos futuros. Y volvemos a la idea de toda la Wave: <b>por esto hay que simular</b> — la fórmula sola no ve la temperatura.”</p>
+  </div>
+  <div class="cue"><b>→ Enganche (a Martín):</b> “Con el motor armado, le paso a Martín, que va a mostrar que esto efectivamente está bien — la validación.”</div>
+  <div class="ask"><b>Si preguntan por “híbrida”:</b> la simulación combina <b>eventos discretos</b> (llegadas, fines de servicio) con una <b>variable continua</b> (temperatura) que evoluciona entre eventos. Por eso se la puede llamar simulación híbrida.</div>
+</div>
+
+<!-- 22 -->
+<div class="slide brk">
+  <div class="head"><span class="n">SLIDE 22</span><span class="t">Cierre · ¡Gracias!</span><span class="role">Referente: Luciano</span></div>
+  <div class="say">
+    <p><i>(Volvés vos al final, después de la demo. Tono tranquilo de cierre.)</i></p>
+    <p>“Y con eso cerramos. La frase con la que arrancamos vale para terminar: <b>defendemos el modelo, no el juego — pero el juego lo hace divertido</b>.</p>
+    <p>En una sola charla recorrimos el ciclo completo: <b>modelar</b> un sistema estocástico, <b>generarlo</b> con números pseudoaleatorios, <b>validarlo</b> contra la teoría de colas, y usar la simulación para <b>responder una pregunta de diseño</b>: ¿cuántas torres conviene poner?</p>
+    <p>Acá están los cuatro repositorios —la documentación, el backend en Python, el frontend en Godot y esta presentación—. Y quedamos para las preguntas. Gracias.”</p>
+  </div>
+  <div class="ask"><b>Pregunta casi segura — “¿por qué simular y no usar la fórmula?”:</b> porque le agregamos <b>temperatura</b> a las torres (se calientan y se enfrían), y eso rompe el supuesto markoviano: el servicio deja de ser “sin memoria”. Cuando no hay fórmula cerrada exacta, simulás. Igual validamos contra la fórmula en el caso sin temperatura, para mostrar que el motor está bien.</div>
+  <div class="ask"><b>Pregunta casi segura — “¿cómo sabés que está bien?”:</b> por dos lados. Primero, una relación de la teoría de colas que vincula la cantidad media en el sistema con la tasa de llegada y el tiempo medio de permanencia —se la conoce como <b>Ley de Little</b>—; nuestros números la cumplen. Segundo, sin temperatura la simulación <b>coincide con el modelo M/M/c teórico</b>. Eso es la validación.</div>
+</div>
+
+<!-- TIPS -->
+<div class="slide tips">
+  <h2>Tips rápidos para hoy</h2>
+  <ul>
+    <li><b>Tu ancla es una sola frase</b>, repetila si te trabás: <em>“el entregable es la validación del modelo, el juego es el vehículo.”</em> Volvé a eso y reorientás.</li>
+    <li><b>En la 05</b>, si te ponés nervioso con la notación, leela de izquierda a derecha como una lista. No la memorices: está en pantalla, andá señalando.</li>
+    <li><b>No tenés que decir todo.</b> Lo azul es lo mínimo; lo amarillo es solo por si preguntan. Si vas corto de tiempo, las negritas alcanzan.</li>
+    <li><b>Respiración:</b> cada slide arrancá con una frase corta antes de la explicación larga.</li>
+    <li><b>Números de memoria:</b> λ=0,40 · μ=0,25 · c=3 · K=10 · ρ=0,533 · semilla 42 · 1200 s.</li>
+  </ul>
+</div>
+
+</body>
+</html>

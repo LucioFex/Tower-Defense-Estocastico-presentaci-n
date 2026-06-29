@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Chuleta técnica · Simulación de Sistemas · Luciano</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Segoe UI", Calibri, system-ui, sans-serif; color: #161b22; line-height: 1.4; margin: 0; font-size: 10.7pt; }
+
+  .cover { background: #101826; color: #fff; padding: 22px 24px; border-radius: 12px; margin-bottom: 16px; }
+  .cover .sub { color: #8fd6ff; font-size: 10.5pt; font-weight: 600; letter-spacing: .05em; }
+  .cover h1 { margin: 4px 0 8px; font-size: 21pt; }
+  .cover p { margin: 0; color: #cfd8e6; font-size: 10pt; }
+  .cover .leg { margin-top: 10px; font-size: 9.5pt; color: #aeb9cc; }
+
+  h2.unit { font-size: 13pt; color: #fff; padding: 7px 14px; border-radius: 8px; margin: 18px 0 10px; }
+  .u1 { background: #2f6fd0; }
+  .u2 { background: #b8761c; }
+  .u3 { background: #2c8a5a; }
+  .u1.tag, .u2.tag, .u3.tag { display:inline-block; font-size:8pt; padding:1px 7px; border-radius:5px; color:#fff; vertical-align:middle; margin-left:6px; }
+
+  .term { border: 1px solid #e2e7ee; border-left: 4px solid #c2ccd8; border-radius: 8px; padding: 8px 12px; margin: 7px 0; page-break-inside: avoid; }
+  .term .name { font-weight: 700; font-size: 11pt; color: #0c1a2e; }
+  .term .def { margin: 3px 0 0; }
+  .term .tp { margin: 4px 0 0; font-size: 9.8pt; color: #1f5c8a; }
+  .term .tp b { color: #15466b; }
+  .term .ask { margin: 4px 0 0; font-size: 9.6pt; color: #7a5410; background: #fff8ec; border-radius: 5px; padding: 4px 8px; }
+  .term .ask b { color: #9a6a12; }
+  .mono { font-family: "Consolas", monospace; }
+  em { color: #b25a00; font-style: normal; font-weight: 600; }
+
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .quick { background: #f6f1fb; border: 1px solid #e2d5f3; border-radius: 10px; padding: 12px 16px; margin-top: 16px; page-break-inside: avoid; }
+  .quick h3 { margin: 0 0 6px; color: #5a2d8c; font-size: 12pt; }
+  .quick table { width: 100%; border-collapse: collapse; font-size: 9.8pt; }
+  .quick td { padding: 3px 6px; border-bottom: 1px solid #e7ddf3; vertical-align: top; }
+  .quick td:first-child { font-weight: 700; white-space: nowrap; color: #3d1d63; width: 92px; }
+  .avoid { background:#fdecec; border:1px solid #f4c4c4; border-radius:8px; padding:10px 14px; margin-top:14px; font-size:9.6pt; color:#7a2222; page-break-inside: avoid; }
+  .avoid b { color:#a01919; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="sub">CHULETA TÉCNICA · SIMULACIÓN DE SISTEMAS · UCEMA</div>
+  <h1>Términos para defender de memoria</h1>
+  <p>Lo justo para improvisar tranquilo. Cada término: <b style="color:#fff">qué es</b> en una línea · <b style="color:#9fd0ff">cómo aparece en el TP</b> · <b style="color:#ffd87a">qué decir si preguntan</b>.</p>
+  <div class="leg">Solo lenguaje de clase. Los términos con nombre de autor (Poisson, Markov, Kendall-Lee, Little, Erlang) van <b>descritos</b>, no dados por sabidos. Unidades: <b style="color:#9fd0ff">I fundamentos</b> · <b style="color:#ffcf80">II aleatoriedad</b> · <b style="color:#9be7bf">III colas</b>.</div>
+</div>
+
+<!-- ============ UNIDAD I ============ -->
+<h2 class="unit u1">UNIDAD I · Fundamentos: sistema, modelo, simulación</h2>
+
+<div class="term">
+  <div class="name">Sistema</div>
+  <div class="def">Conjunto de entidades que interactúan con un objetivo común.</div>
+  <div class="tp"><b>En el TP:</b> el sistema real es “defender una base de oleadas”.</div>
+</div>
+
+<div class="pair">
+  <div class="term">
+    <div class="name">Entidad</div>
+    <div class="def">Objeto de interés del sistema. <b>En el TP:</b> un enemigo, una torre.</div>
+  </div>
+  <div class="term">
+    <div class="name">Atributo</div>
+    <div class="def">Propiedad de una entidad. <b>En el TP:</b> la temperatura de una torre.</div>
+  </div>
+</div>
+
+<div class="pair">
+  <div class="term">
+    <div class="name">Estado del sistema</div>
+    <div class="def">Las variables que describen al sistema en un instante. <b>En el TP:</b> longitud de la cola + temperatura de cada torre.</div>
+  </div>
+  <div class="term">
+    <div class="name">Evento</div>
+    <div class="def">Un cambio de estado. <b>En el TP:</b> llega un enemigo, una torre termina de disparar, una torre se sobrecalienta.</div>
+  </div>
+</div>
+
+<div class="term">
+  <div class="name">Modelo</div>
+  <div class="def">Representación simplificada de un sistema real que conserva solo lo relevante para la pregunta que querés responder.</div>
+  <div class="tp"><b>En el TP:</b> el modelo es una red de líneas de espera (colas); la pregunta es “¿cuántas torres conviene?”.</div>
+  <div class="ask"><b>Si preguntan por tipos de modelo:</b> el nuestro es <b>matemático, dinámico, estocástico y de eventos discretos</b>. (Las otras opciones serían: físico, estático, determinístico, continuo.)</div>
+</div>
+
+<div class="term">
+  <div class="name">Simulación</div>
+  <div class="def">Experimentar sobre el <b>modelo</b> (no sobre el sistema real) para estimar cómo se comporta.</div>
+  <div class="ask"><b>¿Cuándo se simula?</b> Cuando el sistema es estocástico/complejo, no hay fórmula cerrada exacta, o experimentar en la realidad es caro o riesgoso.</div>
+</div>
+
+<div class="pair">
+  <div class="term">
+    <div class="name">Determinístico vs. Estocástico</div>
+    <div class="def"><b>Determinístico</b>: misma entrada → misma salida, sin azar. <b>Estocástico</b>: hay variables aleatorias. <b>En el TP:</b> estocástico — llegadas y ataques son aleatorios.</div>
+  </div>
+  <div class="term">
+    <div class="name">Estático vs. Dinámico</div>
+    <div class="def"><b>Estático</b>: sin tiempo. <b>Dinámico</b>: evoluciona en el tiempo. <b>En el TP:</b> dinámico.</div>
+  </div>
+</div>
+
+<div class="term">
+  <div class="name">Verificación vs. Validación (V&amp;V)</div>
+  <div class="def"><b>Verificar</b> = “¿programé bien el modelo?” (el código hace lo que el modelo dice). <b>Validar</b> = “¿el modelo representa la realidad?”.</div>
+  <div class="tp"><b>En el TP:</b> validamos comparando la simulación contra la teoría de colas (caso sin temperatura) y con la Ley de Little.</div>
+</div>
+
+<div class="term">
+  <div class="name">Etapas de un estudio de simulación</div>
+  <div class="def">Formular el problema → datos → modelo conceptual → programa → <b>verificación</b> → <b>validación</b> → diseño de experimentos → corridas → análisis → documentar.</div>
+  <div class="tp"><b>En el TP:</b> es exactamente el orden de las 4 Waves de la charla.</div>
+</div>
+
+<!-- ============ UNIDAD II ============ -->
+<h2 class="unit u2">UNIDAD II · Aleatoriedad: números pseudoaleatorios y variables aleatorias</h2>
+
+<div class="term">
+  <div class="name">Número pseudoaleatorio (PRNG)</div>
+  <div class="def">Número que <em>parece</em> aleatorio pero lo genera una fórmula determinística a partir de una semilla. La base de toda la aleatoriedad de la simulación.</div>
+  <div class="ask"><b>Generadores del apunte:</b> de <b>cuadrados medios</b> y <b>congruencial</b> (lineal y multiplicativo). <span class="mono">Detalle de implementación:</span> Python usa internamente otro generador por defecto, pero eso no es tema del programa — si surge, aclaralo así.</div>
+</div>
+
+<div class="term">
+  <div class="name">Semilla (seed) y reproducibilidad</div>
+  <div class="def">El valor inicial del generador. Misma semilla ⇒ misma secuencia de números ⇒ misma corrida.</div>
+  <div class="tp"><b>En el TP:</b> usamos <b>semilla 42</b>; por eso el <span class="mono">output.json</span> es reproducible y auditable: cualquiera repite la misma batalla.</div>
+</div>
+
+<div class="term">
+  <div class="name">Variable aleatoria (v.a.)</div>
+  <div class="def">Cantidad cuyo valor depende del azar, descrita por una distribución de probabilidad.</div>
+  <div class="tp"><b>En el TP:</b> el tiempo entre llegadas y el tiempo de servicio son variables aleatorias.</div>
+</div>
+
+<div class="term">
+  <div class="name">Transformada inversa</div>
+  <div class="def">Método para generar una variable aleatoria con la distribución que querés, a partir de un número uniforme entre 0 y 1 (R~U(0,1)): se invierte su función de distribución acumulada.</div>
+  <div class="ask"><b>Si preguntan:</b> es cómo convertimos los números pseudoaleatorios “crudos” en tiempos exponenciales para las llegadas y los servicios.</div>
+</div>
+
+<div class="term">
+  <div class="name">Proceso de Poisson ↔ Distribución exponencial</div>
+  <div class="def">Si los eventos (llegadas) ocurren a tasa constante λ de forma independiente —eso se llama <b>proceso de Poisson</b>, por el matemático Poisson—, entonces los <b>tiempos entre eventos</b> siguen una <b>distribución exponencial</b> de parámetro λ. Son dos caras de lo mismo.</div>
+  <div class="tp"><b>En el TP:</b> llegadas Poisson de tasa λ; servicios exponenciales de tasa μ.</div>
+</div>
+
+<div class="term">
+  <div class="name">Markoviano / “sin memoria”</div>
+  <div class="def">Una distribución es “sin memoria” cuando lo que falta para el próximo evento no depende de cuánto ya esperaste. La exponencial tiene esa propiedad; por eso a esos modelos se los llama <b>markovianos</b> (la “M” de la notación), por el matemático Markov.</div>
+  <div class="ask"><b>Clave del TP:</b> la <b>temperatura</b> de las torres <em>rompe</em> esta propiedad (el servicio pasa a “tener memoria”) → por eso no alcanza la fórmula y hay que <b>simular</b>.</div>
+</div>
+
+<!-- ============ UNIDAD III ============ -->
+<h2 class="unit u3">UNIDAD III · Teoría de colas (líneas de espera)</h2>
+
+<div class="term">
+  <div class="name">Sistema de líneas de espera (cola)</div>
+  <div class="def">Clientes que llegan, esperan si el servicio está ocupado, son atendidos y se van. Sus <b>3 piezas</b>: proceso de <b>llegadas</b>, mecanismo de <b>servicio</b>, y <b>disciplina</b> de la cola.</div>
+  <div class="tp"><b>En el TP:</b> enemigo = cliente · torre = servidor · esperar torre libre = cola · fugarse por lleno = bloqueo.</div>
+</div>
+
+<div class="term">
+  <div class="name">Notación de Kendall-Lee</div>
+  <div class="def">Formato estándar para describir una cola —lleva el nombre de los autores Kendall y Lee—: <span class="mono">(A / B / c)(disciplina / K / N)</span>. A = distribución de llegadas, B = de servicio, c = servidores, K = capacidad del sistema, N = tamaño de la población.</div>
+  <div class="tp"><b>El nuestro:</b> <b class="mono">(M/M/c)(FIFO/K/∞)</b> → llegadas y servicio markovianos, c torres, orden de llegada, capacidad finita K, población infinita.</div>
+</div>
+
+<div class="pair">
+  <div class="term">
+    <div class="name">FIFO (disciplina)</div>
+    <div class="def">“First In, First Out”: se atiende por <b>orden de llegada</b>. <b>En el TP:</b> la cola normal. (La alternativa que probamos es <b>prioridad</b>.)</div>
+  </div>
+  <div class="term">
+    <div class="name">Población infinita (∞)</div>
+    <div class="def">La tasa de llegada <b>no depende</b> de cuántos ya hay dentro. <b>En el TP:</b> asumimos ∞.</div>
+  </div>
+</div>
+
+<div class="term">
+  <div class="name">Capacidad finita K · Bloqueo / pérdida</div>
+  <div class="def">El sistema admite a lo sumo <b>K</b> clientes entre cola y servicio. El que llega y lo encuentra lleno <b>se pierde</b> (bloqueo). Hace que el modelo sea “con pérdida”.</div>
+  <div class="tp"><b>En el TP:</b> el bloqueo <b>es la fuga</b> del enemigo a la base. <b>K=10.</b></div>
+</div>
+
+<div class="term">
+  <div class="name">Factor de utilización ρ (rho)</div>
+  <div class="def"><span class="mono">ρ = λ / (c · μ)</span> — fracción del tiempo que, en promedio, cada servidor está ocupado.</div>
+  <div class="tp"><b>En el TP:</b> λ=0,40 · μ=0,25 · c=3 → <b>ρ = 0,533</b>. Es <b>cuenta directa</b>, no simulación.</div>
+  <div class="ask"><b>Estabilidad:</b> con cola infinita se necesita <b>ρ &lt; 1</b>, si no la fila crece sin límite. Con K finita nunca “explota”, pero aparece el bloqueo.</div>
+</div>
+
+<div class="term">
+  <div class="name">Familias M/M/1 · M/M/c · M/M/c/K</div>
+  <div class="def"><b>M/M/1</b>: un servidor. <b>M/M/c</b>: c servidores en paralelo. <b>M/M/c/K</b>: c servidores con capacidad limitada K (con bloqueo).</div>
+  <div class="tp"><b>En el TP:</b> el nuestro es <b>M/M/c/K</b>; comparamos contra <b>M/M/c</b> teórico para validar.</div>
+</div>
+
+<div class="term">
+  <div class="name">Medidas de desempeño: L, W, Lq, Wq</div>
+  <div class="def"><b>L</b> = nº medio de clientes en el sistema · <b>W</b> = tiempo medio en el sistema · <b>Lq</b> = nº medio en cola · <b>Wq</b> = tiempo medio de espera en cola. (la “q” es de <em>queue</em>, cola.)</div>
+</div>
+
+<div class="term">
+  <div class="name">Ley de Little</div>
+  <div class="def">Relación de la teoría de colas —lleva el nombre del autor Little—: el nº medio de clientes en el sistema es igual a la tasa de llegada por el tiempo medio de permanencia: <b class="mono">L = λ · W</b>.</div>
+  <div class="tp"><b>En el TP:</b> es una de las pruebas de validación — chequeamos que nuestros números la cumplan.</div>
+</div>
+
+<div class="pair">
+  <div class="term">
+    <div class="name">Erlang B / Erlang C</div>
+    <div class="def">Fórmulas de la teoría de colas —del ingeniero Erlang—: <b>Erlang B</b> da la probabilidad de <b>bloqueo</b> (sistema lleno); <b>Erlang C</b> da la probabilidad de <b>tener que esperar</b>.</div>
+  </div>
+  <div class="term">
+    <div class="name">Estado estacionario</div>
+    <div class="def">Cuando el sistema ya “se asentó” y sus promedios no dependen del arranque. Las fórmulas de colas valen en estacionario.</div>
+  </div>
+</div>
+
+<div class="term">
+  <div class="name">Simulación por eventos discretos</div>
+  <div class="def">El reloj <b>salta de evento a evento</b> (no avanza segundo a segundo): arribo, fin de servicio, sobrecalentamiento. De esos saltos sale la línea de tiempo.</div>
+  <div class="tp"><b>En el TP:</b> es lo que hace SimPy en el Paso 1; el resultado se guarda en <span class="mono">output.json</span>.</div>
+</div>
+
+<!-- QUICK -->
+<div class="quick">
+  <h3>Glosario exprés (una línea cada uno)</h3>
+  <table>
+    <tr><td>λ (lambda)</td><td>tasa de llegadas — enemigos por segundo</td></tr>
+    <tr><td>μ (mu)</td><td>tasa de servicio por torre — kills por segundo</td></tr>
+    <tr><td>c</td><td>número de torres = servidores</td></tr>
+    <tr><td>K</td><td>capacidad del sistema (cola + servicio)</td></tr>
+    <tr><td>ρ (rho)</td><td>utilización = λ/(c·μ); estable si ρ&lt;1</td></tr>
+    <tr><td>a = λ/μ</td><td>intensidad ofrecida (en Erlangs)</td></tr>
+    <tr><td>FIFO</td><td>se atiende por orden de llegada</td></tr>
+    <tr><td>Bloqueo</td><td>el que llega con el sistema lleno se va (= la fuga)</td></tr>
+    <tr><td>Little</td><td>L = λ·W (cantidad media = tasa × tiempo medio)</td></tr>
+    <tr><td>Estacionario</td><td>el sistema ya se asentó</td></tr>
+    <tr><td>Markoviano</td><td>“sin memoria”; lo que rompe la temperatura</td></tr>
+    <tr><td>Semilla</td><td>misma semilla → misma corrida (reproducible)</td></tr>
+  </table>
+</div>
+
+<div class="avoid">
+  <b>OJO — términos que NO conviene usar</b> (no están en el programa; si te los nombran, contestá con la idea, no con el nombre): Pollaczek-Khinchine / M-G-1 · regla cμ · “conservación del trabajo” · lote económico / EOQ. Y <b>Mersenne Twister</b> es solo el generador interno de Python, <b>no</b> tema de clase: mencionalo como detalle de implementación si hace falta.
+</div>
+
+</body>
+</html>
