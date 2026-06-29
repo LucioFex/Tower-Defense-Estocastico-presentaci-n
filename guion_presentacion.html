@@ -110,12 +110,12 @@
   <b>“Apoyo material estudio”</b> con los conceptos clave de la materia
   (Unidad&nbsp;I — simulación y modelos · Unidad&nbsp;II — números pseudoaleatorios · Unidad&nbsp;III — teoría de colas).</p>
   <div class="legend-cover">
-    <span class="lc"><span class="dot" style="background:var(--luciano)"></span><b>Luciano Esteban</b>&nbsp;<small>01·02·03·04·17</small></span>
-    <span class="lc"><span class="dot" style="background:var(--thaiel)"></span><b>Thaiel Anaya</b>&nbsp;<small>05·06·07</small></span>
-    <span class="lc"><span class="dot" style="background:var(--martin)"></span><b>Martín Blasson</b>&nbsp;<small>08·09·10·16</small></span>
-    <span class="lc"><span class="dot" style="background:var(--luca)"></span><b>Luca Sucri</b>&nbsp;<small>11·12·13·14·15</small></span>
+    <span class="lc"><span class="dot" style="background:var(--luciano)"></span><b>Luciano Esteban</b>&nbsp;<small>01·02·03·04·05·22</small></span>
+    <span class="lc"><span class="dot" style="background:var(--thaiel)"></span><b>Thaiel Anaya</b>&nbsp;<small>06·07·08·09·10</small></span>
+    <span class="lc"><span class="dot" style="background:var(--martin)"></span><b>Martín Blasson</b>&nbsp;<small>11·12·13·21</small></span>
+    <span class="lc"><span class="dot" style="background:var(--luca)"></span><b>Luca Sucri</b>&nbsp;<small>14·15·16·17·18·19·20</small></span>
   </div>
-  <p class="sub" style="margin-top:18px;font-size:14px;"><b>Presentación en equipo:</b> la charla es colaborativa — todos intervenimos cuando haga falta. El <b>referente/lead</b> de cada slide (marcado abajo) es quien la conduce, no el único que habla. El <b>cierre (slide 17) lo hace Luciano</b>.</p>
+  <p class="sub" style="margin-top:18px;font-size:14px;"><b>Presentación en equipo:</b> la charla es colaborativa — todos intervenimos cuando haga falta. El <b>referente/lead</b> de cada slide (marcado abajo) es quien la conduce, no el único que habla. El <b>cierre (slide 22) lo hace Luciano</b>.</p>
   <div class="meta">Ing. en Informática · UCEMA · Prof. Sergio Sirotinsky &nbsp;|&nbsp; Simulación de Sistemas &nbsp;|&nbsp; Modelo (M/M/c)(FIFO/K/∞) · λ=0.40 · μ=0.25 · c=3 · K=10</div>
 </section>
 
@@ -124,7 +124,7 @@
 <section class="member-div">
   <div class="tag">Integrante 1 de 4</div>
   <h2><span class="chip" style="background:var(--luciano)"></span>Luciano Esteban</h2>
-  <p class="scope"><b>Abre y cierra la charla.</b> Slides <b>01 Portada · 02 Recorrido · 03 Problema · 04 Modelo de colas · 17 Cierre</b>. Marca el encuadre (qué se entrega y por qué) y la traducción del juego a teoría de colas.</p>
+  <p class="scope"><b>Abre y cierra la charla.</b> Slides <b>01 Portada · 02 Recorrido · 03 Panorama · 04 Problema · 05 Modelo de colas · 22 Cierre</b>. Marca el encuadre (qué se entrega y por qué), da el panorama de la máquina de la demo y la traducción del juego a teoría de colas.</p>
   <div class="rule" style="background:var(--luciano)"></div>
 </section>
 
@@ -183,9 +183,40 @@
   </div>
 </div>
 
-<!-- 03 Problema -->
+<!-- 03 Panorama -->
 <div class="slide m-luciano">
-  <div class="bar"><div class="l"><span class="num">SLIDE 03 · WAVE 01</span><span class="ttl">El problema: defender la base de oleadas</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 03 · PANORAMA</span><span class="ttl">La máquina de la demo (arquitectura de un vistazo)</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Dar el <b>panorama</b> antes del detalle: lo que se verá en vivo se arma en <b>tres pasos</b>, y uno solo ocurre en pantalla.</li>
+        <li><b>Paso 1 · offline:</b> Python + SimPy simula la batalla por <b>eventos discretos</b> y arma una línea de tiempo completa, <b>una sola vez</b>.</li>
+        <li><b>Paso 2 · contrato:</b> exporta <code>output.json</code> — una <b>foto del sistema por instante</b> (cola, fugas, estado de cada torre); con <b>semilla fija</b> es reproducible.</li>
+        <li><b>Paso 3 · en vivo:</b> Godot <b>lee e interpola</b>; el HUD dibuja la teoría encima. La pantalla <b>no calcula nada</b>.</li>
+        <li>Anticipar el <b>selector</b>: en la demo cambiamos de escenario (λ, c, FIFO/Prioridad) en caliente y el juego recarga el JSON al instante.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Separación cálculo / visualización</span> — el motor que resuelve la dinámica estocástica (pesado) se separa del visor que sólo reproduce (liviano). Es la misma idea que retoma Luca en Arquitectura, vista acá <b>de un vistazo</b>.</p>
+      <p><span class="term">Simulación por eventos discretos</span> <span class="unit">UNIDAD III</span> — el reloj salta de evento a evento (arribo, fin de servicio, sobrecalentamiento); de ahí sale la línea de tiempo que se guarda y luego se reproduce.</p>
+      <p><span class="term">Reproducibilidad por la semilla</span> <span class="unit">UNIDAD II</span> — al ser pseudoaleatorio, misma <b>semilla ⇒ misma corrida ⇒ mismo <code>output.json</code></b>: lo que mostramos es auditable y se puede repetir igual.</p>
+      <p class="note"><b>Por qué importa el encuadre:</b> deja claro desde el arranque que el entregable es la <b>simulación validada</b>; el juego es la forma de verla.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Modelo → programa → animación</b> <span class="unit">UNIDAD I</span> — etapas de un estudio de simulación: se construye el modelo, se lo programa (verificación) y la <b>animación</b> ayuda a comunicarlo y a detectar errores.</li>
+        <li><b>Estado del sistema</b> <span class="unit">UNIDAD I</span> — lo que describe al sistema en un instante (cola, temperatura de cada torre); el <code>output.json</code> guarda justamente esos estados muestreados.</li>
+        <li><b>Eventos discretos + variable continua</b> <span class="unit">UNIDAD III</span> — llegadas/servicios son eventos; la temperatura es continua. La demo reproduce ambos sin recalcular.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 04 Problema -->
+<div class="slide m-luciano">
+  <div class="bar"><div class="l"><span class="num">SLIDE 04 · WAVE 01</span><span class="ttl">El problema: defender la base de oleadas</span></div><span class="who">Referente: Luciano</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -212,9 +243,9 @@
   </div>
 </div>
 
-<!-- 04 Modelo de colas -->
+<!-- 05 Modelo de colas -->
 <div class="slide m-luciano">
-  <div class="bar"><div class="l"><span class="num">SLIDE 04 · WAVE 01</span><span class="ttl">Traducción a teoría de colas · Kendall-Lee</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 05 · WAVE 01</span><span class="ttl">Traducción a teoría de colas · Kendall-Lee</span></div><span class="who">Referente: Luciano</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -243,15 +274,15 @@
   </div>
 </div>
 
-<!-- 17 Cierre -->
+<!-- 22 Cierre -->
 <div class="slide m-luciano">
-  <div class="bar"><div class="l"><span class="num">SLIDE 17 · CIERRE</span><span class="ttl">¡Gracias! · Preguntas</span></div><span class="who">Referente: Luciano</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 22 · CIERRE</span><span class="ttl">¡Gracias! · Preguntas</span></div><span class="who">Referente: Luciano</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
         <li>Cerrar con la frase: <b>“defendemos el modelo, no el juego — pero el juego lo hace divertido”</b>.</li>
         <li>Mostrar los 4 repos (RAG/doc, backend, frontend, presentación) e invitar a preguntas.</li>
-        <li>Quedar para las <b>preguntas</b> del profesor — la demo ya ocurrió en la slide 15, el cierre es sólo el final.</li>
+        <li>Quedar para las <b>preguntas</b> del profesor — la demo ya ocurrió en la slide 20, el cierre es sólo el final.</li>
       </ul>
     </div>
     <div class="theory">
@@ -275,13 +306,13 @@
 <section class="member-div">
   <div class="tag">Integrante 2 de 4</div>
   <h2><span class="chip" style="background:var(--thaiel)"></span>Thaiel Anaya</h2>
-  <p class="scope"><b>Wave 02 — aleatoriedad y motor.</b> Slides <b>05 Variables · 06 Aleatoriedad · 07 Motor SimPy</b>. Explica de qué está hecho el modelo, cómo se generan los números aleatorios y por qué hace falta simular.</p>
+  <p class="scope"><b>Wave 02 — aleatoriedad y motor.</b> Slides <b>06 Variables · 07 Aleatoriedad · 08 Motor SimPy · 09 Código SimPy I · 10 Código SimPy II</b>. Explica de qué está hecho el modelo, cómo se generan los números aleatorios, por qué hace falta simular y cómo se ve eso en el código.</p>
   <div class="rule" style="background:var(--thaiel)"></div>
 </section>
 
-<!-- 05 Variables -->
+<!-- 06 Variables -->
 <div class="slide m-thaiel">
-  <div class="bar"><div class="l"><span class="num">SLIDE 05 · WAVE 02</span><span class="ttl">Variables del modelo</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 06 · WAVE 02</span><span class="ttl">Variables del modelo</span></div><span class="who">Referente: Thaiel</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -310,9 +341,9 @@
   </div>
 </div>
 
-<!-- 06 Aleatoriedad -->
+<!-- 07 Aleatoriedad -->
 <div class="slide m-thaiel">
-  <div class="bar"><div class="l"><span class="num">SLIDE 06 · WAVE 02</span><span class="ttl">Números pseudoaleatorios reproducibles</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 07 · WAVE 02</span><span class="ttl">Números pseudoaleatorios reproducibles</span></div><span class="who">Referente: Thaiel</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -344,9 +375,9 @@
   </div>
 </div>
 
-<!-- 07 Motor SimPy -->
+<!-- 08 Motor SimPy -->
 <div class="slide m-thaiel">
-  <div class="bar"><div class="l"><span class="num">SLIDE 07 · WAVE 02</span><span class="ttl">Motor de simulación · SimPy · “el calor rompe la fórmula”</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 08 · WAVE 02</span><span class="ttl">Motor de simulación · SimPy · “el calor rompe la fórmula”</span></div><span class="who">Referente: Thaiel</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -375,18 +406,77 @@
   </div>
 </div>
 
+<!-- 09 Código SimPy I -->
+<div class="slide m-thaiel">
+  <div class="bar"><div class="l"><span class="num">SLIDE 09 · WAVE 02</span><span class="ttl">SimPy en código I: llegadas y servicio</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Mostrar que <b>cada línea es un concepto</b> de la materia, no “código suelto”.</li>
+        <li><code>arrivals()</code>: <code>env.timeout(Exp(λ))</code> = cuándo llega el próximo (<b>Poisson</b>); si el sistema está lleno (capacidad <b>K</b>), se cuenta como <b>fuga/bloqueo</b>; si hay lugar, entra a la cola <b>FIFO</b>.</li>
+        <li><code>tower_proc()</code>: cada torre <b>toma</b> el siguiente de la cola (espera si está vacía) y lo atiende un tiempo <b>Exp(μ)</b>.</li>
+        <li>Mensaje: el programa <b>implementa</b> exactamente (M/M/c)(FIFO/K/∞).</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Procesos y recursos en SimPy</span> <span class="unit">UNIDAD III</span> — el modelo se arma como <b>procesos</b> (las llegadas, cada torre) que comparten una <b>cola</b> (<code>Store</code> FIFO). <code>yield env.timeout(t)</code> hace avanzar el reloj hasta el próximo evento.</p>
+      <p><span class="term">Llegadas Poisson ↔ tiempos Exp(λ)</span> <span class="unit">UNIDAD II/III</span> — sortear el tiempo hasta el próximo arribo con Exp(λ) <b>es</b> generar un proceso de llegadas Poisson de tasa λ.</p>
+      <p><span class="term">Bloqueo por capacidad K</span> <span class="unit">UNIDAD III</span> — el <code>if in_system() &gt;= K</code> es la traducción literal de “sistema con pérdida”: el cliente que llega lleno se va = la <b>fuga</b>.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Enfoque por procesos</b> <span class="unit">UNIDAD III</span> — describir el sistema como entidades que “viven” un ciclo (llegar → encolar → ser atendido → salir); SimPy lo resuelve por eventos discretos por debajo.</li>
+        <li><b>Disciplina FIFO</b> <span class="unit">UNIDAD III</span> — la <code>Store</code> entrega en orden de llegada: primero en entrar, primero en ser atendido.</li>
+        <li><b>Servicio Exp(μ)</b> <span class="unit">UNIDAD II</span> — el tiempo de “disparo” se sortea por <b>transformada inversa</b> de la exponencial a partir de un R~U(0,1).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 10 Código SimPy II -->
+<div class="slide m-thaiel">
+  <div class="bar"><div class="l"><span class="num">SLIDE 10 · WAVE 02</span><span class="ttl">SimPy en código II: temperatura y motor</span></div><span class="who">Referente: Thaiel</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li><code>temp_at()</code> es la <b>variable continua</b> de estado: <b>rampa</b> al disparar y <b>decaimiento exponencial</b> hacia la temperatura ambiente al descansar (ley de enfriamiento de Newton).</li>
+        <li>Al superar <code>T_max</code> la torre entra en <b>cooldown</b> y deja de atender → <b>baja la capacidad efectiva</b> y se rompe el supuesto markoviano.</li>
+        <li><code>run()</code> arma el motor: lanza el proceso de <b>llegadas</b> y un proceso por <b>torre</b>; ese es el “esqueleto” de la simulación.</li>
+        <li>Enlazar con la idea de la Wave: <b>por esto hay que simular</b>, la fórmula sola no ve la temperatura.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Simulación híbrida</span> <span class="unit">UNIDAD III</span> — combina <b>eventos discretos</b> (arribos, fines de servicio) con una <b>variable continua</b> (temperatura) que evoluciona por una ecuación por tramos entre eventos.</p>
+      <p><span class="term">Decaimiento exponencial (enfriamiento de Newton)</span> — al descansar, la temperatura tiende a la ambiente como <code>Ta+(T−Ta)·e^(−k·dt)</code>: cuanto más caliente, más rápido baja. Es determinístico dado el historial de disparos.</p>
+      <p><span class="term">Ruptura del supuesto markoviano</span> <span class="unit">UNIDAD III</span> — M/M/c supone c servidores <b>siempre disponibles</b>; el cooldown viola eso, por lo que la fórmula queda como <b>cota</b> y la simulación es la que da el número real.</p>
+      <p class="note"><b>Cue de demo:</b> mirar una torre roja apagándose es <b>ver bajar la capacidad efectiva</b> en tiempo real.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Variable de estado continua</b> <span class="unit">UNIDAD I</span> — describe el sistema entre eventos; acá la temperatura de cada torre, integrada por tramos.</li>
+        <li><b>Modelo dinámico</b> <span class="unit">UNIDAD I</span> — el estado evoluciona en el tiempo; combina lo discreto (cola) y lo continuo (temperatura).</li>
+        <li><b>Capacidad efectiva variable</b> <span class="unit">UNIDAD III</span> — cuando un servidor no está disponible, el sistema se comporta como uno con menos servidores: más cola y más bloqueo.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 
 <!-- ============================ MARTÍN ============================ -->
 <section class="member-div">
   <div class="tag">Integrante 3 de 4</div>
   <h2><span class="chip" style="background:var(--martin)"></span>Martín Blasson</h2>
-  <p class="scope"><b>Wave 03 — validación y resultados + conclusiones.</b> Slides <b>08 Validación · 09 Rendimiento marginal · 10 Óptimo económico · 16 Conclusiones</b>. Demuestra que el modelo es correcto y responde “¿cuántas torres?”.</p>
+  <p class="scope"><b>Wave 03 — validación y resultados + conclusiones.</b> Slides <b>11 Validación · 12 Rendimiento marginal · 13 Óptimo económico · 21 Conclusiones</b>. Demuestra que el modelo es correcto y responde “¿cuántas torres?”.</p>
   <div class="rule" style="background:var(--martin)"></div>
 </section>
 
-<!-- 08 Validación -->
+<!-- 11 Validación -->
 <div class="slide m-martin">
-  <div class="bar"><div class="l"><span class="num">SLIDE 08 · WAVE 03</span><span class="ttl">Validación: analítico vs. simulado</span></div><span class="who">Referente: Martín</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 11 · WAVE 03</span><span class="ttl">Validación: analítico vs. simulado</span></div><span class="who">Referente: Martín</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -415,9 +505,9 @@
   </div>
 </div>
 
-<!-- 09 Rendimiento marginal -->
+<!-- 12 Rendimiento marginal -->
 <div class="slide m-martin">
-  <div class="bar"><div class="l"><span class="num">SLIDE 09 · WAVE 03</span><span class="ttl">Rendimiento marginal decreciente: “más torres ≠ mejor”</span></div><span class="who">Referente: Martín</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 12 · WAVE 03</span><span class="ttl">Rendimiento marginal decreciente: “más torres ≠ mejor”</span></div><span class="who">Referente: Martín</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -444,9 +534,9 @@
   </div>
 </div>
 
-<!-- 10 Óptimo económico -->
+<!-- 13 Óptimo económico -->
 <div class="slide m-martin">
-  <div class="bar"><div class="l"><span class="num">SLIDE 10 · WAVE 03</span><span class="ttl">Óptimo económico: el costo dibuja una U</span></div><span class="who">Referente: Martín</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 13 · WAVE 03</span><span class="ttl">Óptimo económico: el costo dibuja una U</span></div><span class="who">Referente: Martín</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -474,9 +564,9 @@
   </div>
 </div>
 
-<!-- 16 Conclusiones -->
+<!-- 21 Conclusiones -->
 <div class="slide m-martin">
-  <div class="bar"><div class="l"><span class="num">SLIDE 16 · RESULTADOS</span><span class="ttl">Conclusiones y recomendaciones (“el botín”)</span></div><span class="who">Referente: Martín</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 21 · RESULTADOS</span><span class="ttl">Conclusiones y recomendaciones (“el botín”)</span></div><span class="who">Referente: Martín</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -507,13 +597,13 @@
 <section class="member-div">
   <div class="tag">Integrante 4 de 4</div>
   <h2><span class="chip" style="background:var(--luca)"></span>Luca Sucri</h2>
-  <p class="scope"><b>Wave 04 — experimentos, arquitectura y demo.</b> Slides <b>11 Experimentos I · 12 Prioridad · 13 Arquitectura · 14 Frontend · 15 Demo en vivo</b>. Cierra con rigor estadístico, ingeniería del sistema y la demostración.</p>
+  <p class="scope"><b>Wave 04 — experimentos, arquitectura y demo.</b> Slides <b>14 Experimentos I · 15 Prioridad · 16 Arquitectura · 17 Frontend · 18 Diccionario visual · 19 HUD y escenarios · 20 Demo en vivo</b>. Cierra con rigor estadístico, ingeniería del sistema y la demostración.</p>
   <div class="rule" style="background:var(--luca)"></div>
 </section>
 
-<!-- 11 Experimentos I -->
+<!-- 14 Experimentos I -->
 <div class="slide m-luca">
-  <div class="bar"><div class="l"><span class="num">SLIDE 11 · WAVE 04</span><span class="ttl">Experimentos I: confianza y oleadas</span></div><span class="who">Referente: Luca</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 14 · WAVE 04</span><span class="ttl">Experimentos I: confianza y oleadas</span></div><span class="who">Referente: Luca</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -542,9 +632,9 @@
   </div>
 </div>
 
-<!-- 12 Prioridad -->
+<!-- 15 Prioridad -->
 <div class="slide m-luca">
-  <div class="bar"><div class="l"><span class="num">SLIDE 12 · WAVE 04</span><span class="ttl">Prioridad: reasignar, no eliminar</span></div><span class="who">Referente: Luca</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 15 · WAVE 04</span><span class="ttl">Prioridad: reasignar, no eliminar</span></div><span class="who">Referente: Luca</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -574,9 +664,9 @@
   </div>
 </div>
 
-<!-- 13 Arquitectura -->
+<!-- 16 Arquitectura -->
 <div class="slide m-luca">
-  <div class="bar"><div class="l"><span class="num">SLIDE 13 · WAVE 04</span><span class="ttl">Arquitectura desacoplada: tres piezas, un contrato</span></div><span class="who">Referente: Luca</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 16 · WAVE 04</span><span class="ttl">Arquitectura desacoplada: tres piezas, un contrato</span></div><span class="who">Referente: Luca</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -603,9 +693,9 @@
   </div>
 </div>
 
-<!-- 14 Frontend -->
+<!-- 17 Frontend -->
 <div class="slide m-luca">
-  <div class="bar"><div class="l"><span class="num">SLIDE 14 · WAVE 04</span><span class="ttl">Frontend Godot 2D: reproducir, no calcular</span></div><span class="who">Referente: Luca</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 17 · WAVE 04</span><span class="ttl">Frontend Godot 2D: reproducir, no calcular</span></div><span class="who">Referente: Luca</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
@@ -632,9 +722,67 @@
   </div>
 </div>
 
-<!-- 15 Demo en vivo -->
+<!-- 18 Diccionario visual -->
 <div class="slide m-luca">
-  <div class="bar"><div class="l"><span class="num">SLIDE 15 · WAVE 04</span><span class="ttl">Demo en vivo: el modelo respirando</span></div><span class="who">Referente: Luca</span></div>
+  <div class="bar"><div class="l"><span class="num">SLIDE 18 · WAVE 04</span><span class="ttl">Diccionario visual: cada concepto, visible</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Traducir el juego al modelo, elemento por elemento: <b>cueva → goblins</b> = llegadas <b>Poisson(λ)</b>; <b>torre</b> = servidor; <b>fila de goblins</b> = cola <b>FIFO</b> de capacidad <b>K</b>.</li>
+        <li><b>Recorrido del goblin hasta morir</b> = su <b>tiempo en el sistema</b>; <b>goblin rojo que llega al castillo</b> = la <b>fuga</b> (pérdida por bloqueo).</li>
+        <li><b>Temperatura</b> azul→roja + cooldown = la <b>capacidad que se degrada</b>.</li>
+        <li>Insistir: es el <b>mismo</b> (M/M/c)(FIFO/K/∞) que validamos en la Wave 3, ahora jugable.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Mapeo modelo ↔ juego</span> <span class="unit">UNIDAD III</span> — enemigo = <em>cliente</em>; torre = <em>servidor/canal</em>; fila = <em>cola</em>; fuga = <em>bloqueo</em> por capacidad finita. Es el mismo diccionario del slide del problema, ahora sobre la pantalla real.</p>
+      <p><span class="term">La animación como verificación</span> <span class="unit">UNIDAD I</span> — ver cada concepto moverse permite <b>chequear</b> que el modelo hace lo que dice y comunicarlo sin fórmulas.</p>
+      <p><span class="term">Tiempo en el sistema (W)</span> <span class="unit">UNIDAD III</span> — el recorrido completo del goblin (espera en cola + servicio) es exactamente W; la espera sola es Wq.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Vocabulario de colas</b> <span class="unit">UNIDAD III</span> — cliente, servidor, cola (capacidad K + disciplina), salida; cada uno tiene su contraparte visual.</li>
+        <li><b>L, Lq, W, Wq</b> <span class="unit">UNIDAD III</span> — nº en sistema / en cola y tiempo en sistema / en cola; en pantalla son “cuántos goblins hay” y “cuánto tardan”.</li>
+        <li><b>Bloqueo (Pb)</b> <span class="unit">UNIDAD III</span> — el goblin que llega con la zona llena se fuga: es la probabilidad de pérdida que mide el modelo.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 19 HUD y escenarios -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 19 · WAVE 04</span><span class="ttl">HUD didáctico + escenarios: validar y explorar</span></div><span class="who">Referente: Luca</span></div>
+  <div class="body">
+    <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
+      <ul>
+        <li>Mostrar el <b>HUD</b> que pone la teoría en pantalla mientras corre: panel <b>Teoría vs Simulación</b> (ρ, Lq, Wq, L, W y fuga lado a lado).</li>
+        <li><b>Dimensionado c*</b>: la tabla de <b>barrido de torres</b> resalta el óptimo según la carga (lo de la Wave 3, ahora interactivo).</li>
+        <li><b>Cola en el tiempo</b>: los picos del gráfico son las <b>ráfagas de llegadas</b> (aleatoriedad).</li>
+        <li><b>Cue de demo / interactivo:</b> con el <b>selector</b> cambiamos carga (λ), torres (c) y disciplina (FIFO/Prioridad) al instante y vemos reaccionar las métricas.</li>
+      </ul>
+    </div>
+    <div class="theory">
+      <div class="hd">▾ Apoyo teórico / práctico</div>
+      <p><span class="term">Validación en vivo</span> <span class="unit">UNIDAD I/III</span> — poner <b>analítico vs. simulado</b> en pantalla es validar a la vista: si coinciden (sin temperatura), el motor está bien; si difieren (con temperatura), se ve el efecto.</p>
+      <p><span class="term">Análisis de sensibilidad</span> <span class="unit">UNIDAD I</span> — mover λ, c y la disciplina y observar cómo cambian cola, espera y fuga es explorar el modelo: qué pasa “si…”. El selector recarga corridas <b>precomputadas</b>.</p>
+      <p><span class="term">c* óptimo</span> <span class="unit">UNIDAD III</span> — el barrido muestra el nivel de capacidad que minimiza el costo / equilibra cola y fugas; es el resultado de la Wave 3 vuelto interactivo.</p>
+    </div>
+    <div class="study">
+      <div class="hd">★ Apoyo material estudio</div>
+      <ul class="terms">
+        <li><b>Métricas en pantalla</b> <span class="unit">UNIDAD III</span> — λ, μ, c, K, ρ (entradas) y L, Lq, W, Wq, Pb (salidas), leídas en vivo.</li>
+        <li><b>Diseño de experimentos</b> <span class="unit">UNIDAD I</span> — comparar escenarios cambiando un factor por vez (carga, torres, disciplina) para aislar su efecto.</li>
+        <li><b>Régimen estacionario vs. ráfagas</b> <span class="unit">UNIDAD III</span> — el gráfico de cola en el tiempo muestra que con λ alta el sistema no “se asienta”: la cola crece y se satura.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 20 Demo en vivo -->
+<div class="slide m-luca">
+  <div class="bar"><div class="l"><span class="num">SLIDE 20 · WAVE 04</span><span class="ttl">Demo en vivo: el modelo respirando</span></div><span class="who">Referente: Luca</span></div>
   <div class="body">
     <div class="blk say"><div class="hd">▸ Puntos a presentar</div>
       <ul>
