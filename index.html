@@ -615,13 +615,15 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
         <div class="card accent" style="padding:34px;">
           <span class="ck">NOTACIÓN KENDALL-LEE</span>
           <div class="mono" style="font-size:48px;font-weight:700;color:#fff;letter-spacing:.02em;">( M / M / c )<br>( FIFO / K / ∞ )</div>
+          <div class="mono" style="font-size:15px;color:var(--faint);letter-spacing:.03em;line-height:1.55;margin-top:12px;">( llegadas / servicio / n.º&nbsp;torres )<br>( orden de atención / capacidad / población )</div>
+          <div style="font-size:13.5px;color:var(--faint);margin-top:8px;opacity:.9;">forma estándar de describir cualquier cola — cada posición es un rasgo del sistema</div>
         </div>
         <ul class="feat">
-          <li><b>M</b> · llegadas y servicio exponenciales (markoviano)</li>
+          <li><b>M</b> · llegadas y servicio exponenciales — <b>markoviano</b> = «sin memoria»</li>
           <li><b>c</b> · torres (servidores) &nbsp;·&nbsp; <b>K</b> · capacidad → habilita la fuga</li>
         </ul>
         <div class="stat-row">
-          <div class="stat cold"><span class="big">ρ = λ/(c·μ)</span><span class="lbl">factor de utilización</span></div>
+          <div class="stat cold"><span class="big">ρ = λ/(c·μ)</span><span class="lbl">factor de utilización · qué tan ocupada está cada torre</span></div>
           <div class="stat hot"><span class="big">ρ &lt; 1</span><span class="lbl">condición de estabilidad</span></div>
         </div>
       </div>
@@ -666,7 +668,7 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
     </div>
     <div class="card" style="margin-top:24px;padding:22px 30px;display:flex;align-items:center;gap:24px;">
       <span class="eyebrow" style="color:var(--cold);">CHEQUEO</span>
-      <p style="font-size:24px;">Ley de Little como control de consistencia: <span class="mono cold" style="font-weight:700;">L = λ·W</span> &nbsp;y&nbsp; <span class="mono cold" style="font-weight:700;">Lq = λ·Wq</span></p>
+      <p style="font-size:24px;">Ley de Little como control de consistencia: <span class="mono cold" style="font-weight:700;">L = λ·W</span> &nbsp;y&nbsp; <span class="mono cold" style="font-weight:700;">Lq = λ·Wq</span><span style="display:block;font-size:16px;color:var(--faint);font-weight:400;margin-top:6px;">cantidad media en el sistema = tasa de llegada × tiempo medio de permanencia</span></p>
     </div>
     <div class="symkey"><span class="skt">SÍMBOLOS</span>
       <span class="sk"><b>λ</b> llegadas/s · <b>μ</b> servicio por torre</span>
