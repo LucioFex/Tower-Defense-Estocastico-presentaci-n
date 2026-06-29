@@ -107,6 +107,15 @@ ul.feat li b{color:#fff;font-weight:700;}
 .shot img{width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;}
 .cap{font-size:17px;color:var(--mut);margin-top:10px;text-align:center;font-style:italic;}
 
+/* QR para probar el juego en vivo (slide Arquitectura) */
+.qr-cta{position:absolute;right:110px;bottom:96px;z-index:7;display:flex;align-items:center;gap:14px;
+  background:linear-gradient(180deg,#eef3ff,#cdd9ef);border-radius:16px;padding:12px 20px 12px 12px;
+  box-shadow:0 22px 54px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.28);text-decoration:none;}
+.qr-cta img{width:112px;height:112px;display:block;object-fit:contain;}
+.qr-cta .qrl{display:flex;flex-direction:column;line-height:1.15;}
+.qr-cta .qrl b{font-family:var(--pixel);font-size:15px;letter-spacing:.07em;color:#0b1220;}
+.qr-cta .qrl small{font-family:var(--pixel);font-size:11px;letter-spacing:.04em;color:#2b3a57;margin-top:7px;}
+
 table.t{width:100%;border-collapse:collapse;font-size:22px;}
 table.t th,table.t td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
 table.t th{font-family:var(--pixel);font-size:12px;color:var(--gold);letter-spacing:.03em;text-transform:uppercase;}
@@ -959,6 +968,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <li>Documentación como <b>LLM-Wiki</b>: schema, índice, log, fuentes integradas y síntesis evolutiva</li>
     </ul>
   </div>
+  <a class="qr-cta" href="https://luciofex.github.io/Tower-Defense-Estocastico-front/" target="_blank" rel="noopener" aria-label="Escaneá el QR para jugar la demo web">
+    <img src="assets/qr_juego.png" alt="Código QR que abre el juego en el navegador">
+    <span class="qrl"><b>ESCANEÁ Y JUGÁ</b><small>Demo web · sin instalar nada</small></span>
+  </a>
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">16</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
