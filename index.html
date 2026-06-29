@@ -336,6 +336,38 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
 .card:hover,.stat:hover,.wave:hover,.watch:hover{transform:translateY(-4px)}
 .shot:hover{transform:translateY(-4px) scale(1.012);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(63,167,255,.25)}
 
+/* ===== PANORAMA · "la máquina de la demo" (pipeline vivo) ===== */
+.demopipe{position:relative;display:flex;align-items:stretch;gap:0;margin:6px 0 22px;}
+.demopipe .node{flex:1;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line2);
+  border-radius:18px;padding:22px 24px;position:relative;z-index:2;display:flex;flex-direction:column;gap:9px;overflow:hidden;}
+.demopipe .node::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--accent,var(--cold));}
+.demopipe .node.n-back{--accent:var(--green);} .demopipe .node.n-json{--accent:var(--cold);} .demopipe .node.n-front{--accent:var(--gold);}
+.demopipe .node .ph{font-family:var(--pixel);font-size:11px;letter-spacing:.05em;color:var(--mut);display:flex;align-items:center;gap:9px;}
+.demopipe .node .ph .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);}
+.demopipe .node h3{font-family:var(--disp);font-weight:600;font-size:25px;color:#fff;}
+.demopipe .node p{font-size:18px;color:var(--mut);line-height:1.38;}
+.demopipe .node .svgwrap{position:absolute;right:18px;top:18px;opacity:.5;}
+/* riel que conecta nodos + paquete de datos que viaja */
+.demopipe .rail{flex:0 0 78px;align-self:center;position:relative;height:4px;border-radius:3px;
+  background:repeating-linear-gradient(90deg,var(--line2) 0 8px,transparent 8px 16px);z-index:1;}
+.demopipe .rail .lbl{position:absolute;left:50%;top:-30px;transform:translateX(-50%);white-space:nowrap;
+  font-family:var(--mono);font-size:14px;color:var(--cold2);}
+.demopipe .rail .pkt{position:absolute;top:50%;left:0;width:14px;height:14px;margin-top:-7px;border-radius:3px;
+  background:var(--cold2);box-shadow:0 0 14px var(--cold2),0 0 6px #fff;transform:translateX(-7px) rotate(45deg);}
+[data-deck-active] .demopipe .rail .pkt{animation:td-packet 2.4s cubic-bezier(.5,0,.5,1) infinite;}
+.demopipe .rail.r-2 .pkt{background:var(--gold);box-shadow:0 0 14px var(--gold),0 0 6px #fff;}
+[data-deck-active] .demopipe .rail.r-2 .pkt{animation-delay:1.2s;}
+@keyframes td-packet{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:100%;opacity:0}}
+/* el nodo "EN VIVO" emite un latido de reproducción */
+.demopipe .node.n-front{box-shadow:0 0 0 0 rgba(255,195,77,0);}
+[data-deck-active] .demopipe .node.n-front{animation:td-live 2.4s ease-in-out infinite;}
+@keyframes td-live{0%,100%{box-shadow:0 0 0 0 rgba(255,195,77,0)}45%{box-shadow:0 0 34px -4px rgba(255,195,77,.55)}}
+.demopipe .node .live{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;margin-top:2px;
+  font-family:var(--pixel);font-size:10px;color:var(--gold);background:rgba(255,195,77,.10);
+  border:1px solid rgba(255,195,77,.4);border-radius:999px;padding:5px 11px;}
+.demopipe .node .live .lp{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);}
+[data-deck-active] .demopipe .node .live .lp{animation:td-breathe 1.4s ease-in-out infinite;}
+
 /* — respeto a accesibilidad y export limpio a PDF — */
 @media (prefers-reduced-motion:reduce){ *{animation:none !important} }
 @media print{
@@ -457,7 +489,50 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
   <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">02</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 03 · EL PROBLEMA ============ -->
+<!-- ============ 03 · PANORAMA · LA MÁQUINA DE LA DEMO (Luciano) ============ -->
+<section class="bg-deep grid-ov" data-label="Panorama">
+  <div class="frame">
+    <div class="hud"><span class="tag"><span class="pip"></span> PANORAMA</span><span class="meta">LA MÁQUINA DE LA DEMO</span></div>
+    <div class="section-head" style="margin-top:26px;"><span class="eyebrow">DE UN VISTAZO</span>
+      <h2 style="margin-top:12px;">La máquina de la <em>demo</em>.</h2></div>
+    <p class="lead" style="margin:2px 0 22px;max-width:1180px;">Lo que van a ver corriendo en vivo se arma en <span class="gold">tres pasos</span> — y uno solo ocurre en pantalla.</p>
+
+    <div class="demopipe">
+      <div class="node n-back">
+        <div class="svgwrap"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#38D39F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+        <span class="ph"><span class="dot"></span>PASO 1 · OFFLINE</span>
+        <h3>Python + SimPy</h3>
+        <p>Simula la batalla por <b>eventos discretos</b> y arma una línea de tiempo completa. <b class="green">Una sola vez.</b></p>
+      </div>
+      <div class="rail r-1"><span class="lbl">exporta</span><span class="pkt"></span></div>
+      <div class="node n-json">
+        <div class="svgwrap"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#3FA7FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2z"/><path d="M19 18H6a2 2 0 0 0-2 2"/><path d="M8 7h7M8 10.5h7"/></svg></div>
+        <span class="ph"><span class="dot"></span>PASO 2 · CONTRATO</span>
+        <h3 class="mono">output.json</h3>
+        <p>Una <b>foto del sistema</b> por instante: cola, fugas y estado de cada torre. <b class="cold">Semilla fija → reproducible.</b></p>
+      </div>
+      <div class="rail r-2"><span class="lbl">lee →</span><span class="pkt"></span></div>
+      <div class="node n-front">
+        <div class="svgwrap"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFC34D" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1"/><circle cx="18" cy="14" r="1"/></svg></div>
+        <span class="ph"><span class="dot"></span>PASO 3 · EN VIVO</span>
+        <h3>Godot 2D</h3>
+        <p>Lee el JSON e <b>interpola</b>; el HUD dibuja la teoría encima.</p>
+        <span class="live"><span class="lp"></span>REPRODUCE · CERO CÁLCULO</span>
+      </div>
+    </div>
+
+    <div class="democue" style="margin-top:6px;"><span class="pill">▶ EN LA DEMO</span><p>Cambiamos de <b>escenario en caliente</b> — λ tranquilo·normal·saturado · c=1…6 · FIFO·Prioridad — y el juego <b>recarga el JSON al instante</b>. La matemática es de Python; la pantalla solo reproduce → corre fluido hasta en una máquina humilde.</p></div>
+
+    <div class="stat-row" style="margin-top:26px;">
+      <div class="stat green" style="flex:1;"><span class="big">1×</span><span class="lbl">Se simula <b>una sola vez</b>, offline — la demo no recalcula</span></div>
+      <div class="stat cold" style="flex:1;"><span class="big mono">v1.0</span><span class="lbl">Un <b>contrato</b> <span class="mono">output.json</span> desacopla back y front</span></div>
+      <div class="stat hot" style="flex:1;"><span class="big">0</span><span class="lbl">Operaciones de <b>cálculo</b> en pantalla durante la corrida</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">03</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+</section>
+
+<!-- ============ 04 · EL PROBLEMA ============ -->
 <section class="bg-battle grid-ov" data-label="Problema">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 01</span><span class="meta">EL PROBLEMA</span></div>
@@ -505,10 +580,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">03</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">04</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 04 · MAPEO A COLAS ============ -->
+<!-- ============ 05 · MAPEO A COLAS ============ -->
 <section class="bg-battle grid-ov" data-label="Modelo de colas">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 01</span><span class="meta">TRADUCCIÓN A TEORÍA DE COLAS</span></div>
@@ -552,10 +627,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>ρ = λ/(c·μ)</b> utilización: fracción de tiempo que cada torre está ocupada; estable si <em>ρ&lt;1</em></span>
       <span class="src"><span class="dl">ESCENARIO BASE</span>todos los números del TP salen de esta corrida: <b>λ=0.40 μ=0.25 c=3 K=10</b>, semilla <b>42</b>, <b>1200 s</b>. El <em>ρ=0.533</em> es cálculo directo de λ/(c·μ), no simulación.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">04</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luciano.jpg" alt=""><span class="sn">05</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 05 · VARIABLES ============ -->
+<!-- ============ 06 · VARIABLES ============ -->
 <section class="bg-deep grid-ov" data-label="Variables">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">VARIABLES DEL MODELO</span></div>
@@ -592,10 +667,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>T_amb·T_resume·T_max</b> temp. ambiente·reactivación·máxima</span>
       <span class="sk"><b>L=λ·W</b> Ley de Little (cantidad media = tasa × tiempo medio)</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">05</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">06</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 06 · ALEATORIEDAD ============ -->
+<!-- ============ 07 · ALEATORIEDAD ============ -->
 <section class="bg-battle grid-ov" data-label="Aleatoriedad">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">NÚMEROS PSEUDOALEATORIOS</span></div>
@@ -638,10 +713,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>F(x)</b> función de distribución acumulada</span>
       <span class="sk"><b>x=−(1/λ)·ln(R)</b> transformada inversa: convierte un <b>R</b> uniforme en un tiempo exponencial</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">06</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">07</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 07 · MOTOR SIMPY ============ -->
+<!-- ============ 08 · MOTOR SIMPY ============ -->
 <section class="bg-battle grid-ov" data-label="Motor SimPy">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">MOTOR DE SIMULACIÓN · SIMPY</span></div>
@@ -671,10 +746,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>FEL</b> lista de eventos futuros (el reloj salta de evento a evento)</span>
       <span class="src"><span class="dl">FUENTE DE DATOS</span>la figura es la temperatura de las 3 torres en la <b>corrida base</b> (seed 42): sube al disparar, baja al descansar. Sale de las muestras (<em>samples</em>) de la corrida.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">07</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">08</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 08 · CÓDIGO SIMPY I ============ -->
+<!-- ============ 09 · CÓDIGO SIMPY I ============ -->
 <section class="bg-deep grid-ov" data-label="Código SimPy I">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">SIMPY EN CÓDIGO · I</span></div>
@@ -693,10 +768,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
         <span class="kw">yield</span> env.<span class="fn">timeout</span>(ts)            <span class="cm"># la torre "dispara" durante ts → kill</span></pre>
     <div class="card accent" style="margin-top:20px;"><p style="font-size:24px;">Cada línea <b>es</b> un concepto de la materia: <span class="cold">Poisson</span> (llegadas), <span class="hot">bloqueo</span> por capacidad K, <b>FIFO</b> y <b>servicio Exp(μ)</b>.</p></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">08</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">09</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 09 · CÓDIGO SIMPY II ============ -->
+<!-- ============ 10 · CÓDIGO SIMPY II ============ -->
 <section class="bg-battle grid-ov" data-label="Código SimPy II">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 02</span><span class="meta">SIMPY EN CÓDIGO · II</span></div>
@@ -713,10 +788,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
     env.<span class="fn">run</span>(until=T)                      <span class="an">← procesa la lista de eventos (FEL) hasta T</span></pre>
     <div class="card accent hot" style="margin-top:20px;"><p style="font-size:24px;">El reloj <b>salta de evento a evento</b> (FEL). La <span class="hot">temperatura</span> rompe el supuesto markoviano (c servidores siempre activos) → por eso <b>simular</b> aporta sobre la fórmula.</p></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">09</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/thaiel.jpg" alt=""><span class="sn">10</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 10 · VALIDACIÓN ============ -->
+<!-- ============ 11 · VALIDACIÓN ============ -->
 <section class="bg-deep grid-ov" data-label="Validación">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 03</span><span class="meta">VALIDACIÓN DEL MODELO</span></div>
@@ -748,10 +823,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>L=λ_ef·W</b> Ley de Little, chequeo de consistencia</span>
       <span class="src"><span class="dl">FUENTE DE DATOS</span><b>Analítico</b> = fórmulas M/M/c y M/M/c/K (no se simula). <b>Simulado</b> = corrida SimPy del escenario base (seed 42), medido sobre la corrida. La <b>brecha</b> entre columnas es el efecto de la temperatura.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">10</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">11</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 11 · RENDIMIENTO MARGINAL ============ -->
+<!-- ============ 12 · RENDIMIENTO MARGINAL ============ -->
 <section class="bg-battle grid-ov" data-label="Rendimiento marginal">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 03</span><span class="meta">RENDIMIENTO MARGINAL DECRECIENTE</span></div>
@@ -774,10 +849,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>ρ</b> utilización (<em>ρ→0</em> = torre ociosa)</span>
       <span class="src"><span class="dl">FUENTE DE DATOS</span>Lq por nº de torres sale del <b>barrido c=1…6</b> (misma λ, μ, semilla); <b>ΔLq</b> es la resta entre c y c−1. Son corridas SimPy, no fórmula.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">11</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">12</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 12 · ÓPTIMO ECONÓMICO ============ -->
+<!-- ============ 13 · ÓPTIMO ECONÓMICO ============ -->
 <section class="bg-battle grid-ov" data-label="Óptimo económico">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 03</span><span class="meta">DECISIÓN · ÓPTIMO ECONÓMICO</span></div>
@@ -803,10 +878,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>CT(c)=c·C_torre + C_fuga·λ·Pb(c)</b></span>
       <span class="src"><span class="dl">FUENTE DE DATOS</span>la curva es <b>capacidad (c·C_torre)</b> + <b>fugas (C_fuga·λ·Pb)</b>, usando la <b>Pb</b> medida en cada corrida del barrido. El mínimo de la suma da <em>c*=3</em>.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">12</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">13</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 13 · EXPERIMENTOS I ============ -->
+<!-- ============ 14 · EXPERIMENTOS I ============ -->
 <section class="bg-deep grid-ov" data-label="Experimentos I">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EXPERIMENTOS AVANZADOS · I</span></div>
@@ -825,10 +900,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>c*</b> nº óptimo de torres · <b>réplicas</b> corridas con distinta semilla para medir variabilidad</span>
       <span class="src"><span class="dl">FUENTE DE DATOS</span>las bandas son <b>IC 95%</b> sobre <b>N réplicas</b> con distinta semilla; las oleadas son una corrida con <b>λ(t)</b> por tramos (valle/pico). Todo SimPy.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">13</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">14</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 14 · EXPERIMENTOS II · PRIORIDAD ============ -->
+<!-- ============ 15 · EXPERIMENTOS II · PRIORIDAD ============ -->
 <section class="bg-deep grid-ov" data-label="Prioridad">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EXPERIMENTOS · DISCIPLINA CON PRIORIDAD</span></div>
@@ -848,10 +923,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <span class="sk"><b>se reparte la espera</b> la espera total no cambia; solo cambia quién espera (las torres nunca quedan ociosas con trabajo)</span>
       <span class="src"><span class="dl">FUENTE DE DATOS</span>esperas por clase de <b>dos corridas iguales</b> (mismos λ, μ, semilla) que solo difieren en la <b>disciplina</b>: FIFO vs. prioridad al fuerte.</span></div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">14</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">15</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 15 · ARQUITECTURA ============ -->
+<!-- ============ 16 · ARQUITECTURA ============ -->
 <section class="bg-battle grid-ov" data-label="Arquitectura">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">ARQUITECTURA DESACOPLADA</span></div>
@@ -884,10 +959,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <li>Documentación como <b>LLM-Wiki</b>: schema, índice, log, fuentes integradas y síntesis evolutiva</li>
     </ul>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">15</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">16</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 16 · FRONTEND ============ -->
+<!-- ============ 17 · FRONTEND ============ -->
 <section class="bg-battle grid-ov scan" data-label="Frontend">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">FRONTEND GODOT 2D</span></div>
@@ -906,10 +981,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">16</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">17</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 17 · DICCIONARIO VISUAL ============ -->
+<!-- ============ 18 · DICCIONARIO VISUAL ============ -->
 <section class="bg-deep grid-ov" data-label="Diccionario visual">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">EL JUEGO, BAJADO A TIERRA</span></div>
@@ -932,10 +1007,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">17</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">18</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 18 · HUD DIDÁCTICO + ESCENARIOS ============ -->
+<!-- ============ 19 · HUD DIDÁCTICO + ESCENARIOS ============ -->
 <section class="bg-battle grid-ov" data-label="HUD y escenarios">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> WAVE 04</span><span class="meta">APRENDER JUGANDO</span></div>
@@ -954,10 +1029,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">18</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">19</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 19 · DEMO EN VIVO ============ -->
+<!-- ============ 20 · DEMO EN VIVO ============ -->
 <section class="bg-deep grid-ov scan" data-label="Demo en vivo">
   <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:.55;">
     <path d="M -40 720 C 360 720, 420 460, 820 460 S 1240 660, 1620 520 S 1960 420, 2000 420" fill="none" stroke="#16223c" stroke-width="64" stroke-linecap="round"/>
@@ -984,10 +1059,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">19</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/luca.jpg" alt=""><span class="sn">20</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 20 · CONCLUSIONES ============ -->
+<!-- ============ 21 · CONCLUSIONES ============ -->
 <section class="bg-deep grid-ov" data-label="Conclusiones">
   <div class="frame">
     <div class="hud"><span class="tag"><span class="pip"></span> RESULTADOS</span><span class="meta">CONCLUSIONES Y RECOMENDACIONES</span></div>
@@ -1002,10 +1077,10 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       <div class="card accent"><span class="ck cold">GESTIÓN TÉRMICA</span><p style="font-size:21px;">Mejor enfriamiento recupera capacidad más barato que una torre.</p></div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">20</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><img class="pf" src="assets/photos/martin.jpg" alt=""><span class="sn">21</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
-<!-- ============ 21 · CIERRE ============ -->
+<!-- ============ 22 · CIERRE ============ -->
 <section class="bg-battle grid-ov scan" data-label="Cierre">
   <svg class="hero-scene" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="opacity:.5;">
     <circle cx="1620" cy="300" r="200" fill="none" stroke="#3fa7ff" stroke-width="1.5" opacity=".2"/>
@@ -1033,7 +1108,7 @@ pre.codeblk .cm{color:#6b7a93;} pre.codeblk .an{color:var(--gold);} pre.codeblk 
       </div>
     </div>
   </div>
-  <div class="foot"><span class="fl"><span class="sn">21</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
+  <div class="foot"><span class="fl"><span class="sn">22</span><span><b>Ing. en Informática</b> · UCEMA</span></span><span>Prof. <b>Sergio Sirotinsky</b></span></div>
 </section>
 
 </deck-stage>
